@@ -1,0 +1,531 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
+
+/* Base styles */
+body {
+    font-family: 'Baloo 2', cursive;
+    background-color: #fdf6e3;
+    overflow-x: hidden;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Game wrapper and container */
+.game-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #fff5f7, #f3ebff);
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Game title and card */
+.game-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #ec4899;
+    margin-bottom: 1.5rem;
+}
+
+.game-card {
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Panda container */
+.kawaii-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+}
+
+.panda-svg {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    cursor: pointer;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Status bars */
+.status-bars {
+    margin-top: 1.5rem;
+}
+
+.status-group {
+    margin-bottom: 1rem;
+}
+
+.status-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.hunger-label {
+    color: #22c55e;
+}
+
+.happiness-label {
+    color: #ec4899;
+}
+
+.energy-label {
+    color: #8b5cf6;
+}
+
+.progress-bar {
+    height: 20px;
+    border-radius: 20px;
+    background: #f8e1eb;
+    overflow: hidden;
+    border: 2px solid #ffc0cb;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.progress {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.bg-green {
+    background: linear-gradient(to right, #84cc16, #22c55e);
+}
+
+.bg-blue {
+    background: linear-gradient(to right, #ec4899, #db2777);
+}
+
+.bg-purple {
+    background: linear-gradient(to right, #a855f7, #7c3aed);
+}
+
+/* Buttons */
+.buttons-container {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+}
+
+.btn-kawaii {
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 25px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-kawaii:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btn-kawaii:active {
+    transform: translateY(1px);
+}
+
+.feed-btn {
+    background: linear-gradient(to right, #84cc16, #22c55e);
+}
+
+.pet-btn {
+    background: linear-gradient(to right, #ec4899, #db2777);
+}
+
+.sleep-btn {
+    background: linear-gradient(to right, #60a5fa, #3b82f6);
+}
+
+.bath-btn {
+    background: linear-gradient(to right, #06b6d4, #0284c7);
+}
+
+.play-btn {
+    background: linear-gradient(to right, #f59e0b, #d97706);
+}
+
+/* Message */
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #8b5cf6;
+}
+
+.game-instructions {
+    text-align: center;
+    color: #8b5cf6;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+/* Decorative elements */
+.bamboo {
+    position: relative;
+    width: 20px;
+    height: 120px;
+    background: linear-gradient(to right, #7cb342, #8bc34a, #7cb342);
+    border-radius: 10px;
+    margin: 0 auto;
+    transition: all 0.3s;
+}
+
+.bamboo::before,
+.bamboo::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background: #5a9216;
+    border-radius: 5px;
+}
+
+.bamboo::before {
+    top: 30px;
+}
+
+.bamboo::after {
+    top: 70px;
+}
+
+.bamboo-leaf {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    background: #8bc34a;
+    border-radius: 50%;
+    top: 10px;
+    left: 15px;
+    transform: rotate(30deg);
+}
+
+.sleep-bubble {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    top: -40px;
+    right: 20px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    border: 2px solid #e0e0e0;
+}
+
+.sleep-bubble::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border-radius: 50%;
+    bottom: -5px;
+    left: -15px;
+    border: 2px solid #e0e0e0;
+    border-bottom: none;
+    border-left: none;
+}
+
+.sleep-bubble::after {
+    content: 'Z';
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: #9c88ff;
+    top: 10px;
+    left: 18px;
+}
+
+/* Ground decorations */
+.ground-decorations {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.grass {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(to top, #a6d189, #c3e6a1);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+}
+
+.flower {
+    position: absolute;
+    bottom: 50px;
+    width: 20px;
+    height: 20px;
+}
+
+.flower::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff9ed2;
+    border-radius: 50%;
+}
+
+.flower::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    top: 6px;
+    left: 6px;
+}
+
+.stem {
+    position: absolute;
+    width: 4px;
+    height: 30px;
+    background: #a6d189;
+    bottom: -30px;
+    left: 8px;
+}
+
+/* Animations */
+.heart {
+    position: absolute;
+    font-size: 24px;
+    color: #ff6b6b;
+    animation: float 1s ease-in-out infinite;
+    opacity: 0;
+}
+
+.star {
+    position: absolute;
+    font-size: 20px;
+    color: #ffeaa7;
+    animation: twinkle 1.5s ease-in-out infinite;
+}
+
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    animation: drift linear infinite;
+}
+
+.rainbow {
+    position: absolute;
+    width: 150px;
+    height: 75px;
+    border-top-left-radius: 75px;
+    border-top-right-radius: 75px;
+    background: linear-gradient(to bottom,
+            #ff9a9e,
+            #fad0c4,
+            #ffecd2,
+            #a1c4fd,
+            #c2e9fb);
+    opacity: 0.6;
+    bottom: 60px;
+    left: 10%;
+    transform: scale(0.5);
+}
+
+.bounce {
+    animation: bounce 0.5s;
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+.blush {
+    animation: blush 1s ease-in-out;
+}
+
+.sparkle {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: white;
+    transform: rotate(45deg);
+    animation: sparkle 0.8s ease-in-out;
+    opacity: 0;
+}
+
+/* Keyframes */
+@keyframes float {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-40px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+}
+
+@keyframes drift {
+    from {
+        transform: translateX(-100px);
+    }
+
+    to {
+        transform: translateX(calc(100vw + 100px));
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(0);
+    }
+
+    25% {
+        transform: translateX(-5px) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateX(5px) rotate(5deg);
+    }
+
+    75% {
+        transform: translateX(-5px) rotate(-5deg);
+    }
+}
+
+@keyframes blush {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes sparkle {
+    0% {
+        transform: rotate(45deg) scale(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(45deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(45deg) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Bath effects */
+.bubbles {
+    position: absolute;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    animation: float-bubble 3s ease-in-out infinite;
+}
+
+@keyframes float-bubble {
+    0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100px) translateX(20px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Play effects */
+.toy {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    animation: toss 1s ease-in-out;
+}
+
+@keyframes toss {
+    0% {
+        transform: translateY(0) rotate(0);
+    }
+
+    50% {
+        transform: translateY(-100px) rotate(180deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+    }
+}

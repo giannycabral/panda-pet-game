@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panda Pet Game🐼</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="game-wrapper">
+        <div id="clouds"></div>
+        <div class="rainbow"></div>
+        <div class="rainbow" style="right: 10%; left: auto; transform: scale(0.7);"></div>
+
+        <!-- Stars -->
+        <div class="star" style="top: 15%; left: 10%;">✨</div>
+        <div class="star" style="top: 25%; left: 80%;">✨</div>
+        <div class="star" style="top: 40%; left: 20%;">✨</div>
+        <div class="star" style="top: 60%; left: 85%;">✨</div>
+
+        <div class="container">
+            <h1 class="game-title">Panda Pet🖤</h1>
+
+            <div class="game-card">
+                <div class="relative">
+                    <div id="panda-container" class="kawaii-container">
+                        <!-- Panda SVG -->
+                        <svg class="panda-svg" id="panda-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Corpo -->
+                            <ellipse cx="100" cy="125" rx="55" ry="50" fill="#FFFFFF" stroke="#333333"
+                                stroke-width="2.5" />
+
+                            <!-- Cabeça -->
+                            <circle cx="100" cy="70" r="45" fill="#FFFFFF" stroke="#333333" stroke-width="2.5" />
+
+                            <!-- Orelhas -->
+                            <circle cx="60" cy="35" r="18" fill="#333333" />
+                            <circle cx="140" cy="35" r="18" fill="#333333" />
+
+                            <!-- Olhos normais -->
+                            <g id="eyes">
+                                <!-- Olhos brancos -->
+                                <ellipse cx="80" cy="65" rx="12" ry="15" fill="#FFFFFF" stroke="#333333"
+                                    stroke-width="2" />
+                                <ellipse cx="120" cy="65" rx="12" ry="15" fill="#FFFFFF" stroke="#333333"
+                                    stroke-width="2" />
+
+                                <!-- Pupilas -->
+                                <ellipse id="left-pupil" cx="80" cy="65" rx="6" ry="8" fill="#333333" />
+                                <ellipse id="right-pupil" cx="120" cy="65" rx="6" ry="8" fill="#333333" />
+
+                                <!-- Brilhos -->
+                                <circle cx="77" cy="60" r="3" fill="#FFFFFF" />
+                                <circle cx="117" cy="60" r="3" fill="#FFFFFF" />
+
+                                <!-- Cílios -->
+                                <path d="M68,55 Q65,50 62,52" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <path d="M72,52 Q70,47 67,48" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <path d="M132,55 Q135,50 138,52" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <path d="M128,52 Q130,47 133,48" stroke="#333333" stroke-width="1.5" fill="none" />
+                            </g>
+
+                            <!-- Olhos fechados -->
+                            <g id="closed-eyes" style="display: none;">
+                                <path d="M68,65 Q80,55 92,65" stroke="#333333" stroke-width="2.5" fill="none" />
+                                <path d="M108,65 Q120,55 132,65" stroke="#333333" stroke-width="2.5" fill="none" />
+                                <!-- Cílios -->
+                                <path d="M68,55 Q65,50 62,52" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <path d="M72,52 Q70,47 67,48" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <path d="M132,55 Q135,50 138,52" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <path d="M128,52 Q130,47 133,48" stroke="#333333" stroke-width="1.5" fill="none" />
+                            </g>
+
+                            <!-- Bochechas -->
+                            <circle id="left-blush" cx="70" cy="80" r="10" fill="#ffb6c1" opacity="0.6" />
+                            <circle id="right-blush" cx="130" cy="80" r="10" fill="#ffb6c1" opacity="0.6" />
+
+                            <!-- Nariz -->
+                            <ellipse cx="100" cy="85" rx="10" ry="7" fill="#333333" />
+
+                            <!-- Boca -->
+                            <path id="mouth" d="M85,95 Q100,105 115,95" stroke="#333333" stroke-width="2.5"
+                                fill="none" />
+
+                            <!-- Manchas -->
+                            <ellipse cx="60" cy="115" rx="25" ry="30" fill="#333333" />
+                            <ellipse cx="140" cy="115" rx="25" ry="30" fill="#333333" />
+
+                            <!-- Braços -->
+                            <path d="M55,125 Q35,135 40,155" stroke="#333333" stroke-width="2.5" fill="#FFFFFF" />
+                            <path d="M145,125 Q165,135 160,155" stroke="#333333" stroke-width="2.5" fill="#FFFFFF" />
+
+                            <!-- Pernas -->
+                            <ellipse cx="80" cy="165" rx="15" ry="10" fill="#333333" />
+                            <ellipse cx="120" cy="165" rx="15" ry="10" fill="#333333" />
+                        </svg>
+                        <div id="sleep-bubble" class="sleep-bubble"></div>
+                    </div>
+                </div>
+
+                <div class="status-bars">
+                    <div class="status-group">
+                        <div class="status-label">
+                            <span class="hunger-label">Fome</span>
+                            <span id="hunger-value" class="hunger-label">100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="hunger-bar" class="progress bg-green" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="status-group">
+                        <div class="status-label">
+                            <span class="happiness-label">Felicidade</span>
+                            <span id="happiness-value" class="happiness-label">100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="happiness-bar" class="progress bg-blue" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="status-group">
+                        <div class="status-label">
+                            <span class="energy-label">Energia</span>
+                            <span id="energy-value" class="energy-label">100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="energy-bar" class="progress bg-purple" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-container">
+                    <button id="feed-btn" class="btn-kawaii feed-btn">
+                        <span>🎋 Alimentar</span>
+                    </button>
+                    <button id="pet-btn" class="btn-kawaii pet-btn">
+                        <span>❤ Carinho</span>
+                    </button>
+                    <button id="sleep-btn" class="btn-kawaii sleep-btn">
+                        <span>😴 Dormir</span>
+                    </button>
+                    <button id="bath-btn" class="btn-kawaii bath-btn">
+                        <span>🛁 Banho</span>
+                    </button>
+                    <button id="play-btn" class="btn-kawaii play-btn">
+                        <span>🎮 Brincar</span>
+                    </button>
+                </div>
+                <div id="message" class="message"></div>
+            </div>
+            <div class="game-instructions">
+                <p>Cuide bem do seu panda kawaii! Alimente-o quando estiver com fome e faça carinho para deixá-lo feliz!
+                    ✨</p>
+            </div>
+        </div>
+
+        <!-- Grass and flowers -->
+        <div class="ground-decorations">
+            <div class="grass"></div>
+            <div class="flower" style="left: 10%">
+                <div class="stem"></div>
+            </div>
+            <div class="flower" style="left: 20%">
+                <div class="stem"></div>
+            </div>
+            <div class="flower" style="left: 70%">
+                <div class="stem"></div>
+            </div>
+            <div class="flower" style="left: 85%">
+                <div class="stem"></div>
+            </div>
+            <div class="flower" style="left: 40%">
+                <div class="stem"></div>
+            </div>
+            <div class="flower" style="left: 60%">
+                <div class="stem"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+</body>
+
+</html>
