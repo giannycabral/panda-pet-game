@@ -22,9 +22,23 @@
 
         <div class="container">
             <h1 class="game-title">Panda Pet🖤</h1>
-
             <div class="game-card">
+                <!-- Level and Experience -->
+                <div class="level-section">
+                    <div class="level-display">Nível 1</div>
+                    <div class="status-group">
+                        <div class="status-label">
+                            <span class="exp-label">Experiência</span>
+                            <span id="exp-value" class="exp-label">0/100 EXP</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="exp-bar" class="progress bg-yellow" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="relative">
+                    <div class="weather-effects" id="weather-container"></div>
                     <div id="panda-container" class="kawaii-container">
                         <!-- Panda SVG -->
                         <svg class="panda-svg" id="panda-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -129,8 +143,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="buttons-container">
-                    <button id="feed-btn" class="btn-kawaii feed-btn">
+                <div class="buttons-container"> <button id="feed-btn" class="btn-kawaii feed-btn">
                         <span>🎋 Alimentar</span>
                     </button>
                     <button id="pet-btn" class="btn-kawaii pet-btn">
@@ -138,12 +151,6 @@
                     </button>
                     <button id="sleep-btn" class="btn-kawaii sleep-btn">
                         <span>😴 Dormir</span>
-                    </button>
-                    <button id="bath-btn" class="btn-kawaii bath-btn">
-                        <span>🛁 Banho</span>
-                    </button>
-                    <button id="play-btn" class="btn-kawaii play-btn">
-                        <span>🎮 Brincar</span>
                     </button>
                 </div>
                 <div id="message" class="message"></div>

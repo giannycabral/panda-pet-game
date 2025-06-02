@@ -1,11 +1,45 @@
 // Game state
 const gameState = {
+  // Stats básicos
   hunger: 100,
   happiness: 100,
   energy: 100,
   sleeping: false,
   lastUpdate: Date.now(),
+
+  // Sistema de níveis
+  level: 1,
+  experience: 0,
+  experienceToNextLevel: 100,
+
+  // Conquistas
+  achievements: {
+    firstMeal: false,
+    reachLevel5: false,
+    perfectCare: false,
+  },
+
+  // Estatísticas totais
+  stats: {
+    totalFeeds: 0,
+    totalPets: 0,
+    totalSleeps: 0,
+  },
 };
+
+// Sistema de salvamento
+function saveGame() {
+  localStorage.setItem("pandaPetSave", JSON.stringify(gameState));
+}
+
+function loadGame() {
+  const savedGame = localStorage.getItem("pandaPetSave");
+  if (savedGame) {
+    Object.assign(gameState, JSON.parse(savedGame));
+    updateStats();
+    updateLevel();
+  }
+}
 
 // Generate clouds
 function generateClouds() {
@@ -81,6 +115,9 @@ function updateStats() {
 
   // Update panda appearance
   updatePandaAppearance();
+
+  // Update level display
+  updateLevel();
 }
 
 // Update panda appearance based on stats
@@ -136,6 +173,10 @@ function updatePandaAppearance() {
 function feedPanda() {
   if (gameState.sleeping) return;
 
+  playSound("feed");
+  gameState.stats.totalFeeds++;
+  addExperience(10);
+
   const pandaContainer = document.getElementById("panda-container");
 
   // Create bamboo
@@ -172,11 +213,23 @@ function feedPanda() {
   }, 1000);
 
   document.getElementById("message").textContent = "Nyam nyam! Delicioso! 🎋😋";
+
+  // Incrementar estatísticas de refeição
+  gameState.stats.totalFeeds++;
+  saveGame();
+
+  if (gameState.stats.totalFeeds === 1) {
+    unlockAchievement("firstMeal");
+  }
 }
 
 // Pet the panda
 function petPanda() {
   if (gameState.sleeping) return;
+
+  playSound("pet");
+  gameState.stats.totalPets++;
+  addExperience(5);
 
   const pandaContainer = document.getElementById("panda-container");
 
@@ -221,84 +274,17 @@ function petPanda() {
 
   document.getElementById("message").textContent =
     "Seu panda adora carinho! 🥰💕";
-}
 
-// Give bath to panda
-function bathPanda() {
-  if (gameState.sleeping) return;
-
-  const pandaContainer = document.getElementById("panda-container");
-  const pandaSvg = document.getElementById("panda-svg");
-
-  // Create bubbles
-  for (let i = 0; i < 10; i++) {
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.style.width = Math.random() * 15 + 5 + "px";
-    bubble.style.height = bubble.style.width;
-    bubble.style.left = Math.random() * 200 + "px";
-    bubble.style.animationDelay = Math.random() * 2 + "s";
-
-    const bubbles = document.createElement("div");
-    bubbles.className = "bubbles";
-    bubbles.appendChild(bubble);
-    pandaContainer.appendChild(bubbles);
-
-    setTimeout(() => bubbles.remove(), 3000);
-  }
-
-  // Add effects
-  pandaSvg.classList.add("shake");
-  setTimeout(() => pandaSvg.classList.remove("shake"), 500);
-
-  // Improve stats
-  gameState.happiness = Math.min(100, gameState.happiness + 10);
-  updateStats();
-
-  document.getElementById("message").textContent = "Que banho relaxante! 🛁✨";
-}
-
-// Play with panda
-function playWithPanda() {
-  if (gameState.sleeping) return;
-
-  const pandaContainer = document.getElementById("panda-container");
-  const pandaSvg = document.getElementById("panda-svg");
-
-  // Create toy
-  const toy = document.createElement("div");
-  toy.className = "toy";
-  toy.innerHTML = ["🎈", "🎾", "🧸", "⭐"][Math.floor(Math.random() * 4)];
-  toy.style.left = Math.random() * 200 + 25 + "px";
-  toy.style.top = "50px";
-
-  pandaContainer.appendChild(toy);
-
-  // Add effects
-  pandaSvg.classList.add("bounce");
-  setTimeout(() => {
-    pandaSvg.classList.remove("bounce");
-    toy.remove();
-  }, 1000);
-
-  // Create sparkles
-  for (let i = 0; i < 3; i++) {
-    setTimeout(() => {
-      createSparkle(Math.random() * 200 + 25, Math.random() * 150 + 25);
-    }, i * 200);
-  }
-
-  // Improve stats
-  gameState.happiness = Math.min(100, gameState.happiness + 15);
-  gameState.energy = Math.max(0, gameState.energy - 5);
-  updateStats();
-
-  document.getElementById("message").textContent = "Que divertido! 🎮✨";
+  // Incrementar estatísticas de carinho
+  gameState.stats.totalPets++;
+  saveGame();
 }
 
 // Toggle sleep
 function toggleSleep() {
   gameState.sleeping = !gameState.sleeping;
+  playSound("sleep");
+  gameState.stats.totalSleeps++;
 
   if (gameState.sleeping) {
     document.getElementById("message").textContent =
@@ -329,18 +315,163 @@ function updateGameState() {
   updateStats();
 }
 
+// Sistema de níveis
+function addExperience(amount) {
+  gameState.experience += amount;
+  while (gameState.experience >= gameState.experienceToNextLevel) {
+    gameState.experience -= gameState.experienceToNextLevel;
+    gameState.level++;
+    gameState.experienceToNextLevel = Math.floor(
+      100 * Math.pow(1.2, gameState.level - 1)
+    );
+    showLevelUpMessage();
+  }
+  updateLevel();
+}
+
+function updateLevel() {
+  const levelDisplay = document.querySelector(".level-display");
+  if (levelDisplay) {
+    levelDisplay.textContent = `Nível ${gameState.level}`;
+    const expPercentage =
+      (gameState.experience / gameState.experienceToNextLevel) * 100;
+    document.getElementById("exp-bar").style.width = `${expPercentage}%`;
+    document.getElementById(
+      "exp-value"
+    ).textContent = `${gameState.experience}/${gameState.experienceToNextLevel} EXP`;
+  }
+}
+
+function showLevelUpMessage() {
+  const message = document.createElement("div");
+  message.className = "level-up-message";
+  message.textContent = `🎉 Nível ${gameState.level}! 🎉`;
+  document.body.appendChild(message);
+
+  setTimeout(() => {
+    message.remove();
+  }, 3000);
+
+  // Verificar conquista
+  if (gameState.level >= 5) {
+    unlockAchievement("reachLevel5");
+  }
+}
+
+// Sistema de conquistas
+function unlockAchievement(achievementId) {
+  if (!gameState.achievements[achievementId]) {
+    gameState.achievements[achievementId] = true;
+    showAchievementMessage(achievementId);
+    saveGame();
+  }
+}
+
+function showAchievementMessage(achievementId) {
+  const achievementMessages = {
+    firstMeal: "🎯 Primeira Refeição!",
+    reachLevel5: "🎯 Nível 5 Alcançado!",
+    perfectCare: "🎯 Cuidado Perfeito!",
+  };
+
+  const message = document.createElement("div");
+  message.className = "achievement-message";
+  message.textContent = achievementMessages[achievementId];
+  document.body.appendChild(message);
+
+  setTimeout(() => {
+    message.remove();
+  }, 3000);
+}
+
+// Sistema de sons
+const sounds = {
+  feed: new Audio("sounds/eat.mp3"),
+  pet: new Audio("sounds/happy.mp3"),
+  sleep: new Audio("sounds/sleep.mp3"),
+};
+
+// Configurar volumes
+Object.values(sounds).forEach((sound) => {
+  sound.volume = 0.3;
+});
+
+function playSound(type) {
+  if (sounds[type]) {
+    sounds[type].currentTime = 0;
+    sounds[type].play();
+  }
+}
+
+// Sistema de clima
+let currentWeather = "clear";
+const weatherTypes = ["clear", "rain", "snow", "sunny"];
+
+function changeWeather() {
+  const weatherContainer = document.getElementById("weather-container");
+  weatherContainer.innerHTML = "";
+
+  currentWeather =
+    weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+
+  switch (currentWeather) {
+    case "rain":
+      for (let i = 0; i < 20; i++) {
+        const drop = document.createElement("div");
+        drop.className = "rain-drop";
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDelay = `${Math.random() * 2}s`;
+        weatherContainer.appendChild(drop);
+      }
+      break;
+
+    case "snow":
+      for (let i = 0; i < 15; i++) {
+        const flake = document.createElement("div");
+        flake.className = "snow-flake";
+        flake.innerHTML = "❄";
+        flake.style.left = `${Math.random() * 100}%`;
+        flake.style.animationDelay = `${Math.random() * 3}s`;
+        weatherContainer.appendChild(flake);
+      }
+      break;
+
+    case "sunny":
+      for (let i = 0; i < 3; i++) {
+        const ray = document.createElement("div");
+        ray.className = "sun-ray";
+        ray.style.left = `${Math.random() * 80}%`;
+        ray.style.top = `${Math.random() * 80}%`;
+        ray.style.animationDelay = `${Math.random() * 4}s`;
+        weatherContainer.appendChild(ray);
+      }
+      break;
+  }
+}
+
 // Initialize game
 function initGame() {
+  loadGame();
   generateClouds();
   updateStats();
+  changeWeather();
+
+  // Mudar o clima periodicamente
+  setInterval(changeWeather, 30000);
+
+  // Verificar conquistas periodicamente
+  setInterval(checkAchievements, 5000);
+
+  // Auto-save a cada minuto
+  setInterval(saveGame, 60000);
+
+  // Load saved game
+  loadGame();
 
   // Add event listeners
   document.getElementById("feed-btn").addEventListener("click", feedPanda);
   document.getElementById("pet-btn").addEventListener("click", petPanda);
   document.getElementById("sleep-btn").addEventListener("click", toggleSleep);
-  document.getElementById("bath-btn").addEventListener("click", bathPanda);
-  document.getElementById("play-btn").addEventListener("click", playWithPanda);
-  document.getElementById("panda-svg").addEventListener("click", petPanda);
 
   // Update game state every second
   setInterval(updateGameState, 1000);
@@ -348,6 +479,17 @@ function initGame() {
   // Initial message
   document.getElementById("message").textContent =
     "Olá! Cuide bem de mim! 🐼💕";
+}
+
+function checkAchievements() {
+  // Verificar se todos os status estão acima de 80%
+  if (
+    gameState.hunger > 80 &&
+    gameState.happiness > 80 &&
+    gameState.energy > 80
+  ) {
+    unlockAchievement("perfectCare");
+  }
 }
 
 // Start the game when page loads

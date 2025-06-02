@@ -123,8 +123,8 @@ body {
 .buttons-container {
     margin-top: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
 }
 
 .btn-kawaii {
@@ -161,14 +161,6 @@ body {
 
 .sleep-btn {
     background: linear-gradient(to right, #60a5fa, #3b82f6);
-}
-
-.bath-btn {
-    background: linear-gradient(to right, #06b6d4, #0284c7);
-}
-
-.play-btn {
-    background: linear-gradient(to right, #f59e0b, #d97706);
 }
 
 /* Message */
@@ -481,51 +473,171 @@ body {
     }
 }
 
-/* Bath effects */
-.bubbles {
+/* Level and Experience */
+.level-section {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.level-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6366f1;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.exp-label {
+    color: #eab308;
+    font-weight: bold;
+}
+
+.bg-yellow {
+    background: linear-gradient(to right, #fbbf24, #d97706);
+}
+
+/* Achievement Messages */
+.achievement-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-in 2.5s;
+}
+
+/* Level Up Message */
+.level-up-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #fbbf24, #d97706);
+    color: white;
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: popIn 0.5s ease-out, fadeOut 0.5s ease-in 2.5s;
+}
+
+/* Weather Effects */
+.weather-effects {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 10;
 }
 
-.bubble {
+.rain-drop {
     position: absolute;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    animation: float-bubble 3s ease-in-out infinite;
+    width: 2px;
+    height: 10px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    animation: rainfall 1s linear infinite;
 }
 
-@keyframes float-bubble {
-    0% {
-        transform: translateY(0) translateX(0) scale(1);
+.snow-flake {
+    position: absolute;
+    color: white;
+    font-size: 10px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    animation: snowfall 3s linear infinite;
+}
+
+.sun-ray {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 236, 153, 0.4) 0%, transparent 70%);
+    animation: sunray 4s ease-in-out infinite;
+}
+
+/* New Animations */
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
         opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
     }
 
     100% {
-        transform: translateY(-100px) translateX(20px) scale(0);
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
         opacity: 0;
     }
 }
 
-/* Play effects */
-.toy {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    pointer-events: none;
-    animation: toss 1s ease-in-out;
+@keyframes rainfall {
+    from {
+        transform: translateY(-10px);
+    }
+
+    to {
+        transform: translateY(100vh);
+    }
 }
 
-@keyframes toss {
-    0% {
-        transform: translateY(0) rotate(0);
+@keyframes snowfall {
+    from {
+        transform: translate(0, -10px) rotate(0deg);
+    }
+
+    to {
+        transform: translate(20px, 100vh) rotate(360deg);
+    }
+}
+
+@keyframes sunray {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: scale(1);
     }
 
     50% {
-        transform: translateY(-100px) rotate(180deg);
-    }
-
-    100% {
-        transform: translateY(0) rotate(360deg);
+        opacity: 0.6;
+        transform: scale(1.1);
     }
 }
