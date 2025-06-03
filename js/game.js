@@ -28,6 +28,10 @@ const gameState = {
 
   // Nova flag para controle de animação de acordar
   _wakingUp: false,
+
+  // Novas flags para controle de ações específicas
+  _isEating: false,
+  _isBeingPet: false,
 };
 
 // Sistema de salvamento
@@ -158,126 +162,74 @@ function updateStats() {
   updateLevel();
 }
 
-// Update panda appearance based on stats
-function updatePandaAppearance() {
-  const pandaSvg = document.getElementById("panda-svg");
-  const eyes = document.getElementById("eyes");
-  const closedEyes = document.getElementById("closed-eyes");
-  const mouth = document.getElementById("mouth");
-  const leftBlush = document.getElementById("left-blush");
-  const rightBlush = document.getElementById("right-blush");
-  const leftPupil = document.getElementById("left-pupil");
-  const rightPupil = document.getElementById("right-pupil");
+// Atualiza a aparência do panda pixel art
+function updatePandaPixelArt() {
+  console.log(
+    "updatePandaPixelArt called. Sleeping:",
+    gameState.sleeping,
+    "Waking up:",
+    gameState._wakingUp,
+    "Eating:",
+    gameState._isEating,
+    "Being Pet:",
+    gameState._isBeingPet
+  );
+  const awake = document.getElementById("panda-awake");
+  const sit = document.getElementById("panda-sit");
+  const blink = document.getElementById("panda-blink");
+  const sleep = document.getElementById("panda-sleep");
+  if (!awake || !sit || !blink || !sleep) return;
 
-  // Nova lógica para transição suave ao acordar
-  if (gameState._wakingUp) {
-    // Etapa intermediária: semi-sentado
-    pandaSvg.style.transition = "transform 0.4s cubic-bezier(.4,0,.2,1)";
-    pandaSvg.style.transform = "rotate(45deg) translate(40px, 40px) scale(1)";
-    pandaSvg.style.transformOrigin = "50% 60%";
-    setTimeout(() => {
-      pandaSvg.style.transition = "transform 0.4s cubic-bezier(.4,0,.2,1)";
-      pandaSvg.style.transform = "translateY(60px) scale(1)";
-      pandaSvg.style.transformOrigin = "50% 100%";
-      // Após a transição, remove flag e atualiza olhos/boca
-      setTimeout(() => {
-        gameState._wakingUp = false;
-        eyes.style.display = "block";
-        closedEyes.style.display = "none";
-        // Ajusta pupilas e blush conforme felicidade
-        if (gameState.happiness > 80) {
-          leftPupil.setAttribute("ry", "10");
-          rightPupil.setAttribute("ry", "10");
-          leftBlush.setAttribute("opacity", "0.8");
-          rightBlush.setAttribute("opacity", "0.8");
-        } else if (gameState.happiness < 30) {
-          leftPupil.setAttribute("ry", "6");
-          rightPupil.setAttribute("ry", "6");
-          leftBlush.setAttribute("opacity", "0.2");
-          rightBlush.setAttribute("opacity", "0.2");
-        } else {
-          leftPupil.setAttribute("ry", "8");
-          rightPupil.setAttribute("ry", "8");
-          leftBlush.setAttribute("opacity", "0.6");
-          rightBlush.setAttribute("opacity", "0.6");
-        }
-        // Ajusta boca conforme felicidade
-        if (gameState.happiness < 30) {
-          mouth.setAttribute("d", "M85,100 Q100,90 115,100"); // Sad mouth
-        } else if (gameState.happiness > 80) {
-          mouth.setAttribute("d", "M80,95 Q100,110 120,95"); // Very happy mouth
-        } else {
-          mouth.setAttribute("d", "M85,95 Q100,105 115,95"); // Happy mouth
-        }
-      }, 400);
-    }, 400);
-    // Durante o "levantar", mostra olhos fechados
-    eyes.style.display = "none";
-    closedEyes.style.display = "block";
-    mouth.setAttribute("d", "M90,95 Q100,98 110,95");
-    leftBlush.setAttribute("opacity", "0.4");
-    rightBlush.setAttribute("opacity", "0.4");
-    return;
-  }
+  // Esconder todos primeiro para simplificar a lógica
+  awake.style.display = "none";
+  sit.style.display = "none";
+  blink.style.display = "none";
+  sleep.style.display = "none";
 
   if (gameState.sleeping) {
-    eyes.style.display = "none";
-    closedEyes.style.display = "block";
-    mouth.setAttribute("d", "M90,95 Q100,98 110,95");
-    leftBlush.setAttribute("opacity", "0.4");
-    rightBlush.setAttribute("opacity", "0.4");
-    // Panda deitado: rotaciona e centraliza no cenário
-    pandaSvg.style.transform = "rotate(90deg) translate(60px, 60px) scale(1)";
-    pandaSvg.style.transformOrigin = "50% 60%";
-    pandaSvg.style.transition = "transform 0.7s cubic-bezier(.4,0,.2,1)";
+    // Prioridade máxima: dormindo
+    sleep.style.display = "block";
+    console.log("Panda display: sleep");
+  } else if (gameState._isEating) {
+    // Panda senta para comer
+    sit.style.display = "block";
+    console.log("Panda display: sit (eating)");
+  } else if (gameState._isBeingPet) {
+    // Panda senta com olhos fechados ao receber carinho
+    blink.style.display = "block";
+    console.log("Panda display: blink (being pet)");
   } else {
-    // Quando o panda está acordado e não na animação de "acordar",
-    // o mecanismo de piscar (startPandaBlinking) controlará
-    // eyes.style.display e closedEyes.style.display.
-    // Apenas ajustamos outros aspectos visuais aqui.
-    // Ajusta pupilas e blush conforme felicidade
-    if (gameState.happiness > 80) {
-      leftPupil.setAttribute("ry", "10");
-      rightPupil.setAttribute("ry", "10");
-      leftBlush.setAttribute("opacity", "0.8");
-      rightBlush.setAttribute("opacity", "0.8");
-    } else if (gameState.happiness < 30) {
-      leftPupil.setAttribute("ry", "6");
-      rightPupil.setAttribute("ry", "6");
-      leftBlush.setAttribute("opacity", "0.2");
-      rightBlush.setAttribute("opacity", "0.2");
-    } else {
-      leftPupil.setAttribute("ry", "8");
-      rightPupil.setAttribute("ry", "8");
-      leftBlush.setAttribute("opacity", "0.6");
-      rightBlush.setAttribute("opacity", "0.6");
-    }
-    // Ajusta boca conforme felicidade
-    if (gameState.happiness < 30) {
-      mouth.setAttribute("d", "M85,100 Q100,90 115,100"); // Sad mouth
-    } else if (gameState.happiness > 80) {
-      mouth.setAttribute("d", "M80,95 Q100,110 120,95"); // Very happy mouth
-    } else {
-      mouth.setAttribute("d", "M85,95 Q100,105 115,95"); // Happy mouth
-    }
-    // Panda em pé: centralizado, pés encostam na grama
-    pandaSvg.style.transform = "translateY(60px) scale(1)";
-    pandaSvg.style.transformOrigin = "50% 100%";
-    pandaSvg.style.transition = "transform 0.7s cubic-bezier(.4,0,.2,1)";
+    // Estado padrão ou acordando: panda em pé
+    awake.style.display = "none";
+    awake.style.display = "block";
+    console.log("Panda display: awake (default/waking)");
   }
+}
+
+function updatePandaAppearance() {
+  updatePandaPixelArt();
 }
 
 // Feed the panda
 function feedPanda() {
-  if (gameState.sleeping) return;
-
+  if (
+    gameState.sleeping ||
+    gameState._wakingUp ||
+    gameState._isEating ||
+    gameState._isBeingPet
+  )
+    return;
   playSound("feed");
   gameState.stats.totalFeeds++;
   addExperience(10);
 
-  const pandaContainer = document.getElementById("panda-container");
+  gameState._isEating = true;
+  updatePandaPixelArt(); // Panda senta para comer
+  document.getElementById("message").textContent =
+    "Seu panda está comendo... 🎋";
 
-  // Create bamboo
+  // Efeito visual: bambu
+  const pandaContainer = document.getElementById("panda-container");
   const bamboo = document.createElement("div");
   bamboo.className = "bamboo";
   bamboo.style.position = "absolute";
@@ -285,35 +237,22 @@ function feedPanda() {
   bamboo.style.left = "50%";
   bamboo.style.transform = "translate(-50%, -50%)";
   bamboo.style.zIndex = "10";
-
-  // Add leaf
   const leaf = document.createElement("div");
   leaf.className = "bamboo-leaf";
   bamboo.appendChild(leaf);
   pandaContainer.appendChild(bamboo);
-
-  // Animate bamboo
   setTimeout(() => {
     bamboo.style.transform = "translate(-50%, -50%) scale(0.8)";
     bamboo.style.opacity = "0";
-
-    // Increase hunger
     gameState.hunger = Math.min(100, gameState.hunger + 20);
-    updateStats();
-
-    // Add bounce animation to panda
-    const pandaSvg = document.getElementById("panda-svg");
-    pandaSvg.classList.add("bounce");
+    gameState._isEating = false; // Reseta a flag antes de atualizar
+    updateStats(); // Atualiza barras, imagem (para em pé) e mensagem padrão
+    document.getElementById("message").textContent =
+      "Nyam nyam! Delicioso! 🎋😋"; // Mensagem específica pós-comer
     setTimeout(() => {
-      pandaSvg.classList.remove("bounce");
       bamboo.remove();
     }, 500);
-  }, 1000);
-
-  document.getElementById("message").textContent = "Nyam nyam! Delicioso! 🎋😋";
-
-  // Incrementar estatísticas de refeição
-  gameState.stats.totalFeeds++;
+  }, 1500); // Duração da animação de comer
   saveGame();
 
   if (gameState.stats.totalFeeds === 1) {
@@ -323,68 +262,69 @@ function feedPanda() {
 
 // Pet the panda
 function petPanda() {
-  if (gameState.sleeping) return;
-
+  if (
+    gameState.sleeping ||
+    gameState._wakingUp ||
+    gameState._isEating ||
+    gameState._isBeingPet
+  )
+    return;
   playSound("pet");
   gameState.stats.totalPets++;
   addExperience(5);
-
   const pandaContainer = document.getElementById("panda-container");
 
-  // Add hearts
+  gameState._isBeingPet = true;
+  updatePandaPixelArt(); // Panda senta com olhos fechados (panda-blink)
+  document.getElementById("message").textContent =
+    "Seu panda está amando o carinho... 🥰";
+
+  // Efeitos visuais de coração e brilho
   for (let i = 0; i < 5; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.textContent = ["❤", "💕", "💖", "💗"][Math.floor(Math.random() * 4)];
     heart.style.left = `${Math.random() * 80 + 10}%`;
     heart.style.top = `${Math.random() * 50}%`;
-    heart.style.animationDelay = `${i * 0.2}s`;
-
+    heart.style.animationDelay = `${i * 0.15}s`;
     pandaContainer.appendChild(heart);
     setTimeout(() => heart.remove(), 1000);
   }
-
-  // Create sparkles
   for (let i = 0; i < 3; i++) {
     setTimeout(() => {
       createSparkle(Math.random() * 200 + 25, Math.random() * 150 + 25);
-    }, i * 200);
+    }, i * 150);
   }
 
-  // Add shake animation to panda
-  const pandaSvg = document.getElementById("panda-svg");
-  pandaSvg.classList.add("shake");
-
-  // Increase blush temporarily
-  const leftBlush = document.getElementById("left-blush");
-  const rightBlush = document.getElementById("right-blush");
-  leftBlush.setAttribute("opacity", "1");
-  rightBlush.setAttribute("opacity", "1");
+  // Atualiza o estado lógico da felicidade
+  gameState.happiness = Math.min(100, gameState.happiness + 15);
 
   setTimeout(() => {
-    pandaSvg.classList.remove("shake");
-    updatePandaAppearance(); // Reset blush to normal
-  }, 500);
-
-  // Increase happiness
-  gameState.happiness = Math.min(100, gameState.happiness + 15);
-  updateStats();
-
-  document.getElementById("message").textContent =
-    "Seu panda adora carinho! 🥰💕";
-
-  // Incrementar estatísticas de carinho
-  gameState.stats.totalPets++;
+    gameState._isBeingPet = false; // Reseta a flag
+    updateStats(); // Atualiza barras, imagem (para em pé) e mensagem padrão
+    document.getElementById("message").textContent =
+      "Seu panda adora carinho! 🥰💕"; // Mensagem específica pós-carinho
+  }, 1200); // Duração do estado de "recebendo carinho"
   saveGame();
 }
 
 // Toggle sleep
 function toggleSleep() {
+  // Se estiver acordando, comendo ou recebendo carinho, não permite dormir/acordar imediatamente
+  // Exceto se já estiver dormindo e uma dessas flags (_isEating/_isBeingPet) estiverem ativas por algum bug, permite acordar.
+  if (
+    gameState._wakingUp ||
+    ((gameState._isEating || gameState._isBeingPet) && !gameState.sleeping)
+  ) {
+    return;
+  }
+
   gameState.sleeping = !gameState.sleeping;
   playSound("sleep");
   gameState.stats.totalSleeps++;
-
   if (gameState.sleeping) {
+    gameState._isEating = false; // Garante que para de comer ao dormir
+    gameState._isBeingPet = false; // Garante que para de receber carinho ao dormir
     document.getElementById("message").textContent =
       "Zzz... Seu panda está dormindo! 😴💤";
     document.getElementById("sleep-btn").innerHTML = "<span>🌞 Acordar</span>";
@@ -392,9 +332,13 @@ function toggleSleep() {
   } else {
     document.getElementById("message").textContent = "Seu panda acordou! 🌞✨";
     document.getElementById("sleep-btn").innerHTML = "<span>😴 Dormir</span>";
-    // Ativa transição de levantar
     gameState._wakingUp = true;
-    updateStats();
+    updatePandaPixelArt(); // Mostra o panda em pé (awake) imediatamente
+    // Pequeno delay para a flag _wakingUp e para reavaliar mensagens
+    setTimeout(() => {
+      gameState._wakingUp = false;
+      updateStats(); // Atualiza barras e mensagens
+    }, 500);
   }
 }
 
@@ -402,14 +346,13 @@ function toggleSleep() {
 function updateGameState() {
   if (gameState.sleeping) {
     gameState.energy = Math.min(100, gameState.energy + 1);
+    gameState.lastUpdate = Date.now(); // Corrige bug da barra
   } else {
     const now = Date.now();
     const elapsed = (now - gameState.lastUpdate) / 1000; // seconds
-
     gameState.hunger = Math.max(0, gameState.hunger - elapsed * 0.2);
     gameState.happiness = Math.max(0, gameState.happiness - elapsed * 0.15);
     gameState.energy = Math.max(0, gameState.energy - elapsed * 0.1);
-
     gameState.lastUpdate = now;
   }
   updateStats();
@@ -498,12 +441,11 @@ Object.values(sounds).forEach((sound) => {
 
 function playSound(type) {
   if (sounds[type]) {
-    // Se o som já está tocando, pare antes de tocar novamente
     try {
-      sounds[type].pause();
+      // Removido pause() para evitar AbortError
       sounds[type].currentTime = 0;
     } catch (e) {}
-    sounds[type].play();
+    sounds[type].play().catch(() => {}); // Silencia AbortError
   }
 }
 
@@ -589,6 +531,8 @@ function initGame() {
   // Update game state every second
   setInterval(updateGameState, 1000);
 
+  // Remover listeners .onclick duplicados mais abaixo
+
   // Initial message
   document.getElementById("message").textContent =
     "Olá! Cuide bem de mim! 🐼💕";
@@ -605,62 +549,16 @@ function checkAchievements() {
   }
 }
 
-// Piscar os olhos do panda quando acordado
-function startPandaBlinking() {
-  if (window._pandaBlinkTimeout) clearTimeout(window._pandaBlinkTimeout);
-  // Verifica se os elementos existem antes de tentar piscar
-  const eyes = document.getElementById("eyes");
-  const closedEyes = document.getElementById("closed-eyes");
-  if (!eyes || !closedEyes) return; // Não tenta piscar se não existem
-  function blink() {
-    if (!gameState.sleeping && !gameState._wakingUp) {
-      eyes.style.display = "none";
-      closedEyes.style.display = "block";
-      setTimeout(() => {
-        eyes.style.display = "block";
-        closedEyes.style.display = "none";
-        // Próximo piscar
-        if (!gameState.sleeping && !gameState._wakingUp) {
-          window._pandaBlinkTimeout = setTimeout(
-            blink,
-            1200 + Math.random() * 1000 // Pisca entre 1.2s e 2.2s
-          );
-        }
-      }, 120);
-    }
-  }
-  window._pandaBlinkTimeout = setTimeout(blink, 1200 + Math.random() * 1000);
-}
-
-// Stop panda blinking
-function stopPandaBlinking() {
-  if (window._pandaBlinkTimeout) clearTimeout(window._pandaBlinkTimeout);
-}
-
-// Iniciar/pausar piscar conforme estado
-const origUpdateStats = updateStats;
-updateStats = function () {
-  origUpdateStats.apply(this, arguments);
-  if (!gameState.sleeping && !gameState._wakingUp) {
-    startPandaBlinking();
-  } else {
-    stopPandaBlinking();
-    // Garante olhos fechados ao dormir
-    document.getElementById("eyes").style.display = "none";
-    document.getElementById("closed-eyes").style.display = "block";
-  }
-};
+// As funções startPandaBlinking, stopPandaBlinking e o wrapper de updateStats
+// que as controlava foram removidos, pois o piscar agora é específico da ação de carinho
+// e gerenciado por updatePandaPixelArt e gameState._isBeingPet.
 
 // Start the game when page loads
 window.addEventListener("load", function () {
   initGame();
-  // Garante que o panda pisque ao iniciar, se estiver acordado
-  setTimeout(() => {
-    // Só inicia o piscar se os elementos existem
-    const eyes = document.getElementById("eyes");
-    const closedEyes = document.getElementById("closed-eyes");
-    if (!gameState.sleeping && !gameState._wakingUp && eyes && closedEyes) {
-      startPandaBlinking();
-    }
-  }, 500);
+  // O estado visual inicial do panda (em pé) será definido por updateStats() -> updatePandaAppearance() -> updatePandaPixelArt()
+  // que é chamado em initGame(). Não é mais necessário iniciar o piscar aqui.
 });
+
+// Os event listeners .onclick foram removidos para evitar duplicação,
+// pois já são adicionados com addEventListener em initGame().

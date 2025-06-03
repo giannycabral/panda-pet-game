@@ -981,3 +981,45 @@ body,
     /* Garante que fique fixo no chão, alinhado pela base */
     transform: translateY(0) !important;
 }
+
+/* Panda Pixel Art */
+.panda-pixel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: auto;
+    image-rendering: pixelated;
+    transition: opacity 0.5s, transform 0.7s cubic-bezier(.4, 0, .2, 1);
+    z-index: 2;
+}
+
+.panda-awake {
+    bottom: 0;
+    z-index: 2;
+}
+
+.panda-sit {
+    bottom: 0;
+    z-index: 2;
+}
+
+.panda-blink {
+    z-index: 3;
+    pointer-events: none;
+}
+
+.panda-sleep {
+    bottom: 0;
+    z-index: 2;
+}
+
+.kawaii-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
