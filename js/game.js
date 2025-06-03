@@ -34,6 +34,9 @@ const gameState = {
   _isBeingPet: false,
 };
 
+// Global timer for blinking
+let _pandaBlinkTimer = null;
+
 // Sistema de salvamento
 function saveGame() {
   localStorage.setItem("pandaPetSave", JSON.stringify(gameState));
@@ -177,13 +180,15 @@ function updatePandaPixelArt() {
   const awake = document.getElementById("panda-awake");
   const sit = document.getElementById("panda-sit");
   const blink = document.getElementById("panda-blink");
+  const awakeBlink = document.getElementById("panda-awake-blink"); // Nova imagem
   const sleep = document.getElementById("panda-sleep");
-  if (!awake || !sit || !blink || !sleep) return;
+  if (!awake || !sit || !blink || !sleep || !awakeBlink) return;
 
   // Esconder todos primeiro para simplificar a lógica
   awake.style.display = "none";
   sit.style.display = "none";
   blink.style.display = "none";
+  awakeBlink.style.display = "none"; // Esconder a nova imagem
   sleep.style.display = "none";
 
   if (gameState.sleeping) {
@@ -200,14 +205,122 @@ function updatePandaPixelArt() {
     console.log("Panda display: blink (being pet)");
   } else {
     // Estado padrão ou acordando: panda em pé
-    awake.style.display = "none";
     awake.style.display = "block";
     console.log("Panda display: awake (default/waking)");
   }
 }
 
+// --- Blinking Logic ---
+function stopBlinking() {
+    if (_pandaBlinkTimer) {
+        clearTimeout(_pandaBlinkTimer);
+        _pandaBlinkTimer = null;
+    }
+
+    const awakeImg = document.getElementById("panda-awake");
+    const sitImg = document.getElementById("panda-sit");
+    const blinkImg = document.getElementById("panda-blink");
+    const awakeBlinkImg = document.getElementById("panda-awake-blink"); // Em pé piscando
+    if (!awakeImg || !sitImg || !blinkImg || !awakeBlinkImg) return;
+
+    // If blinking is stopped:
+    // 1. Hide the animated blink image (panda-blink OR panda-awake-blink),
+    //    UNLESS it's the static "pet" pose (gameState._isBeingPet uses panda-blink).
+    // 2. Ensure the correct base image (panda-sit if eating, panda-awake if standing)
+    //    is visible if it was hidden by the animation.
+    // updatePandaPixelArt() is responsible for the primary visibility of awake, sit (when not eating), sleep.
+
+    // Hide sitting blink image if it was for animation (not petting)
+    if (!gameState._isBeingPet && blinkImg.style.display === 'block') {
+        blinkImg.style.display = 'none';
+        // If it was blinking while eating, ensure panda-sit is visible
+        if (gameState._isEating && sitImg.style.display === 'none') {
+            sitImg.style.display = 'block';
+        }
+    }
+    // Hide standing blink image if it was visible
+    if (awakeBlinkImg.style.display === 'block') {
+        awakeBlinkImg.style.display = 'none';
+        // If it was blinking while standing, ensure panda-awake is visible
+        if (!gameState._isEating && !gameState._isBeingPet && !gameState.sleeping && !gameState._wakingUp && awakeImg.style.display === 'none') {
+            awakeImg.style.display = 'block';
+        }
+    }
+    // If gameState._isBeingPet is true, updatePandaPixelArt handles blinkImg visibility.
+    // If gameState.sleeping or _wakingUp, updatePandaPixelArt handles those images.
+}
+
+function startBlinking() {
+    // Pre-conditions for natural blinking:
+    // Must be eating (so panda-sit is the base, compatible with panda-blink).
+    // OR must be standing (default state).
+    // Must NOT be sleeping, waking up, or being petted (where panda-blink is static or panda is asleep).
+    if (gameState.sleeping || gameState._wakingUp || gameState._isBeingPet) {
+        stopBlinking(); // Ensure any prior blinking is stopped if state is not suitable.
+        return;
+    }
+    if (_pandaBlinkTimer !== null) return; // Already blinking.
+
+    const awakeImg = document.getElementById("panda-awake");
+    const sitImg = document.getElementById("panda-sit");
+    const blinkImg = document.getElementById("panda-blink"); // Sentado piscando
+    const awakeBlinkImg = document.getElementById("panda-awake-blink"); // Em pé piscando
+
+    if (!awakeImg || !sitImg || !blinkImg || !awakeBlinkImg) return;
+
+    function blinkAnim() {
+        // Re-check conditions at the start of each animation step.
+        if (gameState.sleeping || gameState._wakingUp || gameState._isBeingPet) {
+            stopBlinking(); // State changed, stop blinking. stopBlinking handles visual cleanup.
+            return;
+        }
+
+        let baseImageToHide, blinkImageToShow;
+
+        if (gameState._isEating) { // Panda is eating
+            baseImageToHide = sitImg;
+            blinkImageToShow = blinkImg;
+        } else { // Panda is standing (default state)
+            baseImageToHide = awakeImg;
+            blinkImageToShow = awakeBlinkImg;
+        }
+
+        baseImageToHide.style.display = 'none';
+        blinkImageToShow.style.display = 'block';
+
+        _pandaBlinkTimer = setTimeout(() => {
+            // Before reverting, check conditions again.
+            if (gameState.sleeping || gameState._wakingUp || gameState._isBeingPet) {
+                stopBlinking(); // State changed during the 120ms blink.
+                return;
+            }
+            
+            blinkImageToShow.style.display = 'none';
+            // Re-evaluate baseImageToShow in case state changed (e.g., started eating while standing blink was in progress)
+            let baseImageToShowAfterBlink = gameState._isEating ? sitImg : awakeImg;
+            baseImageToShowAfterBlink.style.display = 'block';
+
+            const nextBlinkDelay = 1200 + Math.random() * 1500; // Random delay for next blink
+            _pandaBlinkTimer = setTimeout(blinkAnim, nextBlinkDelay);
+        }, 120); // Blink duration (eyes closed)
+    }
+
+    const initialBlinkDelay = 300 + Math.random() * 400; // Initial random delay (0.3s to 0.7s)
+    _pandaBlinkTimer = setTimeout(blinkAnim, initialBlinkDelay);
+}
+
 function updatePandaAppearance() {
   updatePandaPixelArt();
+
+  // Manage blinking animation.
+  // Panda blinks naturally if not sleeping, waking up, or being petted.
+  // This covers both standing (default) and eating states.
+  if (!gameState.sleeping && !gameState._wakingUp && !gameState._isBeingPet) {
+    startBlinking();
+  } else {
+    // Conditions not met for animated blinking.
+    stopBlinking();
+  }
 }
 
 // Feed the panda
@@ -549,15 +662,10 @@ function checkAchievements() {
   }
 }
 
-// As funções startPandaBlinking, stopPandaBlinking e o wrapper de updateStats
-// que as controlava foram removidos, pois o piscar agora é específico da ação de carinho
-// e gerenciado por updatePandaPixelArt e gameState._isBeingPet.
-
 // Start the game when page loads
 window.addEventListener("load", function () {
   initGame();
-  // O estado visual inicial do panda (em pé) será definido por updateStats() -> updatePandaAppearance() -> updatePandaPixelArt()
-  // que é chamado em initGame(). Não é mais necessário iniciar o piscar aqui.
+  // initGame calls updateStats, which calls updatePandaAppearance, which will handle initial blinking state.
 });
 
 // Os event listeners .onclick foram removidos para evitar duplicação,
