@@ -999,19 +999,43 @@ body,
     z-index: 2;
 }
 
+.panda-awake-blink {
+    bottom: 0;
+    /* Alinha à base do container */
+    z-index: 3;
+    /* Mesma profundidade de outros estados ativos */
+    /* Se o panda triste parecer flutuar ou afundar, ajuste com translateY: */
+    /* transform: translateY(0px); */
+}
+
 .panda-sit {
     bottom: 0;
     z-index: 2;
+    transform: translateY(15px);
 }
 
 .panda-blink {
     z-index: 3;
     pointer-events: none;
+    transform: translateY(15px);
 }
 
 .panda-sleep {
     bottom: 0;
     z-index: 2;
+    /* Ajuste para corrigir a flutuação do panda dormindo: */
+    /* Se o panda estiver flutuando (parecendo muito alto), descomente a linha abaixo */
+    /* e ajuste o valor (ex: 5px, 10px, 15px) até que ele pareça corretamente apoiado no chão. */
+    transform: translateY(110px);
+}
+
+.panda-sad {
+    bottom: 0;
+    /* Alinha à base do container */
+    z-index: 2;
+    /* Mesma profundidade de outros estados ativos */
+    /* Se o panda triste parecer flutuar ou afundar, ajuste com translateY: */
+    /* transform: translateY(0px); */
 }
 
 .kawaii-container {

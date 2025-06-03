@@ -47,6 +47,11 @@ function loadGame() {
   if (savedGame) {
     Object.assign(gameState, JSON.parse(savedGame));
     updateStats();
+    // Reset action flags on load in case they were true when saving
+    // This prevents the game from loading into a stuck state
+    gameState._isEating = false;
+    gameState._isBeingPet = false;
+    gameState._wakingUp = false; // Also reset waking up flag
     updateLevel();
   }
 }
@@ -182,7 +187,15 @@ function updatePandaPixelArt() {
   const blink = document.getElementById("panda-blink");
   const awakeBlink = document.getElementById("panda-awake-blink"); // Nova imagem
   const sleep = document.getElementById("panda-sleep");
-  if (!awake || !sit || !blink || !sleep || !awakeBlink) return;
+  const sad = document.getElementById("panda-sad"); // Nova imagem triste
+
+  // Verifica se todos os elementos de imagem do panda existem
+  if (!awake || !sit || !blink || !sleep || !awakeBlink || !sad) {
+    console.error(
+      "Um ou mais elementos de imagem do panda não foram encontrados!"
+    );
+    return;
+  }
 
   // Esconder todos primeiro para simplificar a lógica
   awake.style.display = "none";
@@ -190,6 +203,7 @@ function updatePandaPixelArt() {
   blink.style.display = "none";
   awakeBlink.style.display = "none"; // Esconder a nova imagem
   sleep.style.display = "none";
+  sad.style.display = "none"; // Esconder a imagem triste
 
   if (gameState.sleeping) {
     // Prioridade máxima: dormindo
@@ -203,6 +217,14 @@ function updatePandaPixelArt() {
     // Panda senta com olhos fechados ao receber carinho
     blink.style.display = "block";
     console.log("Panda display: blink (being pet)");
+  } else if (
+    gameState.hunger <= 50 ||
+    gameState.happiness <= 50 ||
+    gameState.energy <= 50
+  ) {
+    // Panda está triste se alguma necessidade estiver baixa e não estiver em outra ação prioritária
+    sad.style.display = "block";
+    console.log("Panda display: sad");
   } else {
     // Estado padrão ou acordando: panda em pé
     awake.style.display = "block";
@@ -269,8 +291,18 @@ function startBlinking() {
   // Pre-conditions for natural blinking:
   // Must be eating (so panda-sit is the base, compatible with panda-blink).
   // OR must be standing (default state).
-  // Must NOT be sleeping, waking up, or being petted (where panda-blink is static or panda is asleep).
-  if (gameState.sleeping || gameState._wakingUp || gameState._isBeingPet) {
+  // Must NOT be sleeping, waking up, being petted, or sad.
+  const isSad =
+    gameState.hunger <= 50 ||
+    gameState.happiness <= 50 ||
+    gameState.energy <= 50;
+
+  if (
+    gameState.sleeping ||
+    gameState._wakingUp ||
+    gameState._isBeingPet ||
+    isSad
+  ) {
     stopBlinking(); // Ensure any prior blinking is stopped if state is not suitable.
     return;
   }
@@ -289,7 +321,16 @@ function startBlinking() {
 
   function blinkAnim() {
     // Re-check conditions at the start of each animation step.
-    if (gameState.sleeping || gameState._wakingUp || gameState._isBeingPet) {
+    const isSadNow =
+      gameState.hunger <= 50 ||
+      gameState.happiness <= 50 ||
+      gameState.energy <= 50;
+    if (
+      gameState.sleeping ||
+      gameState._wakingUp ||
+      gameState._isBeingPet ||
+      isSadNow
+    ) {
       stopBlinking(); // State changed, stop blinking. stopBlinking handles visual cleanup.
       return;
     }
@@ -313,8 +354,17 @@ function startBlinking() {
 
     _pandaBlinkTimer = setTimeout(() => {
       // Before reverting, check conditions again.
-      if (gameState.sleeping || gameState._wakingUp || gameState._isBeingPet) {
-        stopBlinking(); // State changed during the 120ms blink.
+      const isSadAfterBlink =
+        gameState.hunger <= 50 ||
+        gameState.happiness <= 50 ||
+        gameState.energy <= 50;
+      if (
+        gameState.sleeping ||
+        gameState._wakingUp ||
+        gameState._isBeingPet ||
+        isSadAfterBlink
+      ) {
+        stopBlinking(); // State changed during the 120ms blink, or became sad.
         return;
       }
 
@@ -394,13 +444,19 @@ function feedPanda() {
     bamboo.style.transform = "translate(-50%, -50%) scale(0.8)";
     bamboo.style.opacity = "0";
     gameState.hunger = Math.min(100, gameState.hunger + 20);
-    gameState._isEating = false; // Reseta a flag antes de atualizar
-    updateStats(); // Atualiza barras, imagem (para em pé) e mensagem padrão
-    document.getElementById("message").textContent =
-      "Nyam nyam! Delicioso! 🎋😋"; // Mensagem específica pós-comer
-    setTimeout(() => {
-      bamboo.remove();
-    }, 500);
+    try {
+      gameState._isEating = false; // Reseta a flag
+      updateStats(); // Atualiza barras, imagem (para em pé) e mensagem padrão
+      document.getElementById("message").textContent =
+        "Nyam nyam! Delicioso! 🎋😋"; // Mensagem específica pós-comer
+    } catch (error) {
+      console.error("Error in feed timeout callback:", error); // Log de erro
+      gameState._isEating = false; // Ensure flag is reset even on error
+    } finally {
+      setTimeout(() => {
+        bamboo.remove();
+      }, 500);
+    }
   }, 1500); // Duração da animação de comer
   saveGame();
 
@@ -451,7 +507,7 @@ function petPanda() {
   setTimeout(() => {
     console.log("Pet timeout callback running."); // Log para depuração
     try {
-      gameState._isBeingPet = false; // Reseta a flag
+      gameState._isBeingPet = false; // Reseta a flag antes de atualizar
       updateStats(); // Atualiza barras, imagem (para em pé) e mensagem padrão
       document.getElementById("message").textContent =
         "Seu panda adora carinho! 🥰💕"; // Mensagem específica pós-carinho
@@ -490,6 +546,7 @@ function toggleSleep() {
     updatePandaPixelArt(); // Mostra o panda em pé (awake) imediatamente
     // Pequeno delay para a flag _wakingUp e para reavaliar mensagens
     setTimeout(() => {
+      console.log("Waking up timeout callback running."); // Log para depuração
       gameState._wakingUp = false;
       updateStats(); // Atualiza barras e mensagens
     }, 500);
