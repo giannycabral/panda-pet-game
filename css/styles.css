@@ -3,12 +3,70 @@
 /* Base styles */
 body {
     font-family: 'Baloo 2', cursive;
-    background-color: #fdf6e3;
+    background: linear-gradient(to bottom, #fdf6e3 0%, #f3ebff 100%);
     overflow-x: hidden;
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+body.night-mode {
+    background: linear-gradient(to bottom, #23243a 0%, #3a3a5a 100%);
+    color: #f3eaff;
+}
+
+/* Paisagem de fundo: montanhas e horizonte */
+body::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    display: block;
+    /* Garante que o ::before seja renderizado */
+    /* Montanhas e horizonte */
+    background:
+        /* Montanhas mais distantes */
+        linear-gradient(to top, #b4aee8 0 20%, transparent 60%),
+        /* Montanhas médias */
+        linear-gradient(to top, #a5b4fc 0 30%, transparent 70%),
+        /* Montanhas próximas */
+        linear-gradient(to top, #7c3aed 0 40%, transparent 80%),
+        /* Horizonte/grama */
+        linear-gradient(to top, #bbf7d0 0 10%, transparent 30%);
+    background-repeat: no-repeat;
+    background-size: 100% 40%, 100% 50%, 100% 60%, 100% 100%;
+    background-position: bottom;
+    transition: background 0.8s cubic-bezier(.4, 0, .2, 1);
+}
+
+body.night-mode::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        /* Montanhas mais distantes noite */
+        linear-gradient(to top, #3a3a5a 0 20%, transparent 60%),
+        /* Montanhas médias noite */
+        linear-gradient(to top, #6366f1 0 30%, transparent 70%),
+        /* Montanhas próximas noite */
+        linear-gradient(to top, #312e81 0 40%, transparent 80%),
+        /* Horizonte/grama noite */
+        linear-gradient(to top, #334155 0 10%, transparent 30%);
+    background-repeat: no-repeat;
+    background-size: 100% 40%, 100% 50%, 100% 60%, 100% 100%;
+    background-position: bottom;
+    transition: background 0.8s cubic-bezier(.4, 0, .2, 1);
 }
 
 /* Game wrapper and container */
@@ -18,6 +76,7 @@ body {
     background: linear-gradient(to bottom, #fff5f7, #f3ebff);
     overflow: hidden;
     position: relative;
+    z-index: 1;
 }
 
 .container {
@@ -47,20 +106,137 @@ body {
     border: 3px solid rgba(255, 255, 255, 0.7);
 }
 
-/* Panda container */
-.kawaii-container {
+/* Fundo aconchegante para o cenário do panda */
+.panda-bg {
+    background: linear-gradient(to bottom, #f3e8ff 0%, #dbeafe 100%);
+    border-radius: 32px;
+    box-shadow: 0 8px 32px 0 rgba(80, 80, 160, 0.10);
+    padding-top: 16px;
+    padding-bottom: 16px;
     position: relative;
-    width: 250px;
-    height: 250px;
-    margin: 0 auto;
 }
 
-.panda-svg {
-    width: 220px;
-    height: 220px;
-    margin: 0 auto;
-    cursor: pointer;
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+.panda-bg.night-mode {
+    background: linear-gradient(to bottom, #23243a 0%, #3a3a5a 100%);
+}
+
+.kawaii-container {
+    /* Garante que o panda fique centralizado e o fundo não se mova */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 260px;
+    position: relative;
+    z-index: 1;
+}
+
+/* CENÁRIO FIXO DO PANDA */
+.panda-scenery {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.panda-grass {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    background: linear-gradient(to top, #4ade80 60%, #bbf7d0 100%);
+    border-radius: 0 0 32px 32px;
+}
+
+.panda-grass-tuft {
+    position: absolute;
+    bottom: 10px;
+    width: 18px;
+    height: 22px;
+    background: #22c55e;
+    border-radius: 8px 8px 12px 12px;
+}
+
+.panda-grass-tuft.left {
+    left: 28px;
+}
+
+.panda-grass-tuft.right {
+    right: 28px;
+}
+
+.panda-flower {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    bottom: 8px;
+}
+
+.panda-flower.pink {
+    background: #f472b6;
+}
+
+.panda-flower.yellow {
+    background: #facc15;
+}
+
+.panda-flower.blue {
+    background: #38bdf8;
+}
+
+.panda-flower.orange {
+    background: #fbbf24;
+}
+
+.panda-bamboo {
+    position: absolute;
+    width: 12px;
+    height: 60px;
+    bottom: 20px;
+    background: linear-gradient(to top, #7dd87d 60%, #a3e635 100%);
+    border-radius: 6px;
+}
+
+.panda-bamboo.left {
+    left: 12px;
+}
+
+.panda-bamboo.right {
+    right: 12px;
+}
+
+.panda-bamboo:before,
+.panda-bamboo:after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 6px;
+    background: #4ade80;
+    border-radius: 4px;
+}
+
+.panda-bamboo.left:before {
+    left: -8px;
+    top: 10px;
+}
+
+.panda-bamboo.left:after {
+    left: 2px;
+    top: 30px;
+}
+
+.panda-bamboo.right:before {
+    right: -8px;
+    top: 10px;
+}
+
+.panda-bamboo.right:after {
+    right: 2px;
+    top: 30px;
 }
 
 /* Status bars */
@@ -173,10 +349,36 @@ body {
 }
 
 .game-instructions {
-    text-align: center;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    max-width: 320px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 4px 18px 0 #bdb4e633;
     color: #8b5cf6;
-    font-weight: 500;
-    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 1.08rem;
+    padding: 1.1rem 1.5rem 1.1rem 1.5rem;
+    z-index: 30;
+    text-align: left;
+    line-height: 1.5;
+    border: 2px solid #e9d5ff;
+    display: block;
+}
+
+@media (max-width: 700px) {
+    .game-instructions {
+        position: static;
+        max-width: 100%;
+        margin: 1rem auto 0 auto;
+        right: unset;
+        top: unset;
+        border-radius: 14px;
+        font-size: 1rem;
+        box-shadow: 0 2px 8px 0 #bdb4e633;
+        padding: 0.8rem 1rem;
+    }
 }
 
 /* Decorative elements */
@@ -221,39 +423,78 @@ body {
 
 .sleep-bubble {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     background: white;
     border-radius: 50%;
-    top: -40px;
+    top: 10px;
+    /* Mantém próximo do panda */
     right: 20px;
     opacity: 0;
-    transition: opacity 0.5s;
-    border: 2px solid #e0e0e0;
+    transition: opacity 0.7s cubic-bezier(.4, 0, .2, 1);
+    border: 2.5px solid #e0e0e0;
+    box-shadow: 0 8px 32px 0 #bdb4e633, 0 0 0 12px #f3e8ff44;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: sleep-bubble-float 2.5s ease-in-out infinite alternate;
 }
 
 .sleep-bubble::before {
     content: '';
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 52px;
+    height: 52px;
     background: white;
     border-radius: 50%;
-    bottom: -5px;
-    left: -15px;
+    bottom: -26px;
+    left: 18px;
     border: 2px solid #e0e0e0;
     border-bottom: none;
     border-left: none;
+    opacity: 0.7;
 }
 
 .sleep-bubble::after {
     content: 'Z';
     position: absolute;
-    font-size: 24px;
-    font-weight: bold;
-    color: #9c88ff;
-    top: 10px;
-    left: 18px;
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: #b39ddb;
+    top: 32px;
+    left: 38px;
+    text-shadow: 0 2px 12px #e0e7ff, 0 0 0 #fff;
+    animation: sleep-bubble-z 1.2s infinite alternate;
+    font-family: 'Baloo 2', cursive;
+    letter-spacing: 2px;
+}
+
+@keyframes sleep-bubble-float {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-18px);
+    }
+}
+
+@keyframes sleep-bubble-z {
+    0% {
+        opacity: 0.7;
+        transform: translateY(0) scale(1);
+    }
+
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.12);
+    }
+
+    100% {
+        opacity: 0.7;
+        transform: translateY(-16px) scale(0.95);
+    }
 }
 
 /* Ground decorations */
@@ -353,26 +594,41 @@ body {
     transform: scale(0.5);
 }
 
-.bounce {
-    animation: bounce 0.5s;
-}
-
-.shake {
-    animation: shake 0.5s;
-}
-
-.blush {
-    animation: blush 1s ease-in-out;
-}
-
-.sparkle {
+.moon {
     position: absolute;
-    width: 15px;
-    height: 15px;
-    background: white;
-    transform: rotate(45deg);
-    animation: sparkle 0.8s ease-in-out;
-    opacity: 0;
+    top: 40px;
+    left: 80px;
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle at 30% 30%, #fffbe6 80%, #e0d7ff 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 40px 10px #fffbe6, 0 0 0 8px #e0d7ff44;
+    z-index: 1;
+    border: 2px solid #e0d7ff;
+}
+
+.moon::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    width: 30px;
+    height: 30px;
+    background: #3a3a5a;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.sun {
+    background: radial-gradient(circle at 60% 40%, #fff7b2 60%, #ffe066 100%);
+    box-shadow: 0 0 60px 10px #ffe066, 0 0 0 8px #fff7b244;
+    border: 2px solid #ffe066;
+}
+
+/* Transitions */
+body,
+.panda-bg {
+    transition: background 0.8s cubic-bezier(.4, 0, .2, 1);
 }
 
 /* Keyframes */
@@ -470,6 +726,79 @@ body {
     100% {
         transform: rotate(45deg) scale(0);
         opacity: 0;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes rainfall {
+    from {
+        transform: translateY(-10px);
+    }
+
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+@keyframes snowfall {
+    from {
+        transform: translate(0, -10px) rotate(0deg);
+    }
+
+    to {
+        transform: translate(20px, 100vh) rotate(360deg);
+    }
+}
+
+@keyframes sunray {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
     }
 }
 
@@ -640,4 +969,15 @@ body {
         opacity: 0.6;
         transform: scale(1.1);
     }
+}
+
+.bunny-gif {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 12px #bdb4e655);
+    /* Remove a animação de pulo para ficar fixo no chão */
+    /* animation: none !important; */
+    /* Garante que fique fixo no chão, alinhado pela base */
+    transform: translateY(0) !important;
 }

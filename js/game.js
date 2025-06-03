@@ -25,6 +25,9 @@ const gameState = {
     totalPets: 0,
     totalSleeps: 0,
   },
+
+  // Nova flag para controle de animação de acordar
+  _wakingUp: false,
 };
 
 // Sistema de salvamento
@@ -44,14 +47,23 @@ function loadGame() {
 // Generate clouds
 function generateClouds() {
   const cloudsContainer = document.getElementById("clouds");
-  for (let i = 0; i < 5; i++) {
+  cloudsContainer.innerHTML = ""; // Clear previous clouds
+  for (let i = 0; i < 10; i++) {
     const cloud = document.createElement("div");
-    const size = Math.random() * 50 + 50;
+    let size, className;
+    // Make 3 clouds larger for visual variety
+    if (i < 3) {
+      size = Math.random() * 80 + 120; // Larger clouds
+      className = "cloud cloud-large";
+    } else {
+      size = Math.random() * 50 + 50;
+      className = "cloud";
+    }
     const top = Math.random() * 200;
     const duration = Math.random() * 60 + 60;
     const delay = Math.random() * 60;
 
-    cloud.className = "cloud";
+    cloud.className = className;
     cloud.style.width = `${size}px`;
     cloud.style.height = `${size / 2}px`;
     cloud.style.top = `${top}px`;
@@ -59,6 +71,32 @@ function generateClouds() {
     cloud.style.animationDelay = `${delay}s`;
 
     cloudsContainer.appendChild(cloud);
+  }
+  // Add sun or moon depending on time
+  const sunId = "panda-sun";
+  const moonId = "panda-moon";
+  let sun = document.getElementById(sunId);
+  let moon = document.getElementById(moonId);
+  if (!isNight()) {
+    if (moon) moon.remove();
+    if (!sun) {
+      sun = document.createElement("div");
+      sun.id = sunId;
+      sun.className = "sun";
+      cloudsContainer.insertBefore(sun, cloudsContainer.firstChild);
+    }
+    // Remove dark mode if present
+    document.body.classList.remove("night-mode");
+  } else {
+    if (sun) sun.remove();
+    if (!moon) {
+      moon = document.createElement("div");
+      moon.id = moonId;
+      moon.className = "moon";
+      cloudsContainer.insertBefore(moon, cloudsContainer.firstChild);
+    }
+    // Enable dark mode
+    document.body.classList.add("night-mode");
   }
 }
 
@@ -122,6 +160,7 @@ function updateStats() {
 
 // Update panda appearance based on stats
 function updatePandaAppearance() {
+  const pandaSvg = document.getElementById("panda-svg");
   const eyes = document.getElementById("eyes");
   const closedEyes = document.getElementById("closed-eyes");
   const mouth = document.getElementById("mouth");
@@ -130,17 +169,73 @@ function updatePandaAppearance() {
   const leftPupil = document.getElementById("left-pupil");
   const rightPupil = document.getElementById("right-pupil");
 
+  // Nova lógica para transição suave ao acordar
+  if (gameState._wakingUp) {
+    // Etapa intermediária: semi-sentado
+    pandaSvg.style.transition = "transform 0.4s cubic-bezier(.4,0,.2,1)";
+    pandaSvg.style.transform = "rotate(45deg) translate(40px, 40px) scale(1)";
+    pandaSvg.style.transformOrigin = "50% 60%";
+    setTimeout(() => {
+      pandaSvg.style.transition = "transform 0.4s cubic-bezier(.4,0,.2,1)";
+      pandaSvg.style.transform = "translateY(60px) scale(1)";
+      pandaSvg.style.transformOrigin = "50% 100%";
+      // Após a transição, remove flag e atualiza olhos/boca
+      setTimeout(() => {
+        gameState._wakingUp = false;
+        eyes.style.display = "block";
+        closedEyes.style.display = "none";
+        // Ajusta pupilas e blush conforme felicidade
+        if (gameState.happiness > 80) {
+          leftPupil.setAttribute("ry", "10");
+          rightPupil.setAttribute("ry", "10");
+          leftBlush.setAttribute("opacity", "0.8");
+          rightBlush.setAttribute("opacity", "0.8");
+        } else if (gameState.happiness < 30) {
+          leftPupil.setAttribute("ry", "6");
+          rightPupil.setAttribute("ry", "6");
+          leftBlush.setAttribute("opacity", "0.2");
+          rightBlush.setAttribute("opacity", "0.2");
+        } else {
+          leftPupil.setAttribute("ry", "8");
+          rightPupil.setAttribute("ry", "8");
+          leftBlush.setAttribute("opacity", "0.6");
+          rightBlush.setAttribute("opacity", "0.6");
+        }
+        // Ajusta boca conforme felicidade
+        if (gameState.happiness < 30) {
+          mouth.setAttribute("d", "M85,100 Q100,90 115,100"); // Sad mouth
+        } else if (gameState.happiness > 80) {
+          mouth.setAttribute("d", "M80,95 Q100,110 120,95"); // Very happy mouth
+        } else {
+          mouth.setAttribute("d", "M85,95 Q100,105 115,95"); // Happy mouth
+        }
+      }, 400);
+    }, 400);
+    // Durante o "levantar", mostra olhos fechados
+    eyes.style.display = "none";
+    closedEyes.style.display = "block";
+    mouth.setAttribute("d", "M90,95 Q100,98 110,95");
+    leftBlush.setAttribute("opacity", "0.4");
+    rightBlush.setAttribute("opacity", "0.4");
+    return;
+  }
+
   if (gameState.sleeping) {
     eyes.style.display = "none";
     closedEyes.style.display = "block";
     mouth.setAttribute("d", "M90,95 Q100,98 110,95");
     leftBlush.setAttribute("opacity", "0.4");
     rightBlush.setAttribute("opacity", "0.4");
+    // Panda deitado: rotaciona e centraliza no cenário
+    pandaSvg.style.transform = "rotate(90deg) translate(60px, 60px) scale(1)";
+    pandaSvg.style.transformOrigin = "50% 60%";
+    pandaSvg.style.transition = "transform 0.7s cubic-bezier(.4,0,.2,1)";
   } else {
-    eyes.style.display = "block";
-    closedEyes.style.display = "none";
-
-    // Adjust pupils based on happiness
+    // Quando o panda está acordado e não na animação de "acordar",
+    // o mecanismo de piscar (startPandaBlinking) controlará
+    // eyes.style.display e closedEyes.style.display.
+    // Apenas ajustamos outros aspectos visuais aqui.
+    // Ajusta pupilas e blush conforme felicidade
     if (gameState.happiness > 80) {
       leftPupil.setAttribute("ry", "10");
       rightPupil.setAttribute("ry", "10");
@@ -157,8 +252,7 @@ function updatePandaAppearance() {
       leftBlush.setAttribute("opacity", "0.6");
       rightBlush.setAttribute("opacity", "0.6");
     }
-
-    // Adjust mouth based on happiness
+    // Ajusta boca conforme felicidade
     if (gameState.happiness < 30) {
       mouth.setAttribute("d", "M85,100 Q100,90 115,100"); // Sad mouth
     } else if (gameState.happiness > 80) {
@@ -166,6 +260,10 @@ function updatePandaAppearance() {
     } else {
       mouth.setAttribute("d", "M85,95 Q100,105 115,95"); // Happy mouth
     }
+    // Panda em pé: centralizado, pés encostam na grama
+    pandaSvg.style.transform = "translateY(60px) scale(1)";
+    pandaSvg.style.transformOrigin = "50% 100%";
+    pandaSvg.style.transition = "transform 0.7s cubic-bezier(.4,0,.2,1)";
   }
 }
 
@@ -290,12 +388,14 @@ function toggleSleep() {
     document.getElementById("message").textContent =
       "Zzz... Seu panda está dormindo! 😴💤";
     document.getElementById("sleep-btn").innerHTML = "<span>🌞 Acordar</span>";
+    updateStats();
   } else {
     document.getElementById("message").textContent = "Seu panda acordou! 🌞✨";
     document.getElementById("sleep-btn").innerHTML = "<span>😴 Dormir</span>";
+    // Ativa transição de levantar
+    gameState._wakingUp = true;
+    updateStats();
   }
-
-  updateStats();
 }
 
 // Update game state over time
@@ -386,9 +486,9 @@ function showAchievementMessage(achievementId) {
 
 // Sistema de sons
 const sounds = {
-  feed: new Audio("sounds/eat.mp3"),
-  pet: new Audio("sounds/happy.mp3"),
-  sleep: new Audio("sounds/sleep.mp3"),
+  feed: new Audio("sounds/eat.wav"),
+  pet: new Audio("sounds/happy.wav"),
+  sleep: new Audio("sounds/sleep.wav"),
 };
 
 // Configurar volumes
@@ -398,7 +498,11 @@ Object.values(sounds).forEach((sound) => {
 
 function playSound(type) {
   if (sounds[type]) {
-    sounds[type].currentTime = 0;
+    // Se o som já está tocando, pare antes de tocar novamente
+    try {
+      sounds[type].pause();
+      sounds[type].currentTime = 0;
+    } catch (e) {}
     sounds[type].play();
   }
 }
@@ -407,12 +511,23 @@ function playSound(type) {
 let currentWeather = "clear";
 const weatherTypes = ["clear", "rain", "snow", "sunny"];
 
+function isNight() {
+  const hour = new Date().getHours();
+  return hour >= 18 || hour < 6;
+}
+
 function changeWeather() {
   const weatherContainer = document.getElementById("weather-container");
   weatherContainer.innerHTML = "";
 
+  let allowedWeather;
+  if (isNight()) {
+    allowedWeather = ["clear", "rain", "snow"];
+  } else {
+    allowedWeather = ["clear", "sunny"];
+  }
   currentWeather =
-    weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+    allowedWeather[Math.floor(Math.random() * allowedWeather.length)];
 
   switch (currentWeather) {
     case "rain":
@@ -424,7 +539,6 @@ function changeWeather() {
         weatherContainer.appendChild(drop);
       }
       break;
-
     case "snow":
       for (let i = 0; i < 15; i++) {
         const flake = document.createElement("div");
@@ -435,7 +549,6 @@ function changeWeather() {
         weatherContainer.appendChild(flake);
       }
       break;
-
     case "sunny":
       for (let i = 0; i < 3; i++) {
         const ray = document.createElement("div");
@@ -492,5 +605,62 @@ function checkAchievements() {
   }
 }
 
+// Piscar os olhos do panda quando acordado
+function startPandaBlinking() {
+  if (window._pandaBlinkTimeout) clearTimeout(window._pandaBlinkTimeout);
+  // Verifica se os elementos existem antes de tentar piscar
+  const eyes = document.getElementById("eyes");
+  const closedEyes = document.getElementById("closed-eyes");
+  if (!eyes || !closedEyes) return; // Não tenta piscar se não existem
+  function blink() {
+    if (!gameState.sleeping && !gameState._wakingUp) {
+      eyes.style.display = "none";
+      closedEyes.style.display = "block";
+      setTimeout(() => {
+        eyes.style.display = "block";
+        closedEyes.style.display = "none";
+        // Próximo piscar
+        if (!gameState.sleeping && !gameState._wakingUp) {
+          window._pandaBlinkTimeout = setTimeout(
+            blink,
+            1200 + Math.random() * 1000 // Pisca entre 1.2s e 2.2s
+          );
+        }
+      }, 120);
+    }
+  }
+  window._pandaBlinkTimeout = setTimeout(blink, 1200 + Math.random() * 1000);
+}
+
+// Stop panda blinking
+function stopPandaBlinking() {
+  if (window._pandaBlinkTimeout) clearTimeout(window._pandaBlinkTimeout);
+}
+
+// Iniciar/pausar piscar conforme estado
+const origUpdateStats = updateStats;
+updateStats = function () {
+  origUpdateStats.apply(this, arguments);
+  if (!gameState.sleeping && !gameState._wakingUp) {
+    startPandaBlinking();
+  } else {
+    stopPandaBlinking();
+    // Garante olhos fechados ao dormir
+    document.getElementById("eyes").style.display = "none";
+    document.getElementById("closed-eyes").style.display = "block";
+  }
+};
+
 // Start the game when page loads
-window.addEventListener("load", initGame);
+window.addEventListener("load", function () {
+  initGame();
+  // Garante que o panda pisque ao iniciar, se estiver acordado
+  setTimeout(() => {
+    // Só inicia o piscar se os elementos existem
+    const eyes = document.getElementById("eyes");
+    const closedEyes = document.getElementById("closed-eyes");
+    if (!gameState.sleeping && !gameState._wakingUp && eyes && closedEyes) {
+      startPandaBlinking();
+    }
+  }, 500);
+});

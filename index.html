@@ -37,11 +37,29 @@
                     </div>
                 </div>
 
-                <div class="relative">
+                <div class="relative panda-bg">
                     <div class="weather-effects" id="weather-container"></div>
+                    <!-- CENÁRIO FIXO ATRÁS DO PANDA -->
+                    <div class="panda-scenery">
+                        <!-- Grama -->
+                        <div class="panda-grass"></div>
+                        <!-- Tufo de grama esquerda -->
+                        <div class="panda-grass-tuft left"></div>
+                        <!-- Tufo de grama direita -->
+                        <div class="panda-grass-tuft right"></div>
+                        <!-- Flores -->
+                        <div class="panda-flower pink" style="left:40px;bottom:5px;"></div>
+                        <div class="panda-flower yellow" style="left:160px;bottom:8px;"></div>
+                        <div class="panda-flower blue" style="left:60px;bottom:8px;"></div>
+                        <div class="panda-flower orange" style="left:120px;bottom:4px;"></div>
+                        <!-- Bambus -->
+                        <div class="panda-bamboo left"></div>
+                        <div class="panda-bamboo right"></div>
+                    </div>
                     <div id="panda-container" class="kawaii-container">
                         <!-- Panda SVG -->
                         <svg class="panda-svg" id="panda-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Apenas o panda, sem cenário -->
                             <!-- Corpo -->
                             <ellipse cx="100" cy="125" rx="55" ry="50" fill="#FFFFFF" stroke="#333333"
                                 stroke-width="2.5" />
@@ -69,22 +87,20 @@
                                 <circle cx="77" cy="60" r="3" fill="#FFFFFF" />
                                 <circle cx="117" cy="60" r="3" fill="#FFFFFF" />
 
-                                <!-- Cílios -->
-                                <path d="M68,55 Q65,50 62,52" stroke="#333333" stroke-width="1.5" fill="none" />
-                                <path d="M72,52 Q70,47 67,48" stroke="#333333" stroke-width="1.5" fill="none" />
-                                <path d="M132,55 Q135,50 138,52" stroke="#333333" stroke-width="1.5" fill="none" />
-                                <path d="M128,52 Q130,47 133,48" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <!-- Cílios ajustados para os olhos -->
+                                <!-- Esquerdo -->
+                                <path d="M70,54 Q80,48 90,54" stroke="#333333" stroke-width="1.2" fill="none" />
+                                <!-- Direito -->
+                                <path d="M110,54 Q120,48 130,54" stroke="#333333" stroke-width="1.2" fill="none" />
                             </g>
 
                             <!-- Olhos fechados -->
                             <g id="closed-eyes" style="display: none;">
                                 <path d="M68,65 Q80,55 92,65" stroke="#333333" stroke-width="2.5" fill="none" />
                                 <path d="M108,65 Q120,55 132,65" stroke="#333333" stroke-width="2.5" fill="none" />
-                                <!-- Cílios -->
-                                <path d="M68,55 Q65,50 62,52" stroke="#333333" stroke-width="1.5" fill="none" />
-                                <path d="M72,52 Q70,47 67,48" stroke="#333333" stroke-width="1.5" fill="none" />
-                                <path d="M132,55 Q135,50 138,52" stroke="#333333" stroke-width="1.5" fill="none" />
-                                <path d="M128,52 Q130,47 133,48" stroke="#333333" stroke-width="1.5" fill="none" />
+                                <!-- Cílios ajustados para os olhos fechados -->
+                                <path d="M74,63 Q80,61 86,63" stroke="#333333" stroke-width="1.2" fill="none" />
+                                <path d="M114,63 Q120,61 126,63" stroke="#333333" stroke-width="1.2" fill="none" />
                             </g>
 
                             <!-- Bochechas -->
@@ -156,7 +172,7 @@
                 <div id="message" class="message"></div>
             </div>
             <div class="game-instructions">
-                <p>Cuide bem do seu panda kawaii! Alimente-o quando estiver com fome e faça carinho para deixá-lo feliz!
+                <p>Cuide bem do seu panda ! Alimente-o quando estiver com fome e faça carinho para deixá-lo feliz!
                     ✨</p>
             </div>
         </div>
@@ -182,6 +198,13 @@
             <div class="flower" style="left: 60%">
                 <div class="stem"></div>
             </div>
+            <!-- GIFs de coelhos no fundo -->
+            <img src="gifs/rabbit.gif" class="bunny-gif" style="left:6%; bottom:20px; width:70px;" alt="Coelho fofo" />
+            <img src="gifs/cat.gif" class="bunny-gif" style="left:22%; bottom:12px; width:60px;" alt="Gatinho fofo" />
+            <img src="gifs/frog.gif" class="bunny-gif" style="left:30%; bottom:28px; width:62px;" alt="Sapo fofo" />
+            <img src="gifs/hamster.gif" class="bunny-gif" style="right:18%; bottom:32px; width:54px;"
+                alt="Hamster fofo" />
+            <img src="gifs/dog.gif" class="bunny-gif" style="right:7%; bottom:22px; width:68px;" alt="Cachorro fofo" />
         </div>
     </div>
 
