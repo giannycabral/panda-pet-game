@@ -318,7 +318,6 @@ function startBlinking() {
     console.error("Missing one or more panda image elements for blinking!");
     return;
   }
-
   function blinkAnim() {
     // Re-check conditions at the start of each animation step.
     const isSadNow =
@@ -349,9 +348,15 @@ function startBlinking() {
       blinkImageToShow = awakeBlinkImg;
     }
 
+    // Make sure styles are copied over for smooth transition
+    // Keep the position intact
+    const baseImageStyles = window.getComputedStyle(baseImageToHide);
+    blinkImageToShow.style.left = baseImageStyles.left;
+    blinkImageToShow.style.bottom = baseImageStyles.bottom;
+
+    // Now hide the base image and show the blink image
     baseImageToHide.style.display = "none";
     blinkImageToShow.style.display = "block";
-
     _pandaBlinkTimer = setTimeout(() => {
       // Before reverting, check conditions again.
       const isSadAfterBlink =
@@ -368,9 +373,16 @@ function startBlinking() {
         return;
       }
 
+      // Get position information from the blink image before hiding it
+      const blinkImageStyles = window.getComputedStyle(blinkImageToShow);
       blinkImageToShow.style.display = "none";
+
       // Re-evaluate which base image should be shown *now* in case state changed
       let baseImageToShowAfterBlink = gameState._isEating ? sitImg : awakeImg;
+
+      // Ensure correct positioning for the image we're about to show
+      baseImageToShowAfterBlink.style.left = blinkImageStyles.left;
+      baseImageToShowAfterBlink.style.bottom = blinkImageStyles.bottom;
 
       // Ensure the *correct* base image is shown, and the *other* base image is hidden.
       // This handles transitions that might happen during the blink duration.
@@ -715,6 +727,207 @@ function changeWeather() {
   }
 }
 
+// Função para verificar se o dispositivo é móvel
+function isMobileDevice() {
+  return (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ) || window.innerWidth <= 768
+  );
+}
+
+// Função para reduzir a quantidade de efeitos visuais em dispositivos móveis
+function applyMobileOptimizations() {
+  if (isMobileDevice()) {
+    // Reduzir a quantidade de nuvens
+    const originalCloudCount = 10;
+    const mobileCloudCount = 5;
+
+    // Armazenar a função original
+    const originalGenerateClouds = generateClouds;
+
+    // Substituir com versão otimizada
+    generateClouds = function () {
+      const cloudsContainer = document.getElementById("clouds");
+      cloudsContainer.innerHTML = ""; // Clear previous clouds
+
+      // Reduz o número de nuvens para dispositivos móveis
+      for (let i = 0; i < mobileCloudCount; i++) {
+        const cloud = document.createElement("div");
+        let size, className;
+        // Make 2 clouds larger for visual variety
+        if (i < 2) {
+          size = Math.random() * 80 + 100; // Smaller larger clouds
+          className = "cloud cloud-large";
+        } else {
+          size = Math.random() * 40 + 40; // Smaller clouds
+          className = "cloud";
+        }
+        const top = Math.random() * 200;
+        const duration = Math.random() * 80 + 80; // Mais lento (menos exigente de CPU)
+        const delay = Math.random() * 60;
+
+        cloud.className = className;
+        cloud.style.width = `${size}px`;
+        cloud.style.height = `${size / 2}px`;
+        cloud.style.top = `${top}px`;
+        cloud.style.animationDuration = `${duration}s`;
+        cloud.style.animationDelay = `${delay}s`;
+
+        cloudsContainer.appendChild(cloud);
+      }
+
+      // Adicionar sol ou lua dependendo do horário
+      const sunId = "panda-sun";
+      const moonId = "panda-moon";
+      let sun = document.getElementById(sunId);
+      let moon = document.getElementById(moonId);
+      if (!isNight()) {
+        if (moon) moon.remove();
+        if (!sun) {
+          sun = document.createElement("div");
+          sun.id = sunId;
+          sun.className = "sun";
+          cloudsContainer.insertBefore(sun, cloudsContainer.firstChild);
+        }
+        // Remove dark mode if present
+        document.body.classList.remove("night-mode");
+      } else {
+        if (sun) sun.remove();
+        if (!moon) {
+          moon = document.createElement("div");
+          moon.id = moonId;
+          moon.className = "moon";
+          cloudsContainer.insertBefore(moon, cloudsContainer.firstChild);
+        }
+        // Enable dark mode
+        document.body.classList.add("night-mode");
+      }
+    };
+
+    // Reduzir a quantidade de partículas em efeitos visuais
+    const originalPetPanda = petPanda;
+    petPanda = function () {
+      // Verifica as condições antes de chamar
+      if (
+        gameState.sleeping ||
+        gameState._wakingUp ||
+        gameState._isEating ||
+        gameState._isBeingPet
+      )
+        return;
+      playSound("pet");
+      gameState.stats.totalPets++;
+      addExperience(5);
+      const pandaContainer = document.getElementById("panda-container");
+
+      gameState._isBeingPet = true;
+      updatePandaPixelArt();
+      document.getElementById("message").textContent =
+        "Seu panda está amando o carinho... 🥰";
+
+      // Efeitos visuais reduzidos para dispositivos móveis
+      for (let i = 0; i < 3; i++) {
+        // Reduzido de 5 para 3
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = ["❤", "💕", "💖", "💗"][
+          Math.floor(Math.random() * 4)
+        ];
+        heart.style.left = `${Math.random() * 80 + 10}%`;
+        heart.style.top = `${Math.random() * 50}%`;
+        heart.style.animationDelay = `${i * 0.15}s`;
+        pandaContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+      for (let i = 0; i < 2; i++) {
+        // Reduzido de 3 para 2
+        setTimeout(() => {
+          createSparkle(Math.random() * 200 + 25, Math.random() * 150 + 25);
+        }, i * 150);
+      }
+
+      // Atualiza o estado lógico da felicidade
+      gameState.happiness = Math.min(100, gameState.happiness + 15);
+
+      setTimeout(() => {
+        try {
+          gameState._isBeingPet = false;
+          updateStats();
+          document.getElementById("message").textContent =
+            "Seu panda adora carinho! 🥰💕";
+        } catch (error) {
+          console.error("Error in pet timeout callback:", error);
+        }
+      }, 1200);
+      saveGame();
+    };
+
+    // Reduzir frequência de atualização climática para dispositivos móveis
+    const originalChangeWeather = changeWeather;
+    changeWeather = function () {
+      const weatherContainer = document.getElementById("weather-container");
+      weatherContainer.innerHTML = "";
+
+      let allowedWeather;
+      if (isNight()) {
+        allowedWeather = ["clear", "rain", "snow"];
+      } else {
+        allowedWeather = ["clear", "sunny"];
+      }
+      currentWeather =
+        allowedWeather[Math.floor(Math.random() * allowedWeather.length)];
+
+      switch (currentWeather) {
+        case "rain":
+          for (let i = 0; i < 10; i++) {
+            // Reduzido de 20 para 10
+            const drop = document.createElement("div");
+            drop.className = "rain-drop";
+            drop.style.left = `${Math.random() * 100}%`;
+            drop.style.animationDelay = `${Math.random() * 2}s`;
+            weatherContainer.appendChild(drop);
+          }
+          break;
+        case "snow":
+          for (let i = 0; i < 8; i++) {
+            // Reduzido de 15 para 8
+            const flake = document.createElement("div");
+            flake.className = "snow-flake";
+            flake.innerHTML = "❄";
+            flake.style.left = `${Math.random() * 100}%`;
+            flake.style.animationDelay = `${Math.random() * 3}s`;
+            weatherContainer.appendChild(flake);
+          }
+          break;
+        case "sunny":
+          for (let i = 0; i < 2; i++) {
+            // Reduzido de 3 para 2
+            const ray = document.createElement("div");
+            ray.className = "sun-ray";
+            ray.style.left = `${Math.random() * 80}%`;
+            ray.style.top = `${Math.random() * 80}%`;
+            ray.style.animationDelay = `${Math.random() * 4}s`;
+            weatherContainer.appendChild(ray);
+          }
+          break;
+      }
+    };
+  }
+}
+
+// Versão original de initGame
+const originalInitGame = initGame;
+
+// Substituir initGame com versão que aplica otimizações para móvel
+initGame = function () {
+  // Aplicar otimizações antes de iniciar o jogo
+  applyMobileOptimizations();
+
+  // Chamar a função original
+  originalInitGame();
+};
+
 // Initialize game
 function initGame() {
   loadGame();
@@ -757,6 +970,89 @@ function checkAchievements() {
   }
 }
 
+// Detector de orientação de tela para ajustar o layout
+function handleOrientationChange() {
+  if (isMobileDevice()) {
+    // Salvar o estado atual do jogo
+    saveGame();
+
+    // Recarregar a página para aplicar o novo layout, mas com um pequeno delay
+    // para permitir que o salvamento seja concluído
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
+  }
+}
+
+// Adicionar listener para mudança de orientação
+window.addEventListener("orientationchange", handleOrientationChange);
+
+// Função para animar o rodapé de créditos
+function animateFooter() {
+  const footer = document.querySelector(".footer");
+  const footerHearts = document.querySelectorAll(".footer-heart");
+
+  if (footer && footerHearts.length > 0) {
+    // Quando o usuário rola até o final da página, anima os corações
+    window.addEventListener("scroll", () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const footerPosition = footer.offsetTop;
+
+      if (scrollPosition > footerPosition) {
+        footerHearts.forEach((heart, index) => {
+          setTimeout(() => {
+            heart.style.animation = "float 1.5s infinite alternate";
+          }, index * 150);
+        });
+      }
+    });
+
+    // Adiciona efeito de pulsação nos corações quando passa o mouse sobre o rodapé
+    footer.addEventListener("mouseenter", () => {
+      footerHearts.forEach((heart, index) => {
+        heart.style.animation = "heartbeat 0.8s infinite alternate";
+      });
+    });
+
+    footer.addEventListener("mouseleave", () => {
+      footerHearts.forEach((heart, index) => {
+        heart.style.animation = "float 3s infinite alternate";
+      });
+    });
+  }
+}
+
+// Adiciona animação de pulsação do coração
+document.head.insertAdjacentHTML(
+  "beforeend",
+  `
+<style>
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
+`
+);
+
+// Substituir initGame com versão que inclui a animação do rodapé
+window.initGame = function () {
+  // Chamar a função original se existir
+  if (typeof originalInitGame === "function") {
+    originalInitGame();
+  }
+
+  // Adicionar a animação do rodapé
+  animateFooter();
+};
+
 // Start the game when page loads
 window.addEventListener("load", function () {
   initGame();
@@ -765,3 +1061,16 @@ window.addEventListener("load", function () {
 
 // Os event listeners .onclick foram removidos para evitar duplicação,
 // pois já são adicionados com addEventListener em initGame().
+
+// Handle author photo loading
+document.addEventListener("DOMContentLoaded", () => {
+  const authorPhoto = document.querySelector(".author-photo");
+  if (authorPhoto) {
+    authorPhoto.addEventListener("error", () => {
+      // If image fails to load, add a class to handle the error
+      authorPhoto.classList.add("photo-error");
+      // You could also set a default image here if needed
+      // authorPhoto.src = "gifs/panda-sit.png";
+    });
+  }
+});
