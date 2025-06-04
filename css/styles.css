@@ -1603,3 +1603,167 @@ body,
 .author-info:hover .author-name {
     color: #9061f9;
 }
+
+/* RESPONSIVIDADE E ACESSIBILIDADE */
+@media (max-width: 600px) {
+    .game-card {
+        padding: 0.7rem;
+        border-radius: 18px;
+    }
+
+    .welcome-message-section {
+        margin-bottom: 1rem;
+    }
+
+    .author-bubble {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 8px;
+    }
+
+    .author-photo-message {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+
+    .status-bars {
+        margin-top: 1rem;
+    }
+
+    .buttons-container {
+        gap: 0.5rem;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 400px) {
+    .game-title {
+        font-size: 1.1rem;
+    }
+
+    .message-content p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Acessibilidade: foco visível nos botões */
+.btn-kawaii:focus {
+    outline: 3px solid #6366f1;
+    outline-offset: 2px;
+    background: #ede9fe;
+    color: #4f46e5;
+}
+
+/* Aumenta contraste do texto principal */
+body,
+.developed-by,
+.status-label,
+.message-content p {
+    color: #222 !important;
+}
+
+/* Ajusta imagens para nunca ultrapassarem o container */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Borboletas e pássaros animados no céu */
+.flying-animal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.85;
+    animation: fly-animal linear infinite;
+}
+
+.flying-animal.butterfly {
+    width: 36px;
+    height: 36px;
+    animation-name: fly-butterfly;
+}
+
+.flying-animal.bird {
+    width: 48px;
+    height: 32px;
+    animation-name: fly-bird;
+}
+
+@keyframes fly-butterfly {
+    0% {
+        left: -40px;
+        top: 10%;
+        transform: scale(1) rotate(-10deg);
+    }
+
+    20% {
+        top: 20%;
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    40% {
+        top: 15%;
+        transform: scale(0.95) rotate(-8deg);
+    }
+
+    60% {
+        top: 25%;
+        transform: scale(1.05) rotate(12deg);
+    }
+
+    80% {
+        top: 18%;
+        transform: scale(1) rotate(-6deg);
+    }
+
+    100% {
+        left: 100vw;
+        top: 22%;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes fly-bird {
+    0% {
+        left: -60px;
+        top: 30%;
+        transform: scale(1) rotate(0deg);
+    }
+
+    25% {
+        top: 28%;
+        transform: scale(1.05) rotate(-5deg);
+    }
+
+    50% {
+        top: 32%;
+        transform: scale(0.95) rotate(7deg);
+    }
+
+    75% {
+        top: 27%;
+        transform: scale(1.1) rotate(-3deg);
+    }
+
+    100% {
+        left: 100vw;
+        top: 30%;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .flying-animal {
+        width: 28px;
+        height: 28px;
+    }
+
+    .flying-animal.bird {
+        width: 32px;
+        height: 20px;
+    }
+}

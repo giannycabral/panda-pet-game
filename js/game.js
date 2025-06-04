@@ -693,6 +693,46 @@ function changeWeather() {
   }
 }
 
+// Borboletas e pássaros animados no céu
+function spawnFlyingAnimals() {
+  const container = document.getElementById("flying-animals-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  // Lista de SVGs para borboletas e pássaros
+  const svgs = [
+    // Borboleta roxa
+    `<svg class="flying-animal butterfly" viewBox="0 0 48 48"><ellipse cx="12" cy="24" rx="10" ry="18" fill="#a78bfa"/><ellipse cx="36" cy="24" rx="10" ry="18" fill="#f472b6"/><ellipse cx="24" cy="24" rx="6" ry="12" fill="#fff"/><circle cx="24" cy="24" r="4" fill="#6366f1"/></svg>`,
+    // Borboleta azul
+    `<svg class="flying-animal butterfly" viewBox="0 0 48 48"><ellipse cx="12" cy="24" rx="10" ry="18" fill="#38bdf8"/><ellipse cx="36" cy="24" rx="10" ry="18" fill="#fbbf24"/><ellipse cx="24" cy="24" rx="6" ry="12" fill="#fff"/><circle cx="24" cy="24" r="4" fill="#0ea5e9"/></svg>`,
+    // Pássaro azul
+    `<svg class="flying-animal bird" viewBox="0 0 48 32"><ellipse cx="24" cy="16" rx="18" ry="10" fill="#60a5fa"/><ellipse cx="36" cy="12" rx="6" ry="4" fill="#fbbf24"/><ellipse cx="12" cy="12" rx="6" ry="4" fill="#fbbf24"/><circle cx="36" cy="16" r="2" fill="#1e293b"/></svg>`,
+    // Pássaro rosa
+    `<svg class="flying-animal bird" viewBox="0 0 48 32"><ellipse cx="24" cy="16" rx="18" ry="10" fill="#f472b6"/><ellipse cx="36" cy="12" rx="6" ry="4" fill="#fbbf24"/><ellipse cx="12" cy="12" rx="6" ry="4" fill="#fbbf24"/><circle cx="36" cy="16" r="2" fill="#1e293b"/></svg>`,
+  ];
+
+  // Cria 2 a 4 animais voando
+  const num = Math.floor(Math.random() * 3) + 2;
+  for (let i = 0; i < num; i++) {
+    const idx = Math.floor(Math.random() * svgs.length);
+    const el = document.createElement("div");
+    el.innerHTML = svgs[idx];
+    const svgEl = el.firstChild;
+    // Duração e delay aleatórios para animação
+    const duration = 10 + Math.random() * 10;
+    const delay = Math.random() * 6;
+    svgEl.style.animationDuration = duration + "s";
+    svgEl.style.animationDelay = delay + "s";
+    // Posição vertical aleatória
+    svgEl.style.top = 10 + Math.random() * 30 + "%";
+    container.appendChild(svgEl);
+  }
+}
+
+// Atualiza os animais voando a cada 12s
+setInterval(spawnFlyingAnimals, 12000);
+window.addEventListener("DOMContentLoaded", spawnFlyingAnimals);
+
 // Função para verificar se o dispositivo é móvel
 function isMobileDevice() {
   return (

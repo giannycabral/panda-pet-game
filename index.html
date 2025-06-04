@@ -40,40 +40,43 @@
                     <!-- CENÁRIO FIXO ATRÁS DO PANDA -->
                     <div class="panda-scenery">
                         <!-- Grama -->
-                        <div class="panda-grass"></div>
+                        <div class="panda-grass" aria-hidden="true"></div>
                         <!-- Tufo de grama esquerda -->
-                        <div class="panda-grass-tuft left"></div>
+                        <div class="panda-grass-tuft left" aria-hidden="true"></div>
                         <!-- Tufo de grama direita -->
-                        <div class="panda-grass-tuft right"></div>
+                        <div class="panda-grass-tuft right" aria-hidden="true"></div>
                         <!-- Flores -->
-                        <div class="panda-flower pink" style="left:40px;bottom:5px;"></div>
-                        <div class="panda-flower yellow" style="left:160px;bottom:8px;"></div>
-                        <div class="panda-flower blue" style="left:60px;bottom:8px;"></div>
-                        <div class="panda-flower orange" style="left:120px;bottom:4px;"></div>
+                        <div class="panda-flower pink" style="left:40px;bottom:5px;" aria-label="Flor rosa decorativa">
+                        </div>
+                        <div class="panda-flower yellow" style="left:160px;bottom:8px;"
+                            aria-label="Flor amarela decorativa"></div>
+                        <div class="panda-flower blue" style="left:60px;bottom:8px;" aria-label="Flor azul decorativa">
+                        </div>
+                        <div class="panda-flower orange" style="left:120px;bottom:4px;"
+                            aria-label="Flor laranja decorativa"></div>
                         <!-- Bambus -->
-                        <div class="panda-bamboo left"></div>
-                        <div class="panda-bamboo right"></div>
+                        <div class="panda-bamboo left" aria-label="Bambu decorativo"></div>
+                        <div class="panda-bamboo right" aria-label="Bambu decorativo"></div>
                     </div>
-                    <div id="panda-container" class="kawaii-container">
+                    <div id="panda-container" class="kawaii-container" role="region" aria-label="Área do panda virtual">
                         <!-- Panda Pixel Art: acordado (em pé) e dormindo (deitado) -->
-                        <img id="panda-awake" src="gifs/panda-awake.png" alt="Panda em pé"
+                        <img id="panda-awake" src="gifs/panda-awake.png" alt="Panda em pé, acordado"
                             class="panda-pixel panda-awake" style="display:none;" draggable="false" aria-hidden="true"
                             role="img" />
                         <img id="panda-awake-blink" src="gifs/panda-awake-blink.png" alt="Panda em pé piscando"
                             class="panda-pixel panda-awake-blink" style="display:none; pointer-events:none;"
                             draggable="false" aria-hidden="true" role="img" />
-                        <img id="panda-sit" src="gifs/panda-sit.png" alt="Panda sentado" class="panda-pixel panda-sit"
-                            style="display:block;" draggable="false" role="img" />
-                        <img id="panda-blink" src="gifs/panda-blink.png" alt="Piscar sentado"
+                        <img id="panda-sit" src="gifs/panda-sit.png" alt="Panda sentado, feliz"
+                            class="panda-pixel panda-sit" style="display:block;" draggable="false" role="img" />
+                        <img id="panda-blink" src="gifs/panda-blink.png" alt="Panda sentado piscando"
                             class="panda-pixel panda-blink" style="display:none;" draggable="false" aria-hidden="true"
                             role="img" />
                         <img id="panda-sleep" src="gifs/panda-sleep.png" alt="Panda dormindo"
                             class="panda-pixel panda-sleep" style="display:none;" draggable="false" aria-hidden="true"
                             role="img" />
-                        <img src="gifs/panda-sad.png" id="panda-sad" class="panda-pixel panda-sad" alt="Panda Triste"
+                        <img src="gifs/panda-sad.png" id="panda-sad" class="panda-pixel panda-sad" alt="Panda triste"
                             style="display: none;" aria-hidden="true" role="img" />
-                        <div id="sleep-bubble" class="sleep-bubble"></div>
-
+                        <div id="sleep-bubble" class="sleep-bubble" aria-label="Balão de sono do panda"></div>
                     </div>
                 </div>
 
@@ -124,7 +127,7 @@
 
         <!-- Grass and flowers -->
         <div class="ground-decorations">
-            <div class="grass"></div>
+            <div class="grass" aria-hidden="true"></div>
             <div class="flower" style="left: 10%">
                 <div class="stem"></div>
             </div>
@@ -144,13 +147,20 @@
                 <div class="stem"></div>
             </div>
             <!-- GIFs de coelhos no fundo -->
-            <img src="gifs/rabbit.gif" class="bunny-gif" style="left:6%; bottom:20px; width:70px;" alt="Coelho fofo" />
-            <img src="gifs/cat.gif" class="bunny-gif" style="left:22%; bottom:12px; width:60px;" alt="Gatinho fofo" />
-            <img src="gifs/frog.gif" class="bunny-gif" style="left:30%; bottom:28px; width:62px;" alt="Sapo fofo" />
+            <img src="gifs/rabbit.gif" class="bunny-gif" style="left:6%; bottom:20px; width:70px;"
+                alt="Coelho animado branco pulando na grama" />
+            <img src="gifs/cat.gif" class="bunny-gif" style="left:22%; bottom:12px; width:60px;"
+                alt="Gatinho animado cinza deitado na grama" />
+            <img src="gifs/frog.gif" class="bunny-gif" style="left:30%; bottom:28px; width:62px;"
+                alt="Sapo animado verde pulando na grama" />
             <img src="gifs/hamster.gif" class="bunny-gif" style="right:18%; bottom:32px; width:54px;"
-                alt="Hamster fofo" />
-            <img src="gifs/dog.gif" class="bunny-gif" style="right:7%; bottom:22px; width:68px;" alt="Cachorro fofo" />
+                alt="Hamster animado marrom na grama" />
+            <img src="gifs/dog.gif" class="bunny-gif" style="right:7%; bottom:22px; width:68px;"
+                alt="Cachorro animado bege sentado na grama" />
         </div>
+
+        <!-- Borboletas e pássaros animados no céu -->
+        <div id="flying-animals-container" aria-hidden="true"></div>
     </div>
     <footer class="footer">
         <div class="footer-content">
