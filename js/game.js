@@ -7,10 +7,10 @@ const gameState = {
   sleeping: false,
   lastUpdate: Date.now(),
 
-  // Sistema de níveis
-  level: 1,
-  experience: 0,
-  experienceToNextLevel: 100,
+  // Sistema de níveis (disabled)
+  level: 1, // kept for compatibility
+  experience: 0, // kept for compatibility
+  experienceToNextLevel: 100, // kept for compatibility
 
   // Conquistas
   achievements: {
@@ -52,7 +52,6 @@ function loadGame() {
     gameState._isEating = false;
     gameState._isBeingPet = false;
     gameState._wakingUp = false; // Also reset waking up flag
-    updateLevel();
   }
 }
 
@@ -165,9 +164,6 @@ function updateStats() {
 
   // Update panda appearance
   updatePandaAppearance();
-
-  // Update level display
-  updateLevel();
 }
 
 // Atualiza a aparência do panda pixel art
@@ -581,47 +577,17 @@ function updateGameState() {
   updateStats();
 }
 
-// Sistema de níveis
+// Sistema de níveis (disabled)
 function addExperience(amount) {
-  gameState.experience += amount;
-  while (gameState.experience >= gameState.experienceToNextLevel) {
-    gameState.experience -= gameState.experienceToNextLevel;
-    gameState.level++;
-    gameState.experienceToNextLevel = Math.floor(
-      100 * Math.pow(1.2, gameState.level - 1)
-    );
-    showLevelUpMessage();
-  }
-  updateLevel();
+  // Function kept as placeholder but functionality removed
 }
 
 function updateLevel() {
-  const levelDisplay = document.querySelector(".level-display");
-  if (levelDisplay) {
-    levelDisplay.textContent = `Nível ${gameState.level}`;
-    const expPercentage =
-      (gameState.experience / gameState.experienceToNextLevel) * 100;
-    document.getElementById("exp-bar").style.width = `${expPercentage}%`;
-    document.getElementById(
-      "exp-value"
-    ).textContent = `${gameState.experience}/${gameState.experienceToNextLevel} EXP`;
-  }
+  // Function kept as placeholder but functionality removed
 }
 
 function showLevelUpMessage() {
-  const message = document.createElement("div");
-  message.className = "level-up-message";
-  message.textContent = `🎉 Nível ${gameState.level}! 🎉`;
-  document.body.appendChild(message);
-
-  setTimeout(() => {
-    message.remove();
-  }, 3000);
-
-  // Verificar conquista
-  if (gameState.level >= 5) {
-    unlockAchievement("reachLevel5");
-  }
+  // Function kept as placeholder but functionality removed
 }
 
 // Sistema de conquistas
