@@ -750,7 +750,8 @@ Object.values(sounds).forEach((sound) => {
 function playSound(type) {
   if (sounds[type]) {
     try {
-      // Removido pause() para evitar AbortError
+      // Para o som anterior antes de tocar novamente
+      sounds[type].pause();
       sounds[type].currentTime = 0;
     } catch (e) {}
     sounds[type].play().catch(() => {}); // Silencia AbortError

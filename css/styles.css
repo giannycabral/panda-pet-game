@@ -1572,126 +1572,165 @@ body,
     color: #9061f9;
 }
 
-/* RESPONSIVIDADE E ACESSIBILIDADE */
-@media (max-width: 600px) {
+/* RESPONSIVIDADE GERAL E AJUSTES PARA O LAYOUT PRINCIPAL */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 98vw;
+        padding: 1.2rem 0.5rem;
+    }
+
     .game-card {
-        padding: 0.7rem;
-        border-radius: 18px;
+        max-width: 98vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 1rem 0.2rem;
     }
 
-    .welcome-message-section {
-        margin-bottom: 1rem;
+    .game-card {
+        padding: 1rem 0.5rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .container {
+        padding: 0.7rem 0.1rem;
     }
 
-    .author-bubble {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 8px;
+    .game-card {
+        padding: 0.7rem 0.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem 0.1rem;
     }
 
-    .author-photo-message {
-        margin-right: 0;
-        margin-bottom: 8px;
+    .game-title {
+        font-size: 1.6rem;
+    }
+
+    .game-card {
+        max-width: 100vw;
+        padding: 0.5rem 0.1rem;
+        border-radius: 16px;
+    }
+
+    .kawaii-container {
+        width: 140px;
+        height: 140px;
+    }
+
+    .panda-pixel {
+        width: 140px;
     }
 
     .status-bars {
-        margin-top: 1rem;
-    }
-
-    .buttons-container {
-        gap: 0.5rem;
-        grid-template-columns: 1fr;
+        padding: 0.5rem 0.1rem 0.2rem 0.1rem;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
+    .container {
+        padding: 0.2rem 0.05rem;
+    }
+
     .game-title {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
 
-    .message-content p {
-        font-size: 0.85rem;
-    }
-}
-
-/* Acessibilidade: foco visível nos botões */
-.btn-kawaii:focus {
-    outline: 3px solid #6366f1;
-    outline-offset: 2px;
-    background: #ede9fe;
-    color: #4f46e5;
-}
-
-/* Aumenta contraste do texto principal */
-body,
-.developed-by,
-.status-label,
-.message-content p {
-    color: #222 !important;
-}
-
-/* Ajusta imagens para nunca ultrapassarem o container */
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-@keyframes panda-breath {
-    0% {
-        transform: scale(1) translateY(0);
+    .game-card {
+        padding: 0.2rem 0.05rem;
+        border-radius: 10px;
     }
 
-    30% {
-        transform: scale(1.04, 0.97) translateY(2px);
+    .kawaii-container {
+        width: 110px;
+        height: 110px;
     }
 
-    50% {
-        transform: scale(1.06, 0.96) translateY(4px);
+    .panda-pixel {
+        width: 110px;
     }
 
-    70% {
-        transform: scale(1.04, 0.97) translateY(2px);
-    }
-
-    100% {
-        transform: scale(1) translateY(0);
+    .status-bars {
+        padding: 0.2rem 0.05rem 0.1rem 0.05rem;
     }
 }
 
-.panda-breathing {
-    animation: panda-breath 2.8s ease-in-out infinite;
-}
-
-/* Estilos melhorados para o panda na chuva e suas animações */
-.panda-rain,
-.panda-rain-eye-center,
-.panda-rain-eye-up {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    transform: translateY(0);
-}
-
-/* Garante que todas as imagens do panda na chuva fiquem exatamente sobrepostas */
-.panda-rain-eye-center,
-.panda-rain-eye-up {
-    bottom: 0;
-    z-index: 3;
-    /* Ligeiramente superior para ficar por cima da imagem base */
-}
-
-/* Adicionando animação de piscada para os olhos */
-@keyframes panda-eye-blink {
-
-    0%,
-    100% {
-        opacity: 1;
+@media (max-width: 480px) {
+    .container {
+        padding: 0.1rem 0.01rem;
     }
 
-    50% {
-        opacity: 0;
+    .game-title {
+        font-size: 1rem;
+    }
+
+    .game-card {
+        padding: 0.1rem 0.01rem;
+        border-radius: 6px;
+    }
+
+    .kawaii-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .panda-pixel {
+        width: 80px;
+    }
+
+    .status-bars {
+        padding: 0.1rem 0.01rem 0.05rem 0.01rem;
+    }
+
+    .progress-bar {
+        height: 10px;
+    }
+
+    .status-label {
+        font-size: 0.7rem;
     }
 }
+
+@media (max-width: 350px) {
+    .container {
+        padding: 0;
+    }
+
+    .game-title {
+        font-size: 0.8rem;
+    }
+
+    .game-card {
+        padding: 0;
+        border-radius: 2px;
+    }
+
+    .kawaii-container {
+        width: 60px;
+        height: 60px;
+    }
+
+    .panda-pixel {
+        width: 60px;
+    }
+
+    .status-bars {
+        padding: 0 0 0 0;
+    }
+
+    .progress-bar {
+        height: 6px;
+    }
+
+    .status-label {
+        font-size: 0.6rem;
+    }
+}
+
+/* ...existing code... */
