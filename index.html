@@ -7,6 +7,7 @@
     <title>Panda Pet Game🐼</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/footer-cleanup.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 
 <body>
@@ -76,7 +77,17 @@
                             role="img" />
                         <img src="gifs/panda-sad.png" id="panda-sad" class="panda-pixel panda-sad" alt="Panda triste"
                             style="display: none;" aria-hidden="true" role="img" />
+                        <img id="panda-rain" src="gifs/panda-rain.png" alt="Panda com capa de chuva e guarda-chuva"
+                            class="panda-pixel panda-rain" style="display:none;" draggable="false" aria-hidden="true"
+                            role="img" />
+                        <img id="panda-rain-eye-up" src="gifs/panda-rain-eye-up.png"
+                            alt="Panda com olhos para cima na chuva" class="panda-pixel panda-rain-eye-up"
+                            style="display:none;" draggable="false" aria-hidden="true" role="img" />
+                        <img id="panda-rain-eye-center" src="gifs/panda-rain-eye-center.png"
+                            alt="Panda com olhos para o centro na chuva" class="panda-pixel panda-rain-eye-center"
+                            style="display:none;" draggable="false" aria-hidden="true" role="img" />
                         <div id="sleep-bubble" class="sleep-bubble" aria-label="Balão de sono do panda"></div>
+
                     </div>
                 </div>
 
@@ -158,16 +169,11 @@
             <img src="gifs/dog.gif" class="bunny-gif" style="right:7%; bottom:22px; width:68px;"
                 alt="Cachorro animado bege sentado na grama" />
         </div>
-
-        <!-- Borboletas e pássaros animados no céu -->
-        <div id="flying-animals-container" aria-hidden="true"></div>
     </div>
     <footer class="footer">
-        <div class="footer-content">
-            <p class="developed-by">
-                Desenvolvido com <span>❤</span> por Regiane Cabral
-            </p>
-        </div>
+        <p class="developed-by">
+            Desenvolvido com <span>❤</span> por Regiane Cabral
+        </p>
     </footer>
 
     <script src="js/game.js"></script>

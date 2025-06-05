@@ -3,18 +3,14 @@
 /* Base styles */
 body {
     font-family: 'Baloo 2', cursive;
-    background: linear-gradient(to bottom, #fdf6e3 0%, #f3ebff 100%);
+    background: linear-gradient(135deg, #fff1f7 0%, #e0e7ff 100%);
+    /* Fundo mais suave e pastel */
     overflow-x: hidden;
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
-}
-
-body.night-mode {
-    background: linear-gradient(to bottom, #23243a 0%, #3a3a5a 100%);
-    color: #f3eaff;
 }
 
 /* Paisagem de fundo: montanhas e horizonte */
@@ -39,30 +35,6 @@ body::before {
         linear-gradient(to top, #7c3aed 0 40%, transparent 80%),
         /* Horizonte/grama */
         linear-gradient(to top, #bbf7d0 0 10%, transparent 30%);
-    background-repeat: no-repeat;
-    background-size: 100% 40%, 100% 50%, 100% 60%, 100% 100%;
-    background-position: bottom;
-    transition: background 0.8s cubic-bezier(.4, 0, .2, 1);
-}
-
-body.night-mode::before {
-    content: '';
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    pointer-events: none;
-    background:
-        /* Montanhas mais distantes noite */
-        linear-gradient(to top, #3a3a5a 0 20%, transparent 60%),
-        /* Montanhas médias noite */
-        linear-gradient(to top, #6366f1 0 30%, transparent 70%),
-        /* Montanhas próximas noite */
-        linear-gradient(to top, #312e81 0 40%, transparent 80%),
-        /* Horizonte/grama noite */
-        linear-gradient(to top, #334155 0 10%, transparent 30%);
     background-repeat: no-repeat;
     background-size: 100% 40%, 100% 50%, 100% 60%, 100% 100%;
     background-position: bottom;
@@ -99,29 +71,41 @@ body.night-mode::before {
 .game-card {
     max-width: 28rem;
     margin: 0 auto;
-    padding: 1.5rem;
-    border-radius: 30px;
-    background: linear-gradient(145deg, #ffffff, #f9f9f9);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 3px solid rgba(255, 255, 255, 0.7);
+    padding: 2rem 1.5rem;
+    border-radius: 38px;
+    background: linear-gradient(145deg, #fff7fa 0%, #f3e8ff 100%);
+    box-shadow: 0 12px 36px 0 rgba(236, 72, 153, 0.10), 0 2px 8px 0 #e0e7ff44;
+    border: 3.5px solid #f9e7f7;
+    position: relative;
+    overflow: visible;
+    transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.game-card::after {
+    content: '';
+    position: absolute;
+    top: -18px;
+    right: 30px;
+    width: 38px;
+    height: 18px;
+    background: radial-gradient(circle, #fff 60%, #f3e8ff 100%);
+    border-radius: 50px;
+    opacity: 0.7;
+    filter: blur(2px);
+    pointer-events: none;
 }
 
 /* Fundo aconchegante para o cenário do panda */
 .panda-bg {
-    background: linear-gradient(to bottom, #f3e8ff 0%, #dbeafe 100%);
-    border-radius: 32px;
-    box-shadow: 0 8px 32px 0 rgba(80, 80, 160, 0.10);
+    background: linear-gradient(135deg, #f3e8ff 0%, #ffe4fa 100%);
+    border-radius: 36px;
+    box-shadow: 0 8px 32px 0 #f9e7f7cc, 0 2px 8px 0 #e0e7ff44;
     padding-top: 16px;
     padding-bottom: 16px;
     position: relative;
 }
 
-.panda-bg.night-mode {
-    background: linear-gradient(to bottom, #23243a 0%, #3a3a5a 100%);
-}
-
 .kawaii-container {
-    /* Garante que o panda fique centralizado e o fundo não se mova */
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -305,6 +289,10 @@ body.night-mode::before {
 /* Status bars */
 .status-bars {
     margin-top: 1.5rem;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 2px 8px #f3e8ff33;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
 }
 
 .status-group {
@@ -332,30 +320,30 @@ body.night-mode::before {
 }
 
 .progress-bar {
-    height: 20px;
-    border-radius: 20px;
+    height: 22px;
+    border-radius: 22px;
     background: #f8e1eb;
     overflow: hidden;
-    border: 2px solid #ffc0cb;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2.5px solid #f9e7f7;
+    box-shadow: 0 2px 8px #f3e8ff33;
 }
 
 .progress {
     height: 100%;
-    border-radius: 20px;
-    transition: width 0.3s ease;
+    border-radius: 22px;
+    transition: width 0.3s cubic-bezier(.4, 1.4, .7, 1.1);
 }
 
 .bg-green {
-    background: linear-gradient(to right, #84cc16, #22c55e);
+    background: linear-gradient(90deg, #bbf7d0 0%, #6ee7b7 100%);
 }
 
 .bg-blue {
-    background: linear-gradient(to right, #ec4899, #db2777);
+    background: linear-gradient(90deg, #f38bbf 0%, #ec4899 100%);
 }
 
 .bg-purple {
-    background: linear-gradient(to right, #a855f7, #7c3aed);
+    background: linear-gradient(90deg, #ab8af7 0%, #8b5cf6 100%);
 }
 
 /* Buttons */
@@ -368,67 +356,58 @@ body.night-mode::before {
 
 .btn-kawaii {
     border: none;
-    padding: 0.75rem 1rem;
-    border-radius: 25px;
+    padding: 0.85rem 1.2rem;
+    border-radius: 30px;
     font-weight: bold;
-    color: white;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 6px 18px rgba(236, 72, 153, 0.10), 0 2px 8px #e0e7ff44;
+    transition: all 0.22s cubic-bezier(.4, 1.4, .7, 1.1);
+    border: 2.5px solid #f9e7f7;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    background: linear-gradient(120deg, #f9a8d4 0%, #a5b4fc 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-kawaii::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    width: 18px;
+    height: 8px;
+    background: radial-gradient(circle, #fff 60%, #f3e8ff 100%);
+    border-radius: 50px;
+    opacity: 0.5;
+    filter: blur(1px);
+    pointer-events: none;
 }
 
 .btn-kawaii:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15);
+    transform: scale(1.07) rotate(-2deg);
+    box-shadow: 0 10px 24px rgba(236, 72, 153, 0.18), 0 2px 8px #e0e7ff44;
+    background: linear-gradient(120deg, #f9a8d4 10%, #c4b5fd 100%);
 }
 
 .btn-kawaii:active {
-    transform: translateY(1px);
-}
-
-/* Melhorias para dispositivos touch */
-@media (hover: none) and (pointer: coarse) {
-    .btn-kawaii {
-        /* Aumentar área de toque para botões em dispositivos móveis */
-        min-height: 44px;
-    }
-
-    .btn-kawaii:active {
-        /* Efeito visual de clique para dispositivos touch */
-        background-color: rgba(255, 255, 255, 0.2);
-        transform: scale(0.95);
-    }
-
-    /* Remover efeito hover para dispositivos touch */
-    .btn-kawaii:hover {
-        transform: none;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-}
-
-.feed-btn {
-    background: linear-gradient(to right, #84cc16, #22c55e);
-}
-
-.pet-btn {
-    background: linear-gradient(to right, #ec4899, #db2777);
-}
-
-.sleep-btn {
-    background: linear-gradient(to right, #60a5fa, #3b82f6);
+    transform: scale(0.97) rotate(1deg);
+    background: linear-gradient(120deg, #f9a8d4 0%, #a5b4fc 100%);
 }
 
 /* Message */
 .message {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     text-align: center;
-    font-size: 1.125rem;
+    font-size: 1.18rem;
     font-weight: bold;
-    color: #8b5cf6;
+    color: #a78bfa;
+    text-shadow: 0 2px 8px #f3e8ff88;
+    letter-spacing: 0.5px;
 }
 
 .game-instructions {
@@ -505,23 +484,12 @@ body.night-mode::before {
     }
 }
 
-/* Night mode styles for welcome message */
-.night-mode .author-bubble {
-    background-color: #2e3052;
-    border-color: #6366f1;
-}
-
-.night-mode .message-content p {
-    color: #c4b5fd;
-}
-
 /* Estilos para o rodapé com créditos */
 .footer {
     text-align: center;
     padding: 0.8rem 0.8rem;
     background: linear-gradient(145deg, #f3e8ff 0%, #dbeafe 100%);
     border-top: 2px solid rgba(255, 255, 255, 0.5);
-    margin-top: 2rem;
     box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.03);
     position: relative;
     z-index: 5;
@@ -1668,102 +1636,62 @@ img {
     height: auto;
 }
 
-/* Borboletas e pássaros animados no céu */
-.flying-animal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 48px;
-    height: 48px;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0.85;
-    animation: fly-animal linear infinite;
-}
-
-.flying-animal.butterfly {
-    width: 36px;
-    height: 36px;
-    animation-name: fly-butterfly;
-}
-
-.flying-animal.bird {
-    width: 48px;
-    height: 32px;
-    animation-name: fly-bird;
-}
-
-@keyframes fly-butterfly {
+@keyframes panda-breath {
     0% {
-        left: -40px;
-        top: 10%;
-        transform: scale(1) rotate(-10deg);
+        transform: scale(1) translateY(0);
     }
 
-    20% {
-        top: 20%;
-        transform: scale(1.1) rotate(10deg);
-    }
-
-    40% {
-        top: 15%;
-        transform: scale(0.95) rotate(-8deg);
-    }
-
-    60% {
-        top: 25%;
-        transform: scale(1.05) rotate(12deg);
-    }
-
-    80% {
-        top: 18%;
-        transform: scale(1) rotate(-6deg);
-    }
-
-    100% {
-        left: 100vw;
-        top: 22%;
-        transform: scale(1) rotate(0deg);
-    }
-}
-
-@keyframes fly-bird {
-    0% {
-        left: -60px;
-        top: 30%;
-        transform: scale(1) rotate(0deg);
-    }
-
-    25% {
-        top: 28%;
-        transform: scale(1.05) rotate(-5deg);
+    30% {
+        transform: scale(1.04, 0.97) translateY(2px);
     }
 
     50% {
-        top: 32%;
-        transform: scale(0.95) rotate(7deg);
+        transform: scale(1.06, 0.96) translateY(4px);
     }
 
-    75% {
-        top: 27%;
-        transform: scale(1.1) rotate(-3deg);
+    70% {
+        transform: scale(1.04, 0.97) translateY(2px);
     }
 
     100% {
-        left: 100vw;
-        top: 30%;
-        transform: scale(1) rotate(0deg);
+        transform: scale(1) translateY(0);
     }
 }
 
-@media (max-width: 600px) {
-    .flying-animal {
-        width: 28px;
-        height: 28px;
+.panda-breathing {
+    animation: panda-breath 2.8s ease-in-out infinite;
+}
+
+/* Estilos melhorados para o panda na chuva e suas animações */
+.panda-rain,
+.panda-rain-eye-center,
+.panda-rain-eye-up {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    transform: translateY(0);
+}
+
+/* Garante que todas as imagens do panda na chuva fiquem exatamente sobrepostas */
+.panda-rain-eye-center,
+.panda-rain-eye-up {
+    bottom: 0;
+    z-index: 3;
+    /* Ligeiramente superior para ficar por cima da imagem base */
+}
+
+/* Adicionando animação de piscada para os olhos */
+@keyframes panda-eye-blink {
+
+    0%,
+    100% {
+        opacity: 1;
     }
 
-    .flying-animal.bird {
-        width: 32px;
-        height: 20px;
+    50% {
+        opacity: 0;
     }
 }
