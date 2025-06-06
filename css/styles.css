@@ -1508,14 +1508,27 @@ body,
 }
 
 .panda-blink {
-    bottom: 0;
-    z-index: 3;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    z-index: 5 !important;
     pointer-events: none;
-    transform: translateY(15px);
-    left: 0;
-    right: 0;
-    margin: auto;
-    position: absolute;
+    transform: translateY(8%) !important;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .panda-blink {
+        transform: translateY(12%) !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .panda-blink {
+        transform: translateY(16%) !important;
+    }
 }
 
 .panda-sleep {
@@ -1815,32 +1828,27 @@ body,
     z-index: 2;
 }
 
-.panda-sit {
-    /* Se quiser afundar levemente, use margin-bottom pequeno */
-    margin-bottom: 2vw !important;
+.panda-blink {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    z-index: 5 !important;
+    pointer-events: none;
+    transform: translateY(8%) !important;
+    display: block;
 }
 
 @media (max-width: 600px) {
-    .kawaii-container {
-        min-height: 48vw;
-        height: 48vw;
-        max-height: 70vw;
-    }
-
-    .panda-sit {
-        margin-bottom: 3vw !important;
+    .panda-blink {
+        transform: translateY(12%) !important;
     }
 }
 
 @media (max-width: 400px) {
-    .kawaii-container {
-        min-height: 60vw;
-        height: 60vw;
-        max-height: 90vw;
-    }
-
-    .panda-sit {
-        margin-bottom: 4vw !important;
+    .panda-blink {
+        transform: translateY(16%) !important;
     }
 }
 
@@ -2015,3 +2023,85 @@ body,
 }
 
 /* --- FIM DO AJUSTE FINAL --- */
+
+/* Garante stacking context correto para o panda e blink */
+.kawaii-container {
+    position: relative;
+    z-index: 2;
+}
+
+.panda-sit,
+.panda-awake,
+.panda-awake-blink,
+.panda-sleep,
+.panda-sad {
+    z-index: 2 !important;
+}
+
+.panda-blink {
+    z-index: 5 !important;
+}
+
+.panda-rain {
+    z-index: 4 !important;
+}
+
+.panda-rain-eye-center,
+.panda-rain-eye-up {
+    z-index: 6 !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+}
+
+.panda-grass {
+    z-index: 1 !important;
+}
+
+.weather-effects {
+    z-index: 10 !important;
+}
+
+/* Fixing z-index issues with overlapping panda images */
+.panda-rain {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    z-index: 4 !important;
+}
+
+.panda-rain-eye-center,
+.panda-rain-eye-up {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    z-index: 6 !important;
+    pointer-events: none;
+}
+
+.panda-blink {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    z-index: 5 !important;
+    pointer-events: none;
+}
+
+/* Specifically ensure rain eyes are always on top during animation */
+.panda-breathing.panda-rain-eye-center,
+.panda-breathing.panda-rain-eye-up {
+    z-index: 6 !important;
+}
+
+/* Ensure panda-blink stays under rain eyes */
+.panda-blink {
+    z-index: 5 !important;
+}

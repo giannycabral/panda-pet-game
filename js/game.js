@@ -205,7 +205,6 @@ function updatePandaPixelArt() {
     sleep.style.display = "block";
     return;
   }
-
   // Prioridade: carinho (panda piscando sentado OU panda da chuva recebendo carinho)
   if (gameState._isBeingPet) {
     if (gameState._isInRainAnimation) {
@@ -213,43 +212,29 @@ function updatePandaPixelArt() {
       gameState._isInRainAnimation = false;
     }
     stopBlinking();
-    if (typeof currentWeather !== "undefined" && currentWeather === "rain") {
-      // Exibe a base do panda da chuva SEMPRE
-      if (rain) {
-        rain.style.display = "block";
-        rain.style.opacity = "1";
-        rain.style.transition = "none";
-        rain.classList.add("panda-breathing");
+    // Sempre mostra o panda-blink ao fazer carinho, mesmo na chuva
+    [
+      awake,
+      sit,
+      awakeBlink,
+      rain,
+      rainEyeCenter,
+      rainEyeUp,
+      sad,
+      sleep,
+    ].forEach((img) => {
+      if (img) {
+        img.style.display = "none";
+        img.classList.remove("panda-breathing");
       }
-      // Esconde olhos alternativos
-      [rainEyeUp, rainEyeCenter].forEach((img) => {
-        if (img) {
-          img.style.display = "none";
-          img.style.opacity = "1";
-          img.style.transition = "none";
-        }
-      });
-    } else if (blink) {
-      [
-        awake,
-        sit,
-        awakeBlink,
-        rain,
-        rainEyeCenter,
-        rainEyeUp,
-        sad,
-        sleep,
-      ].forEach((img) => {
-        if (img) {
-          img.style.display = "none";
-          img.classList.remove("panda-breathing");
-        }
-      });
+    });
+    if (blink) {
       blink.style.display = "block";
       blink.classList.add("panda-breathing");
       blink.style.opacity = "";
       blink.style.transition = "";
-      blink.style.zIndex = "";
+      // Set a lower z-index to ensure it doesn't appear above rain eyes
+      blink.style.zIndex = "5";
       blink.style.pointerEvents = "";
       blink.style.position = "";
       blink.style.left = "";
@@ -502,6 +487,12 @@ function startRainEyesAnimation() {
   const rainBase = document.getElementById("panda-rain"); // base sempre visível
   const rainCenter = document.getElementById("panda-rain-eye-center"); // olhos abertos
   const rainUp = document.getElementById("panda-rain-eye-up"); // olhando pra cima
+  const blinkImg = document.getElementById("panda-blink"); // Garantir que não aparece por cima dos olhos da chuva
+
+  if (blinkImg) {
+    blinkImg.style.display = "none";
+    blinkImg.classList.remove("panda-breathing");
+  }
 
   if (!rainBase || !rainCenter || !rainUp) {
     console.error("Faltam imagens do panda na chuva para animação");
@@ -512,12 +503,12 @@ function startRainEyesAnimation() {
     }
     return;
   }
-
   // A base da chuva SEMPRE fica visível e estática
   rainBase.style.display = "block";
   rainBase.style.opacity = "1";
   rainBase.style.transition = "none";
   rainBase.classList.add("panda-breathing");
+  rainBase.style.zIndex = "4";
 
   // Inicializa as camadas dos olhos invisíveis
   [rainCenter, rainUp].forEach((img) => {
@@ -525,15 +516,27 @@ function startRainEyesAnimation() {
     img.style.opacity = "0";
     img.style.display = "none";
     img.classList.remove("panda-breathing");
+    img.style.zIndex = "6"; // Ensure rain eyes are always above blink
+    img.style.position = "absolute";
+    img.style.bottom = "0";
+    img.style.left = "0";
+    img.style.right = "0";
+    img.style.margin = "0 auto";
   });
 
   // Mostra o padrão (olhos abertos) por cima da base
   rainCenter.style.display = "block";
   rainCenter.style.opacity = "1";
   rainCenter.classList.add("panda-breathing");
-
   let blinkCount = 0;
   let upNext = false;
+
+  // Ensure panda-blink is never visible during rain animation
+  const blinkElement = document.getElementById("panda-blink");
+  if (blinkElement) {
+    blinkElement.style.display = "none";
+    blinkElement.classList.remove("panda-breathing");
+  }
 
   function rainEyesLoop() {
     if (
@@ -684,10 +687,30 @@ function petPanda() {
   }
   gameState.happiness = Math.min(100, gameState.happiness + 15);
   gameState.lastUpdate = Date.now();
-  updateStats();
+  updateStats(); // Verificar se estava chovendo antes do carinho
+  const wasRainingBeforePet = currentWeather === "rain";
+
   setTimeout(() => {
     gameState._isBeingPet = false;
-    updatePandaPixelArt();
+
+    // Se estava chovendo antes, restaura a animação da chuva
+    if (wasRainingBeforePet && currentWeather === "rain") {
+      updatePandaPixelArt();
+      // Inicia a animação da chuva com um pequeno atraso para garantir que a transição seja suave
+      setTimeout(() => {
+        if (
+          currentWeather === "rain" &&
+          !gameState.sleeping &&
+          !gameState._isBeingPet &&
+          !gameState._isEating
+        ) {
+          startRainEyesAnimation();
+        }
+      }, 200);
+    } else {
+      updatePandaPixelArt();
+    }
+
     document.getElementById("message").textContent =
       "Seu panda adora carinho! 🥰💕";
   }, 1200);
