@@ -231,17 +231,8 @@ function updatePandaPixelArt() {
     if (blink) {
       blink.style.display = "block";
       blink.classList.add("panda-breathing");
-      blink.style.opacity = "";
-      blink.style.transition = "";
-      // Set a lower z-index to ensure it doesn't appear above rain eyes
-      blink.style.zIndex = "5";
-      blink.style.pointerEvents = "";
-      blink.style.position = "";
-      blink.style.left = "";
-      blink.style.right = "";
-      blink.style.margin = "";
-      blink.style.bottom = "";
-      blink.style.top = "";
+      // As linhas de estilo que resetavam a posição foram REMOVIDAS.
+      // Agora o CSS será o único responsável pelo posicionamento.
       if (blink.src && !blink.src.includes("panda-blink.png")) {
         blink.src = "gifs/panda-blink.png";
       }
