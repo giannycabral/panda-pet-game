@@ -2132,3 +2132,12 @@ body,
     z-index: 5 !important;
     pointer-events: none;
 }
+
+/* ===================================================== */
+/* ===== AJUSTE FINAL DE POSIÇÃO (Subir os Pandas) ===== */
+/* ===================================================== */
+
+.kawaii-container {
+    position: relative; /* Necessário para a propriedade 'bottom' funcionar */
+    bottom: 25px;       /* Move TODOS os pandas 25 pixels para CIMA */
+}
