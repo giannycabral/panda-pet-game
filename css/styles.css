@@ -1910,10 +1910,6 @@ body,
     transform: none !important;
 }
 
-.panda-sit {
-    margin-bottom: 16px !important;
-}
-
 .panda-grass {
     height: 36px !important;
     min-height: 28px;
@@ -2038,14 +2034,6 @@ body,
     z-index: 2 !important;
 }
 
-.panda-blink {
-    z-index: 5 !important;
-}
-
-.panda-rain {
-    z-index: 4 !important;
-}
-
 .panda-rain-eye-center,
 .panda-rain-eye-up {
     z-index: 6 !important;
@@ -2104,4 +2092,43 @@ body,
 /* Ensure panda-blink stays under rain eyes */
 .panda-blink {
     z-index: 5 !important;
+}
+
+/* Posição base para todos os pandas que ficam no chão */
+.panda-sit,
+.panda-blink,
+.panda-rain {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: translateY(8%) !important; /* Esta linha "afunda" o panda na grama */
+}
+
+/* Ajustes responsivos para a posição "sentado" */
+@media (max-width: 600px) {
+    .panda-sit, .panda-blink, .panda-rain {
+        transform: translateY(12%) !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .panda-sit, .panda-blink, .panda-rain {
+        transform: translateY(16%) !important;
+    }
+}
+
+/* Z-index específico para cada estado, garantindo que um fique sobre o outro corretamente */
+.panda-sit {
+    z-index: 2 !important;
+}
+
+.panda-rain {
+    z-index: 4 !important;
+}
+
+.panda-blink {
+    z-index: 5 !important;
+    pointer-events: none;
 }
