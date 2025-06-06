@@ -52,6 +52,9 @@ function loadGame() {
   const savedGame = localStorage.getItem("pandaPetSave");
   if (savedGame) {
     Object.assign(gameState, JSON.parse(savedGame));
+    // Reset lastUpdate para o momento atual para evitar queda abrupta de status
+    gameState.lastUpdate = Date.now();
+
     updateStats();
     // Reset action flags on load in case they were true when saving
     // This prevents the game from loading into a stuck state
@@ -126,10 +129,15 @@ function updateStats() {
     gameState.happiness
   )}%`;
 
-  // Corrige bug: força a largura da barra de energia com !important
+  // Corrige bug: força a largura da barra de energia SEM usar !important
   const energyBar = document.getElementById("energy-bar");
   if (energyBar) {
-    energyBar.style.setProperty("width", `${gameState.energy}%`, "important");
+    // Força reflow para garantir atualização visual imediata
+    energyBar.style.display = "none";
+    // eslint-disable-next-line no-unused-expressions
+    energyBar.offsetHeight; // trigger reflow
+    energyBar.style.display = "block";
+    energyBar.style.width = gameState.energy + "%";
   }
   document.getElementById("energy-value").textContent = `${Math.round(
     gameState.energy
@@ -197,21 +205,88 @@ function updatePandaPixelArt() {
     sleep.style.display = "block";
     return;
   }
-  // Prioridade: chuva
+
+  // Prioridade: carinho (panda piscando sentado OU panda da chuva recebendo carinho)
+  if (gameState._isBeingPet) {
+    if (gameState._isInRainAnimation) {
+      stopRainEyesAnimation();
+      gameState._isInRainAnimation = false;
+    }
+    stopBlinking();
+    if (typeof currentWeather !== "undefined" && currentWeather === "rain") {
+      // Exibe a base do panda da chuva SEMPRE
+      if (rain) {
+        rain.style.display = "block";
+        rain.style.opacity = "1";
+        rain.style.transition = "none";
+        rain.classList.add("panda-breathing");
+      }
+      // Esconde olhos alternativos
+      [rainEyeUp, rainEyeCenter].forEach((img) => {
+        if (img) {
+          img.style.display = "none";
+          img.style.opacity = "1";
+          img.style.transition = "none";
+        }
+      });
+    } else if (blink) {
+      [
+        awake,
+        sit,
+        awakeBlink,
+        rain,
+        rainEyeCenter,
+        rainEyeUp,
+        sad,
+        sleep,
+      ].forEach((img) => {
+        if (img) {
+          img.style.display = "none";
+          img.classList.remove("panda-breathing");
+        }
+      });
+      blink.style.display = "block";
+      blink.classList.add("panda-breathing");
+      blink.style.opacity = "";
+      blink.style.transition = "";
+      blink.style.zIndex = "";
+      blink.style.pointerEvents = "";
+      blink.style.position = "";
+      blink.style.left = "";
+      blink.style.right = "";
+      blink.style.margin = "";
+      blink.style.bottom = "";
+      blink.style.top = "";
+      if (blink.src && !blink.src.includes("panda-blink.png")) {
+        blink.src = "gifs/panda-blink.png";
+      }
+    }
+    return;
+  }
+
+  // Prioridade: chuva (se não está em carinho)
   if (
     typeof currentWeather !== "undefined" &&
     currentWeather === "rain" &&
-    !gameState._isBeingPet &&
     !gameState._isEating &&
     !gameState.sleeping
   ) {
-    // Interrompe qualquer animação de piscar normal para evitar conflito
     stopBlinking();
-    // Primeiro, garante que a imagem principal do panda com chuva seja exibida
-    rain.style.display = "block";
-    rain.style.opacity = "1";
-    rain.classList.add("panda-breathing");
-    // Configura o estado de animação de chuva se ainda não estiver ativo
+    // Exibe a base do panda da chuva SEMPRE
+    if (rain) {
+      rain.style.display = "block";
+      rain.style.opacity = "1";
+      rain.style.transition = "none";
+      rain.classList.add("panda-breathing");
+    }
+    // Esconde olhos alternativos inicialmente
+    [rainEyeCenter, rainEyeUp].forEach((img) => {
+      if (img) {
+        img.style.display = "none";
+        img.style.opacity = "1";
+        img.style.transition = "none";
+      }
+    });
     if (!gameState._isInRainAnimation) {
       gameState._isInRainAnimation = true;
       setTimeout(() => {
@@ -227,19 +302,11 @@ function updatePandaPixelArt() {
       }, 200);
     }
     return;
-  } else if (gameState._isInRainAnimation) {
-    // Reseta o estado da animação de chuva quando o clima não é mais chuva
-    // ou quando o panda está fazendo outra ação
+  } else if (gameState._isInRainAnimation && currentWeather !== "rain") {
     gameState._isInRainAnimation = false;
     stopRainEyesAnimation();
   }
-  // Prioridade: carinho (panda piscando sentado)
-  if (gameState._isBeingPet) {
-    // Garante que a imagem de blink esteja visível e animada
-    blink.style.display = "block";
-    blink.classList.add("panda-breathing");
-    return;
-  }
+
   // Prioridade: comendo (sentado)
   if (gameState._isEating) {
     sit.style.display = "block";
@@ -358,9 +425,10 @@ function startBlinking() {
       }
       blinkImageToShow.style.display = "none";
       baseImageToHide.style.display = "block";
-      const nextBlinkDelay = 1200 + Math.random() * 1500;
+      // MANTÉM O OLHO ABERTO POR MAIS TEMPO
+      const nextBlinkDelay = 1800 + Math.random() * 1200; // 1.8s a 3s
       _pandaBlinkTimer = setTimeout(blinkAnim, nextBlinkDelay);
-    }, 120);
+    }, 120); // Tempo do olho fechado (piscar)
   }
 
   const initialBlinkDelay = 300 + Math.random() * 400;
@@ -401,68 +469,28 @@ function updatePandaAppearance() {
 
 // Função para controlar a animação dos olhos do panda na chuva
 function stopRainEyesAnimation() {
-  // Limpa o timer principal de animação se existir
   if (_pandaRainEyesTimer) {
     clearTimeout(_pandaRainEyesTimer);
     _pandaRainEyesTimer = null;
   }
-
-  // Encontra todas as imagens relacionadas ao panda na chuva
+  // Apenas esconde as camadas dos olhos, mas mantém a base do panda da chuva visível se for chuva
   const rainImg = document.getElementById("panda-rain");
   const rainEyeCenterImg = document.getElementById("panda-rain-eye-center");
   const rainEyeUpImg = document.getElementById("panda-rain-eye-up");
-
-  // Imagem que está atualmente visível (se houver)
-  const visibleRainImage = document.querySelector(
-    ".panda-pixel[id^='panda-rain'][style*='display: block']"
-  );
-
-  // Reseta o estado de animação - mas não desativa ainda para permitir transição suave
-  const wasRaining = gameState._isInRainAnimation;
+  if (rainEyeCenterImg) {
+    rainEyeCenterImg.style.display = "none";
+    rainEyeCenterImg.classList.remove("panda-breathing");
+  }
+  if (rainEyeUpImg) {
+    rainEyeUpImg.style.display = "none";
+    rainEyeUpImg.classList.remove("panda-breathing");
+  }
+  // Só esconde a base se não for mais chuva
+  if (currentWeather !== "rain" && rainImg) {
+    rainImg.style.display = "none";
+    rainImg.classList.remove("panda-breathing");
+  }
   gameState._isInRainAnimation = false;
-
-  // Lista de todas as imagens de chuva para limpar
-  const rainImages = [rainImg, rainEyeCenterImg, rainEyeUpImg];
-
-  // Se temos uma imagem visível e estávamos em animação de chuva, fazemos transição suave
-  if (visibleRainImage && wasRaining) {
-    // Primeira limpeza das imagens não visíveis
-    rainImages.forEach((img) => {
-      if (img && img !== visibleRainImage) {
-        img.style.transition = "none";
-        img.style.opacity = "0";
-        img.style.display = "none";
-        img.classList.remove("panda-breathing");
-      }
-    });
-
-    // Configuramos para fade out suave da imagem visível
-    if (visibleRainImage) {
-      visibleRainImage.style.transition = "opacity 0.6s ease-out";
-      visibleRainImage.style.opacity = "0";
-
-      // Depois que a transição terminar, removemos completamente
-      setTimeout(() => {
-        visibleRainImage.style.display = "none";
-        visibleRainImage.classList.remove("panda-breathing");
-      }, 600);
-    }
-  } else {
-    // Caso contrário, limpamos tudo imediatamente
-    rainImages.forEach((img) => {
-      if (img) {
-        img.style.transition = "none";
-        img.style.opacity = "0";
-        img.style.display = "none";
-        img.classList.remove("panda-breathing");
-      }
-    });
-  }
-
-  // Limpa qualquer timeout que possa interferir
-  for (let i = 1; i < 50; i++) {
-    clearTimeout(i);
-  }
 }
 
 function startRainEyesAnimation() {
@@ -471,11 +499,11 @@ function startRainEyesAnimation() {
   }
   stopBlinking();
 
-  const rainClosed = document.getElementById("panda-rain"); // olhos fechados
-  const rainCenter = document.getElementById("panda-rain-eye-center"); // olhando pra frente
+  const rainBase = document.getElementById("panda-rain"); // base sempre visível
+  const rainCenter = document.getElementById("panda-rain-eye-center"); // olhos abertos
   const rainUp = document.getElementById("panda-rain-eye-up"); // olhando pra cima
 
-  if (!rainClosed || !rainCenter || !rainUp) {
+  if (!rainBase || !rainCenter || !rainUp) {
     console.error("Faltam imagens do panda na chuva para animação");
     if (rainCenter) {
       rainCenter.style.display = "block";
@@ -485,15 +513,21 @@ function startRainEyesAnimation() {
     return;
   }
 
-  // Inicializa todos invisíveis
-  [rainClosed, rainCenter, rainUp].forEach((img) => {
+  // A base da chuva SEMPRE fica visível e estática
+  rainBase.style.display = "block";
+  rainBase.style.opacity = "1";
+  rainBase.style.transition = "none";
+  rainBase.classList.add("panda-breathing");
+
+  // Inicializa as camadas dos olhos invisíveis
+  [rainCenter, rainUp].forEach((img) => {
     img.style.transition = "opacity 0.8s ease-in-out";
     img.style.opacity = "0";
     img.style.display = "none";
     img.classList.remove("panda-breathing");
   });
 
-  // Mostra o padrão (olhando pra frente)
+  // Mostra o padrão (olhos abertos) por cima da base
   rainCenter.style.display = "block";
   rainCenter.style.opacity = "1";
   rainCenter.classList.add("panda-breathing");
@@ -513,7 +547,7 @@ function startRainEyesAnimation() {
       return;
     }
 
-    // Decide se vai piscar ou olhar pra cima
+    // Decide se vai olhar pra cima ou piscar
     if (upNext) {
       // Olhar pra cima
       rainCenter.style.opacity = "0";
@@ -540,31 +574,22 @@ function startRainEyesAnimation() {
     } else {
       // Piscar
       rainCenter.style.opacity = "0";
-      rainClosed.style.display = "block";
+      // Para piscar, só sobrepõe a camada dos olhos fechados (panda-rain-eye-center pode ser usada para "fechar" se não houver uma específica)
+      // Aqui, para manter compatibilidade, só "apaga" os olhos abertos e volta
       setTimeout(() => {
-        rainClosed.style.opacity = "1";
-        rainClosed.classList.add("panda-breathing");
-        setTimeout(() => {
-          rainClosed.style.opacity = "0";
-          rainClosed.classList.remove("panda-breathing");
-          setTimeout(() => {
-            rainClosed.style.display = "none";
-            rainCenter.style.display = "block";
-            rainCenter.style.opacity = "1";
-            rainCenter.classList.add("panda-breathing");
-            blinkCount++;
-            // A cada 2-3 ciclos, faz olhar pra cima
-            if (blinkCount >= 2 + Math.floor(Math.random() * 2)) {
-              blinkCount = 0;
-              upNext = true;
-            }
-            _pandaRainEyesTimer = setTimeout(
-              rainEyesLoop,
-              7000 + Math.random() * 3000
-            );
-          }, 200);
-        }, 120); // Piscar rápido
-      }, 100);
+        rainCenter.style.opacity = "1";
+        rainCenter.classList.add("panda-breathing");
+        blinkCount++;
+        // A cada 2-3 ciclos, faz olhar pra cima
+        if (blinkCount >= 2 + Math.floor(Math.random() * 2)) {
+          blinkCount = 0;
+          upNext = true;
+        }
+        _pandaRainEyesTimer = setTimeout(
+          rainEyesLoop,
+          7000 + Math.random() * 3000
+        );
+      }, 120); // Piscar rápido (olhos "fechados" por 120ms)
     }
   }
 
@@ -622,18 +647,25 @@ function petPanda() {
     gameState.sleeping ||
     gameState._wakingUp ||
     gameState._isEating ||
-    gameState._isBeingPet ||
-    gameState._isInRainAnimation // Bloqueia carinho durante animação de chuva
+    gameState._isBeingPet
   )
     return;
+
+  // Log para depuração
+  console.log("Botão de carinho clicado!");
+
   playSound("pet");
   gameState.stats.totalPets++;
-  gameState._isBeingPet = true; // Seta flag imediatamente
-  // Atualiza visual para carinho
+
+  gameState._isBeingPet = true;
+  stopBlinking();
+  if (gameState._isInRainAnimation) {
+    stopRainEyesAnimation();
+    gameState._isInRainAnimation = false;
+  }
   updatePandaPixelArt();
   document.getElementById("message").textContent =
     "Seu panda está amando o carinho... 🥰";
-  // Efeitos visuais
   const pandaContainer = document.getElementById("panda-container");
   for (let i = 0; i < 5; i++) {
     const heart = document.createElement("div");
@@ -651,10 +683,11 @@ function petPanda() {
     }, i * 150);
   }
   gameState.happiness = Math.min(100, gameState.happiness + 15);
-  // Após o tempo de carinho, retorna ao estado normal
+  gameState.lastUpdate = Date.now();
+  updateStats();
   setTimeout(() => {
     gameState._isBeingPet = false;
-    updateStats(); // updateStats já chama updatePandaAppearance
+    updatePandaPixelArt();
     document.getElementById("message").textContent =
       "Seu panda adora carinho! 🥰💕";
   }, 1200);
@@ -693,19 +726,18 @@ function toggleSleep() {
 
 // Update game state over time
 function updateGameState() {
+  const now = Date.now();
   if (gameState.sleeping) {
-    gameState.energy = Math.min(100, gameState.energy + 1);
-    gameState.lastUpdate = Date.now(); // Corrige bug da barra
+    const elapsed = (now - gameState.lastUpdate) / 1000; // segundos
+    gameState.energy = Math.min(100, gameState.energy + elapsed * 10); // 10 pontos por segundo (rápido)
+    gameState.lastUpdate = now;
   } else {
-    const now = Date.now();
     const elapsed = (now - gameState.lastUpdate) / 1000; // seconds
     gameState.hunger = Math.max(0, gameState.hunger - elapsed * 0.2);
     gameState.happiness = Math.max(0, gameState.happiness - elapsed * 0.15);
     gameState.energy = Math.max(0, gameState.energy - elapsed * 0.1);
     gameState.lastUpdate = now;
   }
-  // DEBUG: log para investigar energia
-  console.log("Energia:", gameState.energy, "Dormindo:", gameState.sleeping);
   updateStats();
 }
 
@@ -791,19 +823,27 @@ function changeWeather() {
   const now = new Date();
   const hour = now.getHours();
 
+  // Debug temporário para mostrar a hora atual
+  console.log("Hora atual:", hour, "Hora ímpar:", hour % 2 === 1);
+
   // Se for hora ímpar, sempre chove
   if (hour % 2 === 1) {
     currentWeather = "rain";
   } else {
     let allowedWeather;
     if (isNight()) {
-      allowedWeather = ["clear", "rain", "snow"];
+      // Removido "rain" das opções para horas pares à noite
+      allowedWeather = ["clear", "snow"];
     } else {
       allowedWeather = ["clear", "sunny"];
     }
     currentWeather =
       allowedWeather[Math.floor(Math.random() * allowedWeather.length)];
   }
+
+  // Debug temporário para mostrar o clima selecionado
+  console.log("Clima selecionado:", currentWeather);
+
   switch (currentWeather) {
     case "rain":
       for (let i = 0; i < 20; i++) {
@@ -960,6 +1000,13 @@ initGame = function () {
 // Initialize game
 function initGame() {
   loadGame();
+
+  // Garantir que as flags de animação estejam resetadas ao iniciar
+  gameState._isInRainAnimation = false;
+  gameState._isBeingPet = false;
+  gameState._isEating = false;
+  gameState._wakingUp = false;
+
   generateClouds();
   updateStats();
   changeWeather();
