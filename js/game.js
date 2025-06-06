@@ -320,15 +320,15 @@ function stopBlinking() {
     _pandaBlinkTimer = null;
   }
 
-  const awakeImg = document.getElementById("panda-awake");
-  const sitImg = document.getElementById("panda-sit");
-  const blinkImg = document.getElementById("panda-blink");
+  // ATENÇÃO: As referências a 'blinkImg' (panda-blink) foram removidas daqui.
   const awakeBlinkImg = document.getElementById("panda-awake-blink");
 
-  // Sempre esconde imagens de piscar ao parar
-  if (blinkImg) blinkImg.style.display = "none";
-  if (awakeBlinkImg) awakeBlinkImg.style.display = "none";
-  // Não força exibição de nenhuma imagem base aqui, updatePandaPixelArt cuida disso
+  // Agora, esta função só esconde a imagem da "piscada natural" (em pé).
+  // A imagem 'panda-blink' (usada para o carinho) será controlada apenas
+  // pela lógica dentro de updatePandaPixelArt, que é o correto.
+  if (awakeBlinkImg) {
+    awakeBlinkImg.style.display = "none";
+  }
 }
 
 function startBlinking() {
