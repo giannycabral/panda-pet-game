@@ -170,9 +170,9 @@ body::before {
 /* Panda dormindo na chuva */
 .panda-rain-sleep {
     transform: translate(-50%, 0) !important;
-    bottom: 15px !important; /* Ajustado para ficar sobre a grama */
-    max-width: 80% !important;
-    width: 180px !important;
+    bottom: 0px !important; /* Ajustado para ficar exatamente na grama como os outros pandas */
+    max-width: 75% !important;
+    width: 160px !important; /* Diminuído um pouco conforme solicitado */
     opacity: 1 !important;
     z-index: 3 !important;
 }
@@ -187,17 +187,17 @@ body::before {
 /* Panda chuva padrão (em pé) */
 .panda-rain {
     transform: translate(-50%, 0) !important;
-    bottom: 35px !important; /* Sobe para cima da grama */
+    bottom: 0px !important; /* Ajustado para ficar exatamente na grama */
     width: 200px; /* Um pouco maior para mostrar o guarda-chuva */
 }
 
 .panda-rain-eat {
     transform: translate(-50%, 0) !important;
-    bottom: 5px !important; /* Ainda mais baixo para alinhar perfeitamente sobre a grama */
+    bottom: 0px !important; /* Ajustado para ficar exatamente na grama como o panda-rain */
 }
 .panda-rain-pet {
     transform: translate(-50%, 0) !important;
-    bottom: 15px !important; /* Descido para alinhar melhor com a grama */
+    bottom: 0px !important; /* Ajustado para ficar exatamente na grama como o panda-rain */
 }
 
 /* Garante que só um panda aparece por vez */
@@ -269,24 +269,60 @@ body::before {
         min-height: 200px;
     }
 
-    .sleep-bubble {
+    /* Sobrescrevendo apenas os tamanhos e posicionamentos do sleep-bubble para mobile */
+    #sleep-bubble {
         width: 80px;
         height: 80px;
         right: 10px;
         top: 5px;
     }
 
-    .sleep-bubble::before {
+    #sleep-bubble::before {
         width: 40px;
         height: 40px;
         bottom: -20px;
         left: 15px;
     }
 
-    .sleep-bubble::after {
+    #sleep-bubble::after {
         font-size: 2.5rem;
-        top: 25px;
-        left: 25px;
+    }
+}
+
+/* Ajustes adicionais para responsividade dos pandas */
+@media (max-width: 480px) {
+    /* Ajuste geral para todos os pandas em telas pequenas */
+    .panda-pixel {
+        max-width: 75% !important;
+        width: 160px !important;
+    }
+    
+    /* Ajuste específico para o panda-rain-sleep em telas pequenas */
+    .panda-rain-sleep {
+        max-width: 70% !important;
+        width: 150px !important;
+    }
+    
+    /* Ajuste para os pandas com capa de chuva */
+    .panda-rain, 
+    .panda-rain-eat,
+    .panda-rain-pet,
+    .panda-rain-sad {
+        max-width: 75% !important;
+        width: 160px !important;
+    }
+}
+
+/* Ajustes ainda mais específicos para telas muito pequenas */
+@media (max-width: 350px) {
+    .panda-pixel {
+        max-width: 70% !important;
+        width: 140px !important;
+    }
+    
+    .panda-rain-sleep {
+        max-width: 65% !important;
+        width: 130px !important;
     }
 }
 
@@ -1157,6 +1193,62 @@ body::before {
 /* Animations */
 /* Classe .heart removida - agora definida em footer-cleanup.css */
 
+/* Adicionando a definição da classe .heart para o efeito de carinho mais kawaii */
+.heart {
+    position: absolute;
+    font-size: 28px;
+    pointer-events: none;
+    z-index: 100; /* Para garantir que fique acima do panda */
+    animation: kawaii-float 2s ease-out forwards;
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.7));
+    text-shadow: 0 0 8px #ff80ab;
+    transform-origin: center;
+}
+
+.heart:nth-child(odd) {
+    animation-duration: 2.2s;
+    animation-timing-function: ease-in-out;
+}
+
+.heart:nth-child(even) {
+    animation-duration: 1.8s;
+    animation-timing-function: cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+.heart:nth-child(3n+1) {
+    animation: kawaii-float 2s ease-out forwards, kawaii-pulse 0.5s infinite alternate;
+}
+
+/* Pulsação kawaii especial para alguns corações */
+@keyframes kawaii-pulse {
+    0% {
+        transform: scale(1) rotate(-5deg);
+    }
+    100% {
+        transform: scale(1.2) rotate(5deg);
+    }
+}
+
+@keyframes kawaii-float {
+    0% {
+        transform: translateY(0) scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        transform: translateY(-10px) scale(1.2) rotate(-5deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-40px) scale(1) rotate(5deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(-100px) scale(0.8) rotate(-5deg);
+        opacity: 0;
+    }
+}
+
 .star {
     position: absolute;
     font-size: 20px;
@@ -1503,16 +1595,21 @@ body::before {
     height: 100%;
     pointer-events: none;
     z-index: 10;
+    /* Assegura que o contêiner de clima cobre todo o cenário do panda */
+    min-height: 280px;
+    border-radius: 36px;
+    overflow: hidden;
 }
 
 .rain-drop {
     position: absolute;
-    width: 2px;
-    height: 10px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(205, 237, 255, 0.8));
-    border-radius: 50%;
+    width: 3px;
+    height: 15px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(158, 214, 255, 0.9));
+    box-shadow: 0 0 4px rgba(158, 214, 255, 0.8);
+    border-radius: 10px;
     display: block;
-    opacity: 0.8;
+    opacity: 1;
     pointer-events: none;
     position: absolute;
     transform-origin: center bottom;
@@ -1520,19 +1617,104 @@ body::before {
     animation: fallDrop 1.5s linear infinite;
 }
 
+/* Gota de chuva grande com efeito splash */
+.rain-drop.large {
+    width: 4px;
+    height: 22px;
+    opacity: 1;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(158, 214, 255, 0.95));
+    box-shadow: 0 0 6px rgba(158, 214, 255, 0.9);
+}
+
+.rain-drop.large::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: -7px;
+    width: 15px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(158, 214, 255, 0.5);
+    opacity: 0;
+    transform: scale(0);
+    animation: splash-effect 1.5s linear infinite;
+    animation-delay: inherit;
+}
+
+/* Efeito splash melhorado para as gotas grandes */
+.rain-drop.large::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: -5px;
+    width: 10px;
+    height: 3px;
+    background: rgba(158, 214, 255, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    animation: rain-splash 0.8s linear;
+    animation-delay: inherit;
+}
+
+@keyframes splash-effect {
+    0%, 70% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    72% {
+        opacity: 0.7;
+        transform: scale(0.1);
+    }
+    80% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
 @keyframes fallDrop {
     0% {
-        transform: translateY(-150px) scaleY(1);
+        transform: translateY(-150px) scaleY(1.2);
+    }
+    5% {
+        opacity: 0.2; /* Começa mais sutil */
+    }
+    20% {
+        opacity: 1; /* Atinge opacidade total */
     }
     70% {
-        transform: translateY(0) scaleY(1);
+        transform: translateY(0) scaleY(1.2);
+        opacity: 1;
     }
-    90% {
+    85% {
         opacity: 0.8;
     }
     100% {
         transform: translateY(0) scaleY(0.5);
         opacity: 0;
+    }
+}
+
+@keyframes rain-splash {
+    0%, 80% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    85% {
+        opacity: 0.7;
+        transform: scale(0.5);
+    }
+    95% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
     }
 }
 
@@ -1544,322 +1726,208 @@ body::before {
     animation: snowfall 3s linear infinite;
 }
 
-.sun-ray {
+.weather-effects.weather-rain::before {
+    content: '';
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, rgba(255,255,190,0.8) 0%, rgba(255,255,220,0.1) 70%, rgba(255,255,255,0) 100%);
-    border-radius: 50%;
-    opacity: 0.7;
-    animation: sunRayPulse 5s infinite alternate ease-in-out;
-    pointer-events: none;
-    z-index: 1;
-    filter: blur(2px);
-}
-
-@keyframes sunRayPulse {
-    from {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-    to {
-        transform: scale(1.5);
-        opacity: 0.8;
-    }
-}
-
-/* Garantindo que as barras de progresso sejam exibidas corretamente */
-.progress-bar {
-    overflow: hidden;
-    position: relative;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 22px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    will-change: transform, opacity;
-}
-
-.progress {
     height: 100%;
-    border-radius: 22px;
-    display: block !important;
-    will-change: transform, width;
-    /* transition removida para gifs */
+    background: linear-gradient(0deg, rgba(158, 214, 255, 0.05), rgba(116, 170, 255, 0.15));
+    z-index: 1;
+    pointer-events: none;
 }
 
-/* Efeito pulsante para as barras */
-@keyframes pulseBar {
-    0%, 100% { opacity: 0.95; }
-    50% { opacity: 1; }
+/* Adicionando nuvens de chuva ao fundo */
+.weather-effects.weather-rain::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(146, 156, 189, 0.4) 0%, rgba(146, 156, 189, 0.1) 100%);
+    filter: blur(4px);
+    z-index: 0;
+    pointer-events: none;
 }
 
-.bg-green, .bg-blue, .bg-purple {
-    animation: pulseBar 2s infinite ease-in-out;
-}
-
-.bg-green {
-    background: linear-gradient(90deg, #bbf7d0 0%, #4ade80 100%) !important;
-    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
-}
-
-.bg-blue {
-    background: linear-gradient(90deg, #fecdd3 0%, #ec4899 100%) !important;
-    box-shadow: 0 0 8px rgba(236, 72, 153, 0.5);
-}
-
-.bg-purple {
-    background: linear-gradient(90deg, #c7d2fe 0%, #8b5cf6 100%) !important;
-    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
-}
-
-/* Panda dormindo (normal sleep) precisa descer um pouco para não flutuar */
-.panda-sleep {
-    bottom: 0 !important;
-}
-
-/* Panda dormindo (normal sleep) precisa descer um pouco para não flutuar */
-.panda-sleep {
-    bottom: 0 !important;
-}
-
-/* Ajuste para sentar na grama */
-.panda-sit,
-.panda-blink,
-.panda-rain {
-    transform: translateY(8%) !important;
-}
-@media (max-width: 600px) {
-    .panda-sit, .panda-blink, .panda-rain {
-        transform: translateY(12%) !important;
-    }
-}
-@media (max-width: 400px) {
-    .panda-sit, .panda-blink, .panda-rain {
-        transform: translateY(16%) !important;
-    }
-}
-
-/* Classes para diferentes climas */
-.panda-pixel.weather-sunny {
-    filter: brightness(1.1) saturate(1.1);
-    animation: sunnyPanda 5s infinite alternate ease-in-out !important;
-}
-
-.panda-pixel.weather-clear {
-    filter: brightness(1.05);
-    animation: clearPanda 6s infinite alternate ease-in-out !important;
-}
-
-.panda-pixel.weather-snow {
-    filter: brightness(1.02) contrast(1.02);
-    animation: snowPanda 7s infinite alternate ease-in-out !important;
-}
-
-@keyframes sunnyPanda {
-    0%, 100% {
-        transform: translate(-50%, 0);
-        filter: brightness(1.1) saturate(1.1);
-    }
-    50% {
-        transform: translate(-50%, -4px);
-        filter: brightness(1.15) saturate(1.15);
-    }
-}
-
-@keyframes clearPanda {
-    0%, 100% {
-        transform: translate(-50%, 0);
-    }
-    50% {
-        transform: translate(-50%, -3px);
-    }
-}
-
-@keyframes snowPanda {
-    0%, 100% {
-        transform: translate(-50%, 0);
-    }
-    33% {
-        transform: translate(-51%, -2px);
-    }
-    66% {
-        transform: translate(-49%, -1px);
-    }
-}
-
-/* Melhorando o visual dos flocos de neve */
-.snow-flake {
-    color: #f0f8ff;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
-    opacity: 0.8;
-    animation: snowfall 8s linear infinite, snowGlow 5s infinite alternate;
-    will-change: transform;
-}
-
-@keyframes snowfall {
+/* Nova animação de chuva para cobrir toda a área do panda */
+@keyframes rainFall {
     0% {
-        transform: translateY(-100px) rotate(0deg);
+        transform: translateY(-10px);
+        opacity: 0.2;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(250px); /* Ajustado para o tamanho do contêiner */
     }
     100% {
-        transform: translateY(300px) rotate(360deg);
+        opacity: 0;
+        transform: translateY(260px);
     }
 }
 
-@keyframes snowGlow {
-    from {
-        text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
-        opacity: 0.7;
-    }
-    to {
-        text-shadow: 0 0 8px rgba(255, 255, 255, 1);
-        opacity: 0.9;
-    }
-}
-
-/* Tamanho específico para diferentes tamanhos de tela */
-@media (max-width: 768px) {
-    .panda-pixel,
-    .panda-awake,
-    .panda-sit,
-    .panda-sleep,
-    .panda-sad,
-    .panda-eat,
-    .panda-rain,
-    .panda-rain-eat,
-    .panda-rain-pet,
-    .panda-rain-sleep,
-    .panda-rain-sad {
-        width: 150px; /* Tamanho menor para tablets */
-        max-width: 75%;
-    }
-    
-    .kawaii-container {
-        min-height: 220px;
-        max-height: 240px;
-    }
-    
-    .panda-grass {
-        height: 30px;
-    }
-}
-
-@media (max-width: 480px) {
-    .panda-pixel,
-    .panda-awake,
-    .panda-sit,
-    .panda-sleep,
-    .panda-sad,
-    .panda-eat,
-    .panda-rain,
-    .panda-rain-eat,
-    .panda-rain-pet,
-    .panda-rain-sleep,
-    .panda-rain-sad {
-        width: 120px; /* Tamanho menor para celulares */
-        max-width: 70%;
-    }
-    
-    .kawaii-container {
-        min-height: 180px;
-        max-height: 200px;
-    }
-    
-    .panda-grass {
-        height: 25px;
-    }
-}
-
-/* Estilos para pandas em banho */
-.panda-shower,
-.panda-rain-shower {
+.weather-effects {
     position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    bottom: 0;
-    z-index: 2;
-    display: none;
-    max-width: 80%;
-    width: 180px;
-    height: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    object-fit: contain;
-}
-
-/* Efeito de respingo de água */
-.water-splash {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #60a5fa;
-    opacity: 0.8;
     z-index: 10;
-    animation: splash 1s ease-out forwards;
 }
 
-@keyframes splash {
-    0% {
+.rain-drop {
+    position: absolute;
+    width: 3px;
+    height: 15px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(158, 214, 255, 0.9));
+    box-shadow: 0 0 4px rgba(158, 214, 255, 0.8);
+    border-radius: 10px;
+    display: block;
+    opacity: 1;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: center bottom;
+    z-index: 2;
+    animation: fallDrop 1.5s linear infinite;
+}
+
+/* Gota de chuva grande com efeito splash */
+.rain-drop.large {
+    width: 4px;
+    height: 22px;
+    opacity: 1;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(158, 214, 255, 0.95));
+    box-shadow: 0 0 6px rgba(158, 214, 255, 0.9);
+}
+
+.rain-drop.large::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: -7px;
+    width: 15px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(158, 214, 255, 0.5);
+    opacity: 0;
+    transform: scale(0);
+    animation: splash-effect 1.5s linear infinite;
+    animation-delay: inherit;
+}
+
+/* Efeito splash melhorado para as gotas grandes */
+.rain-drop.large::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: -5px;
+    width: 10px;
+    height: 3px;
+    background: rgba(158, 214, 255, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    animation: rain-splash 0.8s linear;
+    animation-delay: inherit;
+}
+
+@keyframes splash-effect {
+    0%, 70% {
+        opacity: 0;
         transform: scale(0);
+    }
+    72% {
+        opacity: 0.7;
+        transform: scale(0.1);
+    }
+    80% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes fallDrop {
+    0% {
+        transform: translateY(-150px) scaleY(1.2);
+    }
+    5% {
+        opacity: 0.2; /* Começa mais sutil */
+    }
+    20% {
+        opacity: 1; /* Atinge opacidade total */
+    }
+    70% {
+        transform: translateY(0) scaleY(1.2);
+        opacity: 1;
+    }
+    85% {
         opacity: 0.8;
     }
-    50% {
-        transform: scale(1.5);
-        opacity: 0.6;
-    }
     100% {
-        transform: scale(0);
+        transform: translateY(0) scaleY(0.5);
         opacity: 0;
     }
 }
 
-/* Adicionar mais respingos na versão animada */
-.panda-shower.panda-breathing::after,
-.panda-rain-shower.panda-breathing::after {
-    content: '💦';
+@keyframes rain-splash {
+    0%, 80% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    85% {
+        opacity: 0.7;
+        transform: scale(0.5);
+    }
+    95% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+.snow-flake {
     position: absolute;
-    top: 20%;
-    left: 60%;
-    font-size: 1.2rem;
-    animation: floatEmoji 2s infinite linear;
-    opacity: 0.8;
+    color: white;
+    font-size: 10px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    animation: snowfall 3s linear infinite;
 }
 
-@keyframes floatEmoji {
-    0%, 100% {
-        transform: translateY(0) rotate(5deg);
-    }
-    50% {
-        transform: translateY(-10px) rotate(-5deg);
-    }
+.weather-effects.weather-rain::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(158, 214, 255, 0.05), rgba(116, 170, 255, 0.15));
+    z-index: 1;
+    pointer-events: none;
 }
 
-/* Estilo específico para panda dormindo na chuva */
-.panda-rain-sleep {
-    transform: translate(-50%, 0) !important;
-    bottom: 5px !important;
-    max-width: 80% !important;
-    width: 180px !important;
-    z-index: 3 !important;
-    opacity: 1 !important;
-}
-
-/* Animação para o sleep-bubble */
-@keyframes floatSleep {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-#sleep-bubble {
-    transition: opacity 0.3s ease-in-out;
-}
-
-#sleep-bubble::after {
-    animation: floatSleep 2s infinite ease-in-out;
-    display: block;
+/* Adicionando nuvens de chuva ao fundo */
+.weather-effects.weather-rain::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(146, 156, 189, 0.4) 0%, rgba(146, 156, 189, 0.1) 100%);
+    filter: blur(4px);
+    z-index: 0;
+    pointer-events: none;
 }

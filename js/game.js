@@ -556,15 +556,29 @@ function petPanda() {
   document.getElementById("message").textContent =
     "Seu panda está amando o carinho... 🥰";
   const pandaContainer = document.getElementById("panda-container");
-  for (let i = 0; i < 5; i++) {
+  // Mais variedades de corações kawaii
+  const kawaiHearts = ["❤️", "💕", "💖", "💗", "💓", "💘", "💝", "💞", "💟", "💌", "🩷", "🫀"];
+  const numberOfHearts = Math.floor(Math.random() * 3) + 5; // Entre 5 e 7 corações
+  
+  for (let i = 0; i < numberOfHearts; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
-    heart.textContent = ["❤", "💕", "💖", "💗"][Math.floor(Math.random() * 4)];
+    // Seleção aleatória de corações kawaii
+    heart.textContent = kawaiHearts[Math.floor(Math.random() * kawaiHearts.length)];
+    
+    // Posicionamento com mais variação
     heart.style.left = `${Math.random() * 80 + 10}%`;
-    heart.style.top = `${Math.random() * 50}%`;
-    heart.style.animationDelay = `${i * 0.15}s`;
+    heart.style.top = `${Math.random() * 30 + 10}%`; // Posicionando mais para cima
+    
+    // Efeito de entrada escalonado
+    heart.style.animationDelay = `${i * 0.12}s`;
+    
+    // Tamanho aleatório para mais fofura
+    const randomSize = Math.random() * 0.5 + 0.8; // Entre 0.8 e 1.3
+    heart.style.transform = `scale(${randomSize})`;
+    
     pandaContainer.appendChild(heart);
-    setTimeout(() => heart.remove(), 1000);
+    setTimeout(() => heart.remove(), 2500); // Duração maior para acompanhar a animação
   }
   for (let i = 0; i < 3; i++) {
     setTimeout(() => {
@@ -866,11 +880,46 @@ function changeWeather() {
 
   switch (currentWeather) {
     case "rain":
-      for (let i = 0; i < 20; i++) {
+      // Aumentando o número de gotas de chuva para 70 (56 normais + 14 grandes) para cobrir todo o cenário
+      for (let i = 0; i < 70; i++) {
         const drop = document.createElement("div");
-        drop.className = "rain-drop";
+        
+        // Adicionar gotas grandes com efeito splash para algumas
+        if (i % 5 === 0) {
+          drop.className = "rain-drop large";
+          // As gotas maiores caem mais rápido
+          const speed = 0.7 + Math.random() * 0.5;
+          drop.style.animationDuration = `${speed}s`;
+          drop.style.animationName = "rainFall";
+        } else {
+          drop.className = "rain-drop";
+          // Variando tamanhos para algumas gotas normais
+          if (i % 3 === 0) {
+            drop.style.height = `${12 + Math.random() * 8}px`;
+            drop.style.width = `${2 + Math.random() * 2}px`;
+          }
+          // Variando velocidades de queda
+          const speed = 0.8 + Math.random() * 1.2;
+          drop.style.animationDuration = `${speed}s`;
+          drop.style.animationName = "rainFall";
+        }
+        
+        // Distribuindo as gotas horizontalmente por todo o contêiner
         drop.style.left = `${Math.random() * 100}%`;
-        drop.style.animationDelay = `${Math.random() * 2}s`;
+        
+        // Distribuindo as gotas verticalmente por todo o cenário
+        // Algumas gotas começam no topo, outras já em queda para criar um efeito imediato
+        if (i % 3 === 0) {
+          // Uma parte das gotas começa já "caindo" (espalhadas pelo cenário)
+          drop.style.top = `${Math.random() * 70}%`;
+        } else {
+          // A maioria começa no topo ou levemente acima
+          drop.style.top = `${-5 - (Math.random() * 10)}px`;
+        }
+        
+        // Variando os atrasos de início para criar um efeito mais natural
+        drop.style.animationDelay = `${Math.random() * 1.5}s`;
+        
         weatherContainer.appendChild(drop);
       }
 
