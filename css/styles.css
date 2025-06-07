@@ -638,6 +638,7 @@ body::before {
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+    margin-right: 12px;
     border: 2px solid #ec4899;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background: url('../img/itsmee.jpg') center/cover no-repeat;
