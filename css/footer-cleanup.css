@@ -1,8 +1,8 @@
 .footer {
     text-align: center;
-    padding: 0.8rem 0.8rem;
-    background: linear-gradient(145deg, #f3e8ff 0%, #dbeafe 100%);
-    border-top: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 1.2rem 0.8rem 0.8rem;
+    background: linear-gradient(145deg, #fff8e1 0%, #f3e8ff 50%, #dbeafe 100%);
+    border-top: 3px dashed rgba(255, 192, 203, 0.6);
     margin-top: 2rem;
     box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.03);
     position: relative;
@@ -11,20 +11,193 @@
     min-width: 0;
     max-width: 100vw;
     box-sizing: border-box;
-}
-/* Ajuste: adiciona imagem de fundo sutil ao footer */
-.footer {
-    background-image: url('../img/itsmee.jpg');
-    background-size: 60px 60px;
-    background-repeat: no-repeat;
-    background-position: right 10px bottom 10px;
     opacity: 0.98;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    border-radius: 16px 16px 0 0;
 }
 
+.footer::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #ffb6c1,
+        #ffb6c1 8px,
+        transparent 8px,
+        transparent 16px
+    );
+    opacity: 0.7;
+}
 
-.developed-by span {
-    color: #ec4899;
+.developed-by {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #6c5b7b;
+    margin: 0.8rem 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.developed-by .star-icon {
+    color: #ffca28;
+    display: inline-block;
+    animation: twinkle 2s infinite alternate;
+    font-size: 1.2em;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.6; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.1); }
+}
+
+.developed-by .kawaii-subtitle {
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+    color: #9c77b8;
+    margin-top: 4px;
+    font-style: italic;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.developed-by .heart {
+    position: static !important; /* Sobrescreve o position: absolute */
+    color: #ff0000 !important; /* Vermelho mais forte com !important */
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Brilho vermelho */
     margin: 0 0.25rem;
+    font-size: 1.8em; /* Tamanho maior */
+    animation: footer-heart-pulse 1.5s infinite !important; /* Nome único para a animação */
+    display: inline-block !important; /* Garantir que a animação funcione */
+    font-weight: bold;
+    opacity: 1 !important; /* Garante que esteja visível */
+}
+
+/* Animação de pulsação para o coração do rodapé (nome único para evitar conflitos) */
+@keyframes footer-heart-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Animação antiga removida pois foi substituída pela nova com nome único */
+
+/* Elementos decorativos do rodapé */
+.footer-decorations {
+    position: absolute;
+    width: 100%;
+    top: -18px;
+    left: 0;
+    right: 0;
+    height: 30px;
+    pointer-events: none;
+}
+
+/* Patinhas de panda no footer */
+.paw-print {
+    position: absolute;
+    width: 24px;
+    height: 18px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    top: 5px;
+}
+
+.paw-print::before,
+.paw-print::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+}
+
+.paw-print::before {
+    top: -6px;
+    left: 3px;
+}
+
+.paw-print::after {
+    top: -6px;
+    right: 3px;
+}
+
+.paw-print.left {
+    left: 15%;
+    transform: rotate(-10deg);
+}
+
+.paw-print.right {
+    right: 15%;
+    transform: rotate(10deg);
+}
+
+/* Bambus decorativos */
+.bamboo {
+    position: absolute;
+    width: 12px;
+    height: 38px;
+    background: linear-gradient(to bottom, #a5d6a7 0%, #81c784 100%);
+    border-radius: 6px;
+    top: -15px;
+}
+
+.bamboo::before,
+.bamboo::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+.bamboo::before {
+    top: 10px;
+}
+
+.bamboo::after {
+    top: 22px;
+}
+
+.bamboo.left {
+    left: 6%;
+    transform: rotate(-5deg);
+}
+
+.bamboo.right {
+    right: 6%;
+    transform: rotate(5deg);
+}
+
+/* Carinhas kawaii */
+.kawaii-faces {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.kawaii-face {
+    font-size: 1.2rem;
+    color: #6c5b7b;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.kawaii-face:hover {
+    transform: scale(1.2) rotate(5deg);
 }
 
 /* Responsividade para o rodapé */

@@ -674,59 +674,9 @@ body::before {
     }
 }
 
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
+/* Links de redes sociais removidos pois não estão mais em uso */
 
-.social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 50%;
-    /* transition removida para gifs */
-    color: #8b5cf6;
-    text-decoration: none;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    font-size: 1.2rem;
-}
-
-.social-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    background: #f9f5ff;
-}
-
-.github-link {
-    color: #333;
-}
-
-.linkedin-link {
-    color: #0077b5;
-}
-
-.footer-hearts {
-    position: absolute;
-    top: -15px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    pointer-events: none;
-}
-
-.footer-heart {
-    font-size: 1.5rem;
-    color: #ec4899;
-    animation: float 3s infinite alternate;
-    opacity: 0.8;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    transform-origin: center bottom;
-}
+/* Elementos de corações do footer removidos - agora definidos em footer-cleanup.css */
 
 /* Responsividade para o rodapé */
 @media (max-width: 480px) {
@@ -747,11 +697,7 @@ body::before {
         height: 32px;
     }
 
-    .social-link {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
+    /* .social-link removido - não está mais em uso */
 }
 
 /* Extra responsive rules for very small screens */
@@ -769,14 +715,7 @@ body::before {
         height: 28px;
     }
 
-    .social-links {
-        gap: 1rem;
-    }
-
-    .social-link {
-        width: 32px;
-        height: 32px;
-    }
+    /* .social-links e .social-link removidos - não estão mais em uso */
 }
 
 .night-mode .footer {
@@ -811,14 +750,7 @@ body::before {
     color: #f472b6;
 }
 
-.night-mode .social-link {
-    background: #2e3052;
-    color: #c4b5fd;
-}
-
-.night-mode .social-link:hover {
-    background: #3a3a5a;
-}
+/* Estilos night-mode para .social-link removidos - não estão mais em uso */
 
 /* Responsividade para diferentes tamanhos de tela */
 
@@ -1223,13 +1155,7 @@ body::before {
 }
 
 /* Animations */
-.heart {
-    position: absolute;
-    font-size: 24px;
-    color: #ff6b6b;
-    animation: float 1s ease-in-out infinite;
-    opacity: 0;
-}
+/* Classe .heart removida - agora definida em footer-cleanup.css */
 
 .star {
     position: absolute;
