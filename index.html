@@ -28,7 +28,7 @@
                 <!-- Welcome message with author image -->
                 <div class="welcome-message-section">
                     <div class="author-bubble">
-                        <img src="gifs/itsmee.jpg" alt="Foto Regiane Cabral" class="author-photo-message">
+                        <img src="img/itsmee.jpg" alt="Foto Regiane Cabral" class="author-photo-message">
                         <div class="message-content">
                             <p>Cuide bem do seu panda! Alimente-o quando estiver com fome e faça carinho para deixá-lo
                                 feliz! ✨</p>
@@ -61,31 +61,28 @@
                     </div>
                     <div id="panda-container" class="kawaii-container" role="region" aria-label="Área do panda virtual">
                         <!-- Panda Pixel Art: acordado (em pé) e dormindo (deitado) -->
-                        <img id="panda-awake" src="gifs/panda-awake.png" alt="Panda em pé, acordado"
+                        <img id="panda-awake" src="gifs/panda-normal-awake.gif" alt="Panda em pé, acordado"
                             class="panda-pixel panda-awake" style="display:none;" draggable="false" aria-hidden="true"
                             role="img" />
-                        <img id="panda-awake-blink" src="gifs/panda-awake-blink.png" alt="Panda em pé piscando"
-                            class="panda-pixel panda-awake-blink" style="display:none; pointer-events:none;"
-                            draggable="false" aria-hidden="true" role="img" />
-                        <img id="panda-sit" src="gifs/panda-sit.png" alt="Panda sentado, feliz"
+                        <!-- Elemento obsoleto removido: panda-awake-blink -->
+                        <img id="panda-sit" src="gifs/panda-normal-sit.gif" alt="Panda sentado, feliz"
                             class="panda-pixel panda-sit" style="display:block;" draggable="false" role="img" />
-                        <img id="panda-blink" src="gifs/panda-blink.png" alt="Panda sentado piscando"
-                            class="panda-pixel panda-blink" style="display:none;" draggable="false" aria-hidden="true"
-                            role="img" />
-                        <img id="panda-sleep" src="gifs/panda-sleep.png" alt="Panda dormindo"
+                        <!-- Elemento obsoleto removido: panda-blink -->
+                        <img id="panda-sleep" src="img/panda-normal-sleep.png" alt="Panda dormindo"
                             class="panda-pixel panda-sleep" style="display:none;" draggable="false" aria-hidden="true"
                             role="img" />
-                        <img src="gifs/panda-sad.png" id="panda-sad" class="panda-pixel panda-sad" alt="Panda triste"
+                        <img src="gifs/panda-normal-sad.gif" id="panda-sad" class="panda-pixel panda-sad" alt="Panda triste"
                             style="display: none;" aria-hidden="true" role="img" />
-                        <img id="panda-rain" src="gifs/panda-rain.png" alt="Panda com capa de chuva e guarda-chuva"
+                        <img id="panda-rain" src="gifs/panda-rain-awake.gif" alt="Panda com capa de chuva e guarda-chuva"
                             class="panda-pixel panda-rain" style="display:none;" draggable="false" aria-hidden="true"
                             role="img" />
-                        <img id="panda-rain-eye-up" src="gifs/panda-rain-eye-up.png"
-                            alt="Panda com olhos para cima na chuva" class="panda-pixel panda-rain-eye-up"
-                            style="display:none;" draggable="false" aria-hidden="true" role="img" />
-                        <img id="panda-rain-eye-center" src="gifs/panda-rain-eye-center.png"
-                            alt="Panda com olhos para o centro na chuva" class="panda-pixel panda-rain-eye-center"
-                            style="display:none;" draggable="false" aria-hidden="true" role="img" />
+                        <!-- Elementos obsoletos removidos: panda-rain-eye-up e panda-rain-eye-center -->
+                        <img id="panda-eat" src="gifs/panda-normal-comendo.gif" alt="Panda comendo" class="panda-pixel panda-eat" style="display:none;" draggable="false" aria-hidden="true" role="img" />
+                        <!-- Gifs para chuva (anteriormente estavam no topo do documento) -->
+                        <img id="panda-rain-eat" src="gifs/panda-rain-comendo.gif" alt="Panda comendo na chuva" class="panda-pixel panda-rain-eat" style="display:none;" draggable="false" aria-hidden="true" role="img" />
+                        <img id="panda-rain-pet" src="gifs/panda-rain-carinho.gif" alt="Panda recebendo carinho na chuva" class="panda-pixel panda-rain-pet" style="display:none;" draggable="false" aria-hidden="true" role="img" />
+                        <img id="panda-rain-sleep" src="img/panda-rain-sleep.png" alt="Panda dormindo na chuva" class="panda-pixel panda-rain-sleep" style="display:none;" draggable="false" aria-hidden="true" role="img" />
+                        <img id="panda-rain-sad" src="img/panda-rain-sad.png" alt="Panda triste na chuva" class="panda-pixel panda-rain-sad" style="display:none;" draggable="false" aria-hidden="true" role="img" />
                         <div id="sleep-bubble" class="sleep-bubble" aria-label="Balão de sono do panda"></div>
 
                     </div>
@@ -120,16 +117,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="buttons-container"> <button id="feed-btn" class="btn-kawaii feed-btn"
+                <div class="buttons-container"> 
+                    <button id="feed-btn" class="btn-kawaii feed-btn"
                         aria-label="Alimentar o panda">
                         <span>🎋 Alimentar</span>
                     </button>
-                    <button id="pet-btn" class="btn-kawaii pet-btn" aria-label="Fazer carinho no panda">
+                    <button id="pet-btn" class="btn-kawaii pet-btn" 
+                        aria-label="Fazer carinho no panda">
                         <span>❤ Carinho</span>
                     </button>
                     <button id="sleep-btn" class="btn-kawaii sleep-btn"
                         aria-label="Colocar o panda para dormir ou acordar">
                         <span>😴 Dormir</span>
+                    </button>
+                    <button id="shower-btn" class="btn-kawaii shower-btn"
+                        aria-label="Dar banho no panda">
+                        <span>🚿 Banho</span>
                     </button>
                 </div>
                 <div id="message" class="message"></div>
@@ -157,16 +160,16 @@
             <div class="flower" style="left: 60%">
                 <div class="stem"></div>
             </div>
-            <!-- GIFs de coelhos no fundo -->
-            <img src="gifs/rabbit.gif" class="bunny-gif" style="left:6%; bottom:20px; width:70px;"
+            <!-- GIFs de animais no fundo -->
+            <img src="gifs/rabbit.gif" class="rabbit-gif" style="left:6%; bottom:20px; width:70px;"
                 alt="Coelho animado branco pulando na grama" />
-            <img src="gifs/cat.gif" class="bunny-gif" style="left:22%; bottom:12px; width:60px;"
+            <img src="gifs/cat.gif" class="cat-gif" style="left:22%; bottom:12px; width:60px;"
                 alt="Gatinho animado cinza deitado na grama" />
-            <img src="gifs/frog.gif" class="bunny-gif" style="left:30%; bottom:28px; width:62px;"
+            <img src="gifs/frog.gif" class="frog-gif" style="left:30%; bottom:28px; width:62px;"
                 alt="Sapo animado verde pulando na grama" />
-            <img src="gifs/hamster.gif" class="bunny-gif" style="right:18%; bottom:32px; width:54px;"
+            <img src="gifs/hamster.gif" class="hamster-gif" style="right:18%; bottom:32px; width:54px;"
                 alt="Hamster animado marrom na grama" />
-            <img src="gifs/dog.gif" class="bunny-gif" style="right:7%; bottom:22px; width:68px;"
+            <img src="gifs/dog.gif" class="dog-gif" style="right:7%; bottom:22px; width:68px;"
                 alt="Cachorro animado bege sentado na grama" />
         </div>
     </div>

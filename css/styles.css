@@ -1,3 +1,109 @@
+/* Efeito de respiração suave para todos os pandas */
+.panda-breathing {
+    animation: pandaBreathing 3.5s infinite ease-in-out;
+}
+
+/* Animações específicas para diferentes estados do panda */
+.panda-sit.panda-breathing,
+.panda-eat.panda-breathing,
+.panda-rain-eat.panda-breathing,
+.panda-rain-pet.panda-breathing {
+    animation: pandaBreathingSitting 3.5s infinite ease-in-out;
+}
+
+.panda-sad.panda-breathing,
+.panda-sleep.panda-breathing,
+.panda-rain-sleep.panda-breathing,
+.panda-rain-sad.panda-breathing {
+    animation: pandaBreathingSad 3.5s infinite ease-in-out;
+}
+
+@keyframes pandaBreathing {
+    0%, 100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, -3px);
+    }
+}
+
+@keyframes pandaBreathingSitting {
+    0%, 100% {
+        transform: translate(-50%, 12%);
+    }
+    50% {
+        transform: translate(-50%, 9%);
+    }
+}
+
+@keyframes pandaBreathingSad {
+    0%, 100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, -2px);
+    }
+}
+
+/* Centralização e alinhamento para pandas principais */
+/* Removemos as classes obsoletas pois não são mais necessárias */
+
+/* Pandas principais */
+.panda-pixel,
+.panda-awake,
+.panda-sit,
+.panda-sleep,
+.panda-sad,
+.panda-eat,
+.panda-rain,
+.panda-rain-eat,
+.panda-rain-pet,
+.panda-rain-sleep,
+.panda-rain-sad {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0;
+    z-index: 2;
+    display: none;
+    max-width: 80%; /* Reduzido para evitar que os gifs fiquem muito grandes */
+    width: 180px; /* Largura fixa para todos os pandas */
+    height: auto;
+    pointer-events: none;
+    object-fit: contain; /* Mantém a proporção da imagem */
+}
+
+/* Ajuste para sentar na grama (levemente afundado) */
+.panda-sit,
+.panda-eat,
+.panda-rain-eat,
+.panda-rain-pet {
+    transform: translate(-50%, 5%) !important;
+    bottom: 0 !important; /* Garante que o panda está alinhado com o chão */
+}
+
+/* Panda triste, dormindo e dormindo na chuva colados ao chão */
+.panda-sad,
+.panda-sleep,
+.panda-rain-sleep,
+.panda-rain-sad {
+    transform: translate(-50%, 0) !important;
+    bottom: 0 !important;
+    max-height: 85%; /* Evita que o panda triste ou dormindo seja muito alto */
+}
+
+/* Panda chuva padrão (em pé) */
+.panda-rain {
+    transform: translate(-50%, 0) !important;
+    bottom: 0 !important;
+    width: 200px; /* Um pouco maior para mostrar o guarda-chuva */
+}
+
+/* Garante que só um panda aparece por vez */
+#panda-container .panda-pixel[style*="display: block"] {
+    display: block !important;
+    z-index: 3;
+}
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
 
 /* Base styles */
@@ -38,7 +144,7 @@ body::before {
     background-repeat: no-repeat;
     background-size: 100% 40%, 100% 50%, 100% 60%, 100% 100%;
     background-position: bottom;
-    transition: background 0.8s cubic-bezier(.4, 0, .2, 1);
+    /* transition removida para gifs */
 }
 
 /* Game wrapper and container */
@@ -78,7 +184,7 @@ body::before {
     border: 3.5px solid #f9e7f7;
     position: relative;
     overflow: visible;
-    transition: box-shadow 0.3s, transform 0.2s;
+    /* transition removida para gifs */
 }
 
 .game-card::after {
@@ -112,6 +218,8 @@ body::before {
     min-height: 260px;
     position: relative;
     z-index: 1;
+    overflow: hidden; /* Impede que os gifs saiam do contêiner */
+    max-height: 280px; /* Define uma altura máxima para manter a proporção */
 }
 
 /* CENÁRIO FIXO DO PANDA */
@@ -132,9 +240,10 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    height: 30px;
+    height: 35px; /* Aumentado para melhor base para os pandas */
     background: linear-gradient(to top, #4ade80 60%, #bbf7d0 100%);
     border-radius: 0 0 32px 32px;
+    z-index: 1; /* Garante que a grama fique abaixo do panda */
 }
 
 /* Ajustes responsivos para o cenário */
@@ -286,6 +395,30 @@ body::before {
     top: 30px;
 }
 
+/* Adicionar nervuras à folha de bambu */
+.bamboo-leaf::before,
+.bamboo-leaf::after {
+    content: '';
+    position: absolute;
+    background: #5a9216;
+    border-radius: 50%;
+}
+
+.bamboo-leaf::before {
+    width: 30px;
+    height: 2px;
+    top: 10px;
+    left: 5px;
+}
+
+.bamboo-leaf::after {
+    width: 25px;
+    height: 2px;
+    top: 15px;
+    left: 8px;
+    transform: rotate(-5deg);
+}
+
 /* Status bars */
 .status-bars {
     margin-top: 1.5rem;
@@ -320,30 +453,38 @@ body::before {
 }
 
 .progress-bar {
-    height: 22px;
-    border-radius: 22px;
-    background: #f8e1eb;
     overflow: hidden;
-    border: 2.5px solid #f9e7f7;
-    box-shadow: 0 2px 8px #f3e8ff33;
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 22px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    will-change: transform, opacity;
 }
 
 .progress {
     height: 100%;
     border-radius: 22px;
-    transition: width 0.3s cubic-bezier(.4, 1.4, .7, 1.1);
+    display: block !important;
+    will-change: transform, width;
+    /* transition removida para gifs */
 }
 
 .bg-green {
-    background: linear-gradient(90deg, #bbf7d0 0%, #6ee7b7 100%);
+    background: linear-gradient(90deg, #bbf7d0 0%, #4ade80 100%) !important;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
 }
 
 .bg-blue {
-    background: linear-gradient(90deg, #f38bbf 0%, #ec4899 100%);
+    background: linear-gradient(90deg, #fecdd3 0%, #ec4899 100%) !important;
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.5);
 }
 
 .bg-purple {
-    background: linear-gradient(90deg, #ab8af7 0%, #8b5cf6 100%);
+    background: linear-gradient(90deg, #c7d2fe 0%, #8b5cf6 100%) !important;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
 }
 
 /* Buttons */
@@ -365,7 +506,7 @@ body::before {
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 6px 18px rgba(236, 72, 153, 0.10), 0 2px 8px #e0e7ff44;
-    transition: all 0.22s cubic-bezier(.4, 1.4, .7, 1.1);
+    /* transition removida para gifs */
     border: 2.5px solid #f9e7f7;
     font-family: 'Baloo 2', cursive;
     font-size: 1.1rem;
@@ -377,15 +518,30 @@ body::before {
 .btn-kawaii::after {
     content: '';
     position: absolute;
-    top: 8px;
-    right: 18px;
-    width: 18px;
-    height: 8px;
-    background: radial-gradient(circle, #fff 60%, #f3e8ff 100%);
-    border-radius: 50px;
-    opacity: 0.5;
-    filter: blur(1px);
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0) 40%, 
+                rgba(255,255,255,0.4) 50%, 
+                rgba(255,255,255,0) 60%, 
+                rgba(255,255,255,0) 100%);
+    transform: rotate(45deg);
+    animation: shineEffect 6s infinite;
     pointer-events: none;
+}
+
+@keyframes shineEffect {
+    0% {
+        left: -150%;
+        top: -50%;
+    }
+    40%, 100% {
+        left: 100%;
+        top: 100%;
+    }
 }
 
 .btn-kawaii:hover {
@@ -397,6 +553,35 @@ body::before {
 .btn-kawaii:active {
     transform: scale(0.97) rotate(1deg);
     background: linear-gradient(120deg, #f9a8d4 0%, #a5b4fc 100%);
+}
+
+/* Botão de banho */
+.shower-btn {
+    background: linear-gradient(135deg, #38bdf8 0%, #1e40af 100%);
+    box-shadow: 0 4px 12px -2px rgba(56, 189, 248, 0.6);
+}
+
+.shower-btn:hover {
+    background: linear-gradient(135deg, #7dd3fc 0%, #3b82f6 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+.shower-btn:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+/* Ajustar o container de botões para quatro botões */
+.buttons-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+@media (min-width: 480px) {
+    .buttons-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 /* Message */
@@ -443,6 +628,7 @@ body::before {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     position: relative;
     border: 2px solid #e9d5ff;
+    animation: floatBubble 5s ease-in-out infinite;
 }
 
 .author-photo-message {
@@ -453,6 +639,7 @@ body::before {
     margin-right: 12px;
     border: 2px solid #ec4899;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background: url('../img/itsmee.jpg') center/cover no-repeat;
 }
 
 .message-content {
@@ -465,88 +652,6 @@ body::before {
     color: #8b5cf6;
     font-size: 1.05rem;
     line-height: 1.4;
-}
-
-/* Responsive styles for the welcome message */
-@media (max-width: 480px) {
-    .author-bubble {
-        padding: 10px 14px;
-    }
-
-    .author-photo-message {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-    }
-
-    .message-content p {
-        font-size: 0.95rem;
-    }
-}
-
-/* Estilos para o rodapé com créditos */
-.footer {
-    text-align: center;
-    padding: 0.8rem 0.8rem;
-    background: linear-gradient(145deg, #f3e8ff 0%, #dbeafe 100%);
-    border-top: 2px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.03);
-    position: relative;
-    z-index: 5;
-}
-
-.footer-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.developed-by {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #8b5cf6;
-    margin: 0;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.developed-by span {
-    color: #ec4899;
-}
-
-.author-info {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: bold;
-    color: #8b5cf6;
-    position: relative;
-    padding: 2px;
-    transition: all 0.3s ease;
-}
-
-.author-info:hover .author-photo {
-    transform: scale(1.1);
-    border-color: #f472b6;
-}
-
-.author-photo {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ec4899;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    vertical-align: middle;
-    animation: gentle-pulse 4s infinite ease-in-out;
-    background-color: #fdf6e3;
-    /* Fallback background if image fails to load */
-    display: inline-block;
 }
 
 /* Animation for author photo */
@@ -582,7 +687,7 @@ body::before {
     height: 40px;
     background: white;
     border-radius: 50%;
-    transition: all 0.3s;
+    /* transition removida para gifs */
     color: #8b5cf6;
     text-decoration: none;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
@@ -731,10 +836,38 @@ body::before {
         padding: 1.2rem;
     }
 
-    .panda-pixel {
-        width: 180px;
-        /* Tamanho ligeiramente reduzido */
-    }
+.panda-pixel {
+    width: 180px;
+    image-rendering: pixelated;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 2;
+    pointer-events: none;
+    display: none;
+}
+
+#panda-container {
+    position: relative;
+    min-height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* Garante que só um panda aparece por vez, exceto efeitos temporários */
+#panda-container .panda-pixel[style*="display: block"] {
+    display: block;
+}
+
+/* Ajuste para os novos gifs de chuva */
+#panda-rain-eat,
+#panda-rain-pet,
+#panda-rain-sleep {
+    z-index: 3;
+}
 
     .kawaii-container {
         width: 180px;
@@ -815,21 +948,37 @@ body::before {
     }
 
     .buttons-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 0.4rem;
     }
 
     .btn-kawaii {
         padding: 0.5rem;
+        font-size: 0.85rem;
     }
 
     .panda-pixel {
         width: 130px;
+        max-width: 90%;
     }
 
     .kawaii-container {
-        width: 130px;
-        height: 130px;
+        min-height: 180px;
+        max-height: 180px;
+    }
+    
+    .panda-grass {
+        height: 20px;
+    }
+    
+    /* Otimizar espaço em telas pequenas */
+    .status-label {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .game-card {
+        padding: 1rem 0.8rem;
     }
 }
 
@@ -878,13 +1027,19 @@ body::before {
 
 /* Decorative elements */
 .bamboo {
-    position: relative;
-    width: 20px;
-    height: 120px;
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 90px;
     background: linear-gradient(to right, #7cb342, #8bc34a, #7cb342);
     border-radius: 10px;
     margin: 0 auto;
-    transition: all 0.3s;
+    z-index: 15;
+    box-shadow: 0 2px 8px #a3e63555;
+    display: flex;
+    align-items: flex-end;
 }
 
 .bamboo::before,
@@ -914,82 +1069,32 @@ body::before {
     top: 10px;
     left: 15px;
     transform: rotate(30deg);
+    /* Removendo a imagem incorreta do panda */
+    background: linear-gradient(145deg, #9ccc65, #7cb342);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.sleep-bubble {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: white;
-    border-radius: 50%;
-    top: 10px;
-    /* Mantém próximo do panda */
-    right: 20px;
-    opacity: 0;
-    transition: opacity 0.7s cubic-bezier(.4, 0, .2, 1);
-    border: 2.5px solid #e0e0e0;
-    box-shadow: 0 8px 32px 0 #bdb4e633, 0 0 0 12px #f3e8ff44;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: sleep-bubble-float 2.5s ease-in-out infinite alternate;
-}
-
-.sleep-bubble::before {
+.bamboo-leaf::before,
+.bamboo-leaf::after {
     content: '';
     position: absolute;
-    width: 52px;
-    height: 52px;
-    background: white;
+    background: #5a9216;
     border-radius: 50%;
-    bottom: -26px;
-    left: 18px;
-    border: 2px solid #e0e0e0;
-    border-bottom: none;
-    border-left: none;
-    opacity: 0.7;
 }
 
-.sleep-bubble::after {
-    content: 'Z';
-    position: absolute;
-    font-size: 3.2rem;
-    font-weight: 800;
-    color: #b39ddb;
-    top: 32px;
-    left: 38px;
-    text-shadow: 0 2px 12px #e0e7ff, 0 0 0 #fff;
-    animation: sleep-bubble-z 1.2s infinite alternate;
-    font-family: 'Baloo 2', cursive;
-    letter-spacing: 2px;
+.bamboo-leaf::before {
+    width: 30px;
+    height: 2px;
+    top: 10px;
+    left: 5px;
 }
 
-@keyframes sleep-bubble-float {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(-18px);
-    }
-}
-
-@keyframes sleep-bubble-z {
-    0% {
-        opacity: 0.7;
-        transform: translateY(0) scale(1);
-    }
-
-    60% {
-        opacity: 1;
-        transform: translateY(-8px) scale(1.12);
-    }
-
-    100% {
-        opacity: 0.7;
-        transform: translateY(-16px) scale(0.95);
-    }
+.bamboo-leaf::after {
+    width: 25px;
+    height: 2px;
+    top: 15px;
+    left: 8px;
+    transform: rotate(-5deg);
 }
 
 /* Ground decorations */
@@ -1120,11 +1225,32 @@ body::before {
     border: 2px solid #ffe066;
 }
 
-/* Transitions */
-body,
-.panda-bg {
-    transition: background 0.8s cubic-bezier(.4, 0, .2, 1);
+/* Melhorando o visual dos raios solares */
+.sun-ray {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255,255,190,0.8) 0%, rgba(255,255,220,0.1) 70%, rgba(255,255,255,0) 100%);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: sunRayPulse 5s infinite alternate ease-in-out;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(2px);
 }
+
+@keyframes sunRayPulse {
+    from {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+}
+
+/* Transitions - removidas para melhorar performance com gifs */
 
 /* Keyframes */
 @keyframes float {
@@ -1386,8 +1512,31 @@ body,
     position: absolute;
     width: 2px;
     height: 10px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
-    animation: rainfall 1s linear infinite;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(205, 237, 255, 0.8));
+    border-radius: 50%;
+    display: block;
+    opacity: 0.8;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: center bottom;
+    z-index: 2;
+    animation: fallDrop 1.5s linear infinite;
+}
+
+@keyframes fallDrop {
+    0% {
+        transform: translateY(-150px) scaleY(1);
+    }
+    70% {
+        transform: translateY(0) scaleY(1);
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(0) scaleY(0.5);
+        opacity: 0;
+    }
 }
 
 .snow-flake {
@@ -1400,744 +1549,291 @@ body,
 
 .sun-ray {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle, rgba(255, 236, 153, 0.4) 0%, transparent 70%);
-    animation: sunray 4s ease-in-out infinite;
-}
-
-/* Ajustes responsivos para efeitos climáticos */
-@media (max-width: 480px) {
-    .rain-drop {
-        width: 1.5px;
-        height: 15px;
-    }
-
-    .snow-flake {
-        font-size: 0.9rem;
-    }
-
-    .sun-ray {
-        width: 35px;
-        height: 35px;
-    }
-
-    .moon {
-        width: 70px;
-        height: 70px;
-    }
-
-    .sun {
-        width: 70px;
-        height: 70px;
-    }
-
-    .rainbow {
-        width: 100px;
-        height: 50px;
-    }
-
-    .cloud {
-        transform: scale(0.8);
-    }
-
-    .star {
-        font-size: 16px;
-    }
-}
-
-.bunny-gif {
-    position: absolute;
-    z-index: 2;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255,255,190,0.8) 0%, rgba(255,255,220,0.1) 70%, rgba(255,255,255,0) 100%);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: sunRayPulse 5s infinite alternate ease-in-out;
     pointer-events: none;
-    filter: drop-shadow(0 4px 12px #bdb4e655);
-    /* Remove a animação de pulo para ficar fixo no chão */
-    /* animation: none !important; */
-    /* Garante que fique fixo no chão, alinhado pela base */
-    transform: translateY(0) !important;
+    z-index: 1;
+    filter: blur(2px);
 }
 
-/* Panda Pixel Art */
-.panda-pixel {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 200px;
-    height: auto;
-    /* Suporte para renderização pixelada em vários navegadores */
-    image-rendering: -moz-crisp-edges;
-    /* Firefox */
-    image-rendering: -webkit-crisp-edges;
-    /* Safari */
-    image-rendering: pixelated;
-    /* Chrome */
-    image-rendering: crisp-edges;
-    /* Padrão */
-    -ms-interpolation-mode: nearest-neighbor;
-    /* IE (obsoleto) */
-    transition: opacity 0.5s, transform 0.7s cubic-bezier(.4, 0, .2, 1);
-    z-index: 2;
-    /* Evitar bordas borradas em telas de alta densidade */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
-
-.panda-awake {
-    bottom: 0;
-    z-index: 2;
-}
-
-.panda-awake-blink {
-    bottom: 0;
-    /* Alinha à base do container */
-    z-index: 3;
-    /* Mesma profundidade de outros estados ativos */
-    /* Se o panda triste parecer flutuar ou afundar, ajuste com translateY: */
-    /* transform: translateY(0px); */
-}
-
-.panda-sit {
-    bottom: 0 !important;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    position: absolute;
-    z-index: 2;
-    transform: translateY(8%) !important;
-    /* levemente afundado para sentar na grama */
-}
-
-.panda-blink {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    z-index: 5 !important;
-    pointer-events: none;
-    transform: translateY(8%) !important;
-    display: block;
-}
-
-@media (max-width: 600px) {
-    .panda-blink {
-        transform: translateY(12%) !important;
+@keyframes sunRayPulse {
+    from {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1.5);
+        opacity: 0.8;
     }
 }
 
-@media (max-width: 400px) {
-    .panda-blink {
-        transform: translateY(16%) !important;
-    }
+/* Garantindo que as barras de progresso sejam exibidas corretamente */
+.progress-bar {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 22px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    will-change: transform, opacity;
 }
 
+.progress {
+    height: 100%;
+    border-radius: 22px;
+    display: block !important;
+    will-change: transform, width;
+    /* transition removida para gifs */
+}
+
+/* Efeito pulsante para as barras */
+@keyframes pulseBar {
+    0%, 100% { opacity: 0.95; }
+    50% { opacity: 1; }
+}
+
+.bg-green, .bg-blue, .bg-purple {
+    animation: pulseBar 2s infinite ease-in-out;
+}
+
+.bg-green {
+    background: linear-gradient(90deg, #bbf7d0 0%, #4ade80 100%) !important;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.bg-blue {
+    background: linear-gradient(90deg, #fecdd3 0%, #ec4899 100%) !important;
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.5);
+}
+
+.bg-purple {
+    background: linear-gradient(90deg, #c7d2fe 0%, #8b5cf6 100%) !important;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+}
+
+/* Panda dormindo (normal sleep) precisa descer um pouco para não flutuar */
 .panda-sleep {
-    bottom: 0;
-    z-index: 2;
-    /* Ajuste para corrigir a flutuação do panda dormindo: */
-    /* Aumentando um pouco o tamanho do panda dormindo e ajustando posição */
-    transform: translateY(110px) scale(1.15);
-    /* O scale aumenta o tamanho em 15% */
-    transform-origin: bottom center;
-    /* Garantir que o aumento de escala seja a partir do centro inferior */
-}
-
-/* Ajustes responsivos para o panda dormindo */
-@media (max-width: 768px) {
-    .panda-sleep {
-        transform: translateY(100px) scale(1.15);
-    }
-}
-
-@media (max-width: 480px) {
-    .panda-sleep {
-        transform: translateY(80px) scale(1.15);
-    }
-}
-
-@media (max-width: 350px) {
-    .panda-sleep {
-        transform: translateY(70px) scale(1.15);
-    }
-}
-
-.panda-sad {
-    bottom: 0;
-    /* Alinha à base do container */
-    z-index: 2;
-    /* Mesma profundidade de outros estados ativos */
-    /* Se o panda triste parecer flutuar ou afundar, ajuste com translateY: */
-    /* transform: translateY(0px); */
-}
-
-.kawaii-container {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-}
-
-.author-name {
-    font-weight: bold;
-    color: #8b5cf6;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.author-info:hover .author-name {
-    color: #9061f9;
-}
-
-/* RESPONSIVIDADE GERAL E AJUSTES PARA O LAYOUT PRINCIPAL */
-@media (max-width: 1200px) {
-    .container {
-        max-width: 98vw;
-        padding: 1.2rem 0.5rem;
-    }
-
-    .game-card {
-        max-width: 98vw;
-    }
-}
-
-@media (max-width: 1024px) {
-    .container {
-        padding: 1rem 0.2rem;
-    }
-
-    .game-card {
-        padding: 1rem 0.5rem;
-    }
-}
-
-@media (max-width: 900px) {
-    .container {
-        padding: 0.7rem 0.1rem;
-    }
-
-    .game-card {
-        padding: 0.7rem 0.2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 0.5rem 0.1rem;
-    }
-
-    .game-title {
-        font-size: 1.6rem;
-    }
-
-    .game-card {
-        max-width: 100vw;
-        padding: 0.5rem 0.1rem;
-        border-radius: 16px;
-    }
-
-    .kawaii-container {
-        width: 140px;
-        height: 140px;
-    }
-
-    .panda-pixel {
-        width: 140px;
-    }
-
-    .status-bars {
-        padding: 0.5rem 0.1rem 0.2rem 0.1rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .container {
-        max-width: 100vw;
-        min-width: 0;
-        padding: 0.5rem 0.2rem !important;
-    }
-
-    .game-card {
-        max-width: 100vw;
-        min-width: 0;
-        padding: 0.5rem 0.2rem !important;
-        border-radius: 12px;
-    }
-
-    .kawaii-container {
-        width: 100vw;
-        max-width: 100vw;
-        min-width: 0;
-        height: auto;
-        min-height: 38vw;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        margin: 0 auto 0 auto;
-        padding-bottom: 0.5rem;
-        position: relative;
-    }
-
-    .panda-pixel {
-        width: 44vw !important;
-        min-width: 120px;
-        max-width: 220px;
-        height: auto !important;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        position: absolute;
-        bottom: 0;
-        z-index: 2;
-    }
-
-    /* Ajuste para o panda dormindo não "flutuar" */
-    .panda-sleep {
-        transform: translateY(10vw) scale(1.15) !important;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        position: absolute;
-        bottom: 0;
-    }
-}
-
-@media (max-width: 400px) {
-    .panda-pixel {
-        width: 60vw !important;
-        min-width: 90px;
-        max-width: 160px;
-    }
-
-    .kawaii-container {
-        min-height: 50vw;
-    }
-}
-
-@media (max-width: 350px) {
-    .panda-pixel {
-        width: 80vw !important;
-        min-width: 60px;
-        max-width: 120px;
-    }
-
-    .kawaii-container {
-        min-height: 60vw;
-    }
-}
-
-/* Para telas altas e estreitas (ex: iPhone SE em portrait) */
-@media (max-width: 400px) and (max-height: 700px) {
-    .kawaii-container {
-        min-height: 40vw;
-        padding-bottom: 0.2rem;
-    }
-
-    .panda-pixel {
-        width: 70vw !important;
-        min-width: 70px;
-        max-width: 120px;
-    }
-}
-
-/* Garante que o panda fique "colado" ao chão do cenário */
-.kawaii-container {
-    align-items: flex-end !important;
-    justify-content: center !important;
-    position: relative;
-    min-height: 200px;
-}
-
-.panda-pixel {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: 0;
-    z-index: 2;
-}
-
-/* --- FIM DOS AJUSTES DE RESPONSIVIDADE AVANÇADA --- */
-
-/* --- AJUSTE DE ALINHAMENTO DO PANDA NA GRAMA (MOBILE E DESKTOP) --- */
-.panda-awake,
-.panda-awake-blink {
     bottom: 0 !important;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    position: absolute;
-    z-index: 2;
-    transform: none !important;
 }
 
-.panda-sit {
+/* Panda dormindo (normal sleep) precisa descer um pouco para não flutuar */
+.panda-sleep {
     bottom: 0 !important;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    position: absolute;
-    z-index: 2;
-    transform: translateY(8%) !important;
-    /* levemente afundado para sentar na grama */
 }
 
-@media (max-width: 600px) {
-    .panda-sit {
-        transform: translateY(12%) !important;
-    }
-}
-
-@media (max-width: 400px) {
-    .panda-sit {
-        transform: translateY(16%) !important;
-    }
-}
-
-/* --- FIM DO AJUSTE DE ALINHAMENTO --- */
-
-/* --- AJUSTE FINAL DE ALINHAMENTO DO PANDA NA GRAMA (ROBUSTO PARA QUALQUER TELA) --- */
-.kawaii-container {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    min-height: 38vw;
-    height: 38vw;
-    max-height: 60vw;
-    position: relative;
-    width: 100vw;
-    margin: 0 auto;
-    padding-bottom: 0;
-}
-
-.panda-pixel,
-.panda-awake,
-.panda-awake-blink,
-.panda-sit {
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    margin: 0 auto !important;
-    bottom: 0 !important;
-    transform: none !important;
-    display: block;
-    z-index: 2;
-}
-
-.panda-blink {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    z-index: 5 !important;
-    pointer-events: none;
-    transform: translateY(8%) !important;
-    display: block;
-}
-
-@media (max-width: 600px) {
-    .panda-blink {
-        transform: translateY(12%) !important;
-    }
-}
-
-@media (max-width: 400px) {
-    .panda-blink {
-        transform: translateY(16%) !important;
-    }
-}
-
-.panda-grass {
-    height: 8vw !important;
-    min-height: 28px;
-    max-height: 48px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-@media (max-width: 600px) {
-    .panda-grass {
-        height: 12vw !important;
-        min-height: 18px;
-        max-height: 38px;
-    }
-}
-
-@media (max-width: 400px) {
-    .panda-grass {
-        height: 16vw !important;
-        min-height: 12px;
-        max-height: 28px;
-    }
-}
-
-/* --- FIM DO AJUSTE FINAL --- */
-
-/* --- AJUSTE FINAL: DESKTOP FIXO, MOBILE RESPONSIVO --- */
-.kawaii-container {
-    width: 200px;
-    height: 200px;
-    min-height: 200px;
-    max-width: 100vw;
-    margin: 0 auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    position: relative;
-    padding-bottom: 0;
-}
-
-.panda-pixel,
-.panda-awake,
-.panda-awake-blink,
-.panda-sit {
-    width: 200px;
-    height: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: 0;
-    z-index: 2;
-    transform: none !important;
-}
-
-.panda-grass {
-    height: 36px !important;
-    min-height: 28px;
-    max-height: 48px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-/* Somente para telas menores, aplica responsividade avançada */
-@media (max-width: 900px) {
-    .kawaii-container {
-        width: 44vw;
-        min-width: 120px;
-        max-width: 220px;
-        height: 44vw;
-        min-height: 120px;
-        max-height: 220px;
-        padding-bottom: 0;
-    }
-
-    .panda-pixel,
-    .panda-awake,
-    .panda-awake-blink,
-    .panda-sit {
-        width: 44vw !important;
-        min-width: 120px;
-        max-width: 220px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        bottom: 0;
-        position: absolute;
-    }
-
-    .panda-sit {
-        margin-bottom: 2vw !important;
-    }
-
-    .panda-grass {
-        height: 8vw !important;
-        min-height: 28px;
-        max-height: 48px;
-    }
-}
-
-@media (max-width: 600px) {
-    .kawaii-container {
-        width: 60vw;
-        min-width: 90px;
-        max-width: 160px;
-        height: 60vw;
-        min-height: 90px;
-        max-height: 160px;
-    }
-
-    .panda-pixel,
-    .panda-awake,
-    .panda-awake-blink,
-    .panda-sit {
-        width: 60vw !important;
-        min-width: 90px;
-        max-width: 160px;
-    }
-
-    .panda-sit {
-        margin-bottom: 3vw !important;
-    }
-
-    .panda-grass {
-        height: 12vw !important;
-        min-height: 18px;
-        max-height: 38px;
-    }
-}
-
-@media (max-width: 400px) {
-    .kawaii-container {
-        width: 80vw;
-        min-width: 60px;
-        max-width: 120px;
-        height: 80vw;
-        min-height: 60px;
-        max-height: 120px;
-    }
-
-    .panda-pixel,
-    .panda-awake,
-    .panda-awake-blink,
-    .panda-sit {
-        width: 80vw !important;
-        min-width: 60px;
-        max-width: 120px;
-    }
-
-    .panda-sit {
-        margin-bottom: 4vw !important;
-    }
-
-    .panda-grass {
-        height: 16vw !important;
-        min-height: 12px;
-        max-height: 28px;
-    }
-}
-
-/* --- FIM DO AJUSTE FINAL --- */
-
-/* Garante stacking context correto para o panda e blink */
-.kawaii-container {
-    position: relative;
-    z-index: 2;
-}
-
-.panda-sit,
-.panda-awake,
-.panda-awake-blink,
-.panda-sleep,
-.panda-sad {
-    z-index: 2 !important;
-}
-
-.panda-rain-eye-center,
-.panda-rain-eye-up {
-    z-index: 6 !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-}
-
-.panda-grass {
-    z-index: 1 !important;
-}
-
-.weather-effects {
-    z-index: 10 !important;
-}
-
-/* Fixing z-index issues with overlapping panda images */
-.panda-rain {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    z-index: 4 !important;
-}
-
-.panda-rain-eye-center,
-.panda-rain-eye-up {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    z-index: 6 !important;
-    pointer-events: none;
-}
-
-.panda-blink {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    z-index: 5 !important;
-    pointer-events: none;
-}
-
-/* Specifically ensure rain eyes are always on top during animation */
-.panda-breathing.panda-rain-eye-center,
-.panda-breathing.panda-rain-eye-up {
-    z-index: 6 !important;
-}
-
-/* Ensure panda-blink stays under rain eyes */
-.panda-blink {
-    z-index: 5 !important;
-}
-
-/* Posição base para todos os pandas que ficam no chão */
+/* Ajuste para sentar na grama */
 .panda-sit,
 .panda-blink,
 .panda-rain {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    transform: translateY(8%) !important; /* Esta linha "afunda" o panda na grama */
+    transform: translateY(8%) !important;
 }
-
-/* Ajustes responsivos para a posição "sentado" */
 @media (max-width: 600px) {
     .panda-sit, .panda-blink, .panda-rain {
         transform: translateY(12%) !important;
     }
 }
-
 @media (max-width: 400px) {
     .panda-sit, .panda-blink, .panda-rain {
         transform: translateY(16%) !important;
     }
 }
 
-/* Z-index específico para cada estado, garantindo que um fique sobre o outro corretamente */
-.panda-sit {
-    z-index: 2 !important;
+/* Classes para diferentes climas */
+.panda-pixel.weather-sunny {
+    filter: brightness(1.1) saturate(1.1);
+    animation: sunnyPanda 5s infinite alternate ease-in-out !important;
 }
 
-.panda-rain {
-    z-index: 4 !important;
+.panda-pixel.weather-clear {
+    filter: brightness(1.05);
+    animation: clearPanda 6s infinite alternate ease-in-out !important;
 }
 
-.panda-blink {
-    z-index: 5 !important;
+.panda-pixel.weather-snow {
+    filter: brightness(1.02) contrast(1.02);
+    animation: snowPanda 7s infinite alternate ease-in-out !important;
+}
+
+@keyframes sunnyPanda {
+    0%, 100% {
+        transform: translate(-50%, 0);
+        filter: brightness(1.1) saturate(1.1);
+    }
+    50% {
+        transform: translate(-50%, -4px);
+        filter: brightness(1.15) saturate(1.15);
+    }
+}
+
+@keyframes clearPanda {
+    0%, 100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, -3px);
+    }
+}
+
+@keyframes snowPanda {
+    0%, 100% {
+        transform: translate(-50%, 0);
+    }
+    33% {
+        transform: translate(-51%, -2px);
+    }
+    66% {
+        transform: translate(-49%, -1px);
+    }
+}
+
+/* Melhorando o visual dos flocos de neve */
+.snow-flake {
+    color: #f0f8ff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+    opacity: 0.8;
+    animation: snowfall 8s linear infinite, snowGlow 5s infinite alternate;
+    will-change: transform;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(300px) rotate(360deg);
+    }
+}
+
+@keyframes snowGlow {
+    from {
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+        opacity: 0.7;
+    }
+    to {
+        text-shadow: 0 0 8px rgba(255, 255, 255, 1);
+        opacity: 0.9;
+    }
+}
+
+/* Tamanho específico para diferentes tamanhos de tela */
+@media (max-width: 768px) {
+    .panda-pixel,
+    .panda-awake,
+    .panda-sit,
+    .panda-sleep,
+    .panda-sad,
+    .panda-eat,
+    .panda-rain,
+    .panda-rain-eat,
+    .panda-rain-pet,
+    .panda-rain-sleep,
+    .panda-rain-sad {
+        width: 150px; /* Tamanho menor para tablets */
+        max-width: 75%;
+    }
+    
+    .kawaii-container {
+        min-height: 220px;
+        max-height: 240px;
+    }
+    
+    .panda-grass {
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .panda-pixel,
+    .panda-awake,
+    .panda-sit,
+    .panda-sleep,
+    .panda-sad,
+    .panda-eat,
+    .panda-rain,
+    .panda-rain-eat,
+    .panda-rain-pet,
+    .panda-rain-sleep,
+    .panda-rain-sad {
+        width: 120px; /* Tamanho menor para celulares */
+        max-width: 70%;
+    }
+    
+    .kawaii-container {
+        min-height: 180px;
+        max-height: 200px;
+    }
+    
+    .panda-grass {
+        height: 25px;
+    }
+}
+
+/* Estilos para pandas em banho */
+.panda-shower,
+.panda-rain-shower {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0;
+    z-index: 2;
+    display: none;
+    max-width: 80%;
+    width: 180px;
+    height: auto;
     pointer-events: none;
+    object-fit: contain;
 }
 
-/* ===================================================== */
-/* ===== AJUSTE FINAL DE POSIÇÃO (Subir os Pandas) ===== */
-/* ===================================================== */
+/* Efeito de respingo de água */
+.water-splash {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #60a5fa;
+    opacity: 0.8;
+    z-index: 10;
+    animation: splash 1s ease-out forwards;
+}
 
-.kawaii-container {
-    position: relative; /* Necessário para a propriedade 'bottom' funcionar */
-    bottom: 25px;       /* Move TODOS os pandas 25 pixels para CIMA */
+@keyframes splash {
+    0% {
+        transform: scale(0);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* Adicionar mais respingos na versão animada */
+.panda-shower.panda-breathing::after,
+.panda-rain-shower.panda-breathing::after {
+    content: '💦';
+    position: absolute;
+    top: 20%;
+    left: 60%;
+    font-size: 1.2rem;
+    animation: floatEmoji 2s infinite linear;
+    opacity: 0.8;
+}
+
+@keyframes floatEmoji {
+    0%, 100% {
+        transform: translateY(0) rotate(5deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
 }
