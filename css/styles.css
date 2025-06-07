@@ -1,142 +1,3 @@
-/* Efeito de respiração suave para todos os pandas */
-.panda-breathing {
-    animation: pandaBreathing 3.5s infinite ease-in-out;
-}
-
-/* Animações específicas para diferentes estados do panda */
-.panda-sit.panda-breathing,
-.panda-eat.panda-breathing,
-.panda-rain-eat.panda-breathing,
-.panda-rain-pet.panda-breathing {
-    animation: pandaBreathingSitting 3.5s infinite ease-in-out;
-}
-
-.panda-sad.panda-breathing,
-.panda-sleep.panda-breathing,
-.panda-rain-sleep.panda-breathing,
-.panda-rain-sad.panda-breathing {
-    animation: pandaBreathingSad 3.5s infinite ease-in-out;
-}
-
-@keyframes pandaBreathing {
-    0%, 100% {
-        transform: translate(-50%, 0);
-    }
-    50% {
-        transform: translate(-50%, -3px);
-    }
-}
-
-@keyframes pandaBreathingSitting {
-    0%, 100% {
-        transform: translate(-50%, 12%);
-    }
-    50% {
-        transform: translate(-50%, 9%);
-    }
-}
-
-@keyframes pandaBreathingSad {
-    0%, 100% {
-        transform: translate(-50%, 0);
-    }
-    50% {
-        transform: translate(-50%, -2px);
-    }
-}
-
-/* Centralização e alinhamento para pandas principais */
-/* Removemos as classes obsoletas pois não são mais necessárias */
-
-/* Pandas principais */
-.panda-pixel,
-.panda-awake,
-.panda-sit,
-.panda-sleep,
-.panda-sad,
-.panda-eat,
-.panda-rain,
-.panda-rain-eat,
-.panda-rain-pet,
-.panda-rain-sleep,
-.panda-rain-sad {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    bottom: 0;
-    z-index: 2;
-    display: none;
-    max-width: 80%; /* Reduzido para evitar que os gifs fiquem muito grandes */
-    width: 180px; /* Largura fixa para todos os pandas */
-    height: auto;
-    pointer-events: none;
-    object-fit: contain; /* Mantém a proporção da imagem */
-}
-
-/* Ajuste para sentar na grama (levemente afundado) */
-.panda-sit {
-    transform: translate(-50%, 0) !important;
-    bottom: 25px !important; /* Subido para ficar sobre a grama */
-}
-.panda-eat {
-    transform: translate(-50%, 0) !important;
-    bottom: 20px !important; /* Subido para ficar sobre a grama */
-}
-.panda-rain-eat {
-    transform: translate(-50%, 0) !important;
-    bottom: 5px !important;
-}
-.panda-rain-pet {
-    transform: translate(-50%, 0) !important;
-    bottom: 15px !important;
-}
-
-/* Panda triste e dormindo */
-.panda-sad,
-.panda-sleep {
-    transform: translate(-50%, 0) !important;
-    bottom: 0 !important;
-    max-height: 85%; /* Evita que o panda triste ou dormindo seja muito alto */
-}
-
-/* Panda dormindo na chuva */
-.panda-rain-sleep {
-    transform: translate(-50%, 0) !important;
-    bottom: 15px !important; /* Ajustado para ficar sobre a grama */
-    max-width: 80% !important;
-    width: 180px !important;
-    opacity: 1 !important;
-    z-index: 3 !important;
-}
-
-/* Panda triste na chuva */
-.panda-rain-sad {
-    transform: translate(-50%, 0) !important;
-    bottom: 0 !important;
-    max-height: 85%;
-}
-
-/* Panda chuva padrão (em pé) */
-.panda-rain {
-    transform: translate(-50%, 0) !important;
-    bottom: 35px !important; /* Sobe para cima da grama */
-    width: 200px; /* Um pouco maior para mostrar o guarda-chuva */
-}
-
-.panda-rain-eat {
-    transform: translate(-50%, 0) !important;
-    bottom: 5px !important; /* Ainda mais baixo para alinhar perfeitamente sobre a grama */
-}
-.panda-rain-pet {
-    transform: translate(-50%, 0) !important;
-    bottom: 15px !important; /* Descido para alinhar melhor com a grama */
-}
-
-/* Garante que só um panda aparece por vez */
-#panda-container .panda-pixel[style*="display: block"] {
-    display: block !important;
-    z-index: 3;
-}
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
 
 /* Base styles */
@@ -255,6 +116,95 @@ body::before {
     max-height: 280px; /* Define uma altura máxima para manter a proporção */
 }
 
+/* Pandas principais */
+.panda-pixel,
+.panda-awake,
+.panda-sit,
+.panda-sleep,
+.panda-sad,
+.panda-eat,
+.panda-rain,
+.panda-rain-eat,
+.panda-rain-pet,
+.panda-rain-sleep,
+.panda-rain-sad {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0;
+    z-index: 2;
+    display: none;
+    max-width: 80%; /* Reduzido para evitar que os gifs fiquem muito grandes */
+    width: 180px; /* Largura fixa para todos os pandas */
+    height: auto;
+    pointer-events: none;
+    object-fit: contain; /* Mantém a proporção da imagem */
+}
+
+/* Ajuste para sentar na grama (levemente afundado) */
+.panda-sit {
+    transform: translate(-50%, 0) !important;
+    bottom: 25px !important; /* Subido para ficar sobre a grama */
+}
+.panda-eat {
+    transform: translate(-50%, 0) !important;
+    bottom: 20px !important; /* Subido para ficar sobre a grama */
+}
+.panda-rain-eat {
+    transform: translate(-50%, 0) !important;
+    bottom: 5px !important;
+}
+.panda-rain-pet {
+    transform: translate(-50%, 0) !important;
+    bottom: 15px !important;
+}
+
+/* Panda triste e dormindo */
+.panda-sad,
+.panda-sleep {
+    transform: translate(-50%, 0) !important;
+    bottom: 0 !important;
+    max-height: 85%; /* Evita que o panda triste ou dormindo seja muito alto */
+}
+
+/* Panda dormindo na chuva */
+.panda-rain-sleep {
+    transform: translate(-50%, 0) !important;
+    bottom: 15px !important; /* Ajustado para ficar sobre a grama */
+    max-width: 80% !important;
+    width: 180px !important;
+    opacity: 1 !important;
+    z-index: 3 !important;
+}
+
+/* Panda triste na chuva */
+.panda-rain-sad {
+    transform: translate(-50%, 0) !important;
+    bottom: 0 !important;
+    max-height: 85%;
+}
+
+/* Panda chuva padrão (em pé) */
+.panda-rain {
+    transform: translate(-50%, 0) !important;
+    bottom: 35px !important; /* Sobe para cima da grama */
+    width: 200px; /* Um pouco maior para mostrar o guarda-chuva */
+}
+
+.panda-rain-eat {
+    transform: translate(-50%, 0) !important;
+    bottom: 5px !important; /* Ainda mais baixo para alinhar perfeitamente sobre a grama */
+}
+.panda-rain-pet {
+    transform: translate(-50%, 0) !important;
+    bottom: 15px !important; /* Descido para alinhar melhor com a grama */
+}
+
+/* Garante que só um panda aparece por vez */
+#panda-container .panda-pixel[style*="display: block"] {
+    display: block !important;
+    z-index: 3;
+}
 /* CENÁRIO FIXO DO PANDA */
 .panda-scenery {
     position: absolute;
@@ -363,6 +313,7 @@ body::before {
     height: 12px;
     border-radius: 50%;
     bottom: 8px;
+    z-index: 2; /* Adicionando z-index para garantir visibilidade */
 }
 
 .panda-flower.pink {
@@ -380,6 +331,27 @@ body::before {
 .panda-flower.orange {
     background: #fbbf24;
 }
+
+.panda-flower.purple {
+    background: #a855f7;
+}
+
+/* Mini flores para decoração extra */
+.mini-flower {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    bottom: 10px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+    z-index: 2; /* Adicionando z-index para garantir visibilidade */
+}
+
+.mini-flower.pink { background: #fb7185; }
+.mini-flower.yellow { background: #facc15; }
+.mini-flower.blue { background: #38bdf8; }
+.mini-flower.purple { background: #a855f7; }
+.mini-flower.orange { background: #fdba74; }
 
 .panda-bamboo {
     position: absolute;
@@ -583,10 +555,6 @@ body::before {
     background: linear-gradient(120deg, #f9a8d4 10%, #c4b5fd 100%);
 }
 
-.btn-kawaii:active {
-    transform: scale(0.97) rotate(1deg);
-    background: linear-gradient(120deg, #f9a8d4 0%, #a5b4fc 100%);
-}
 
 /* Botão de banho */
 .shower-btn {
@@ -670,7 +638,6 @@ body::before {
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 12px;
     border: 2px solid #ec4899;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background: url('../img/itsmee.jpg') center/cover no-repeat;
@@ -1195,6 +1162,26 @@ body::before {
     height: 20px;
 }
 
+/* Flores pequenas adicionadas */
+.flower.small {
+    width: 15px;
+    height: 15px;
+    bottom: 30px;
+}
+
+.flower.small::before {
+    width: 15px;
+    height: 15px;
+    background: #a78bfa; /* Cor lilás para variar */
+}
+
+.flower.small::after {
+    width: 6px;
+    height: 6px;
+    top: 4.5px;
+    left: 4.5px;
+}
+
 .flower::before {
     content: '';
     position: absolute;
@@ -1215,13 +1202,23 @@ body::before {
     left: 6px;
 }
 
+/* Variações de cores para as flores */
+.flower.pink::before { background: #ff9ed2; }
+.flower.blue::before { background: #93c5fd; }
+.flower.purple::before { background: #c4b5fd; }
+.flower.yellow::before { background: #fcd34d; }
+.flower.orange::before { background: #fdba74; }
+
 .stem {
     position: absolute;
     width: 4px;
-    height: 30px;
-    background: #a6d189;
-    bottom: -30px;
-    left: 8px;
+    height: 10px;
+    background: #4ade80;
+    border-radius: 2px;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
 }
 
 /* Animations */

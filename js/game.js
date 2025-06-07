@@ -456,8 +456,7 @@ function updatePandaPixelArt() {
   // Para climas especiais, podemos adicionar classes adicionais para efeitos visuais
   if (awake) {
     awake.style.display = "block";
-    awake.classList.add("panda-breathing");
-    
+    awake.classList.remove("panda-breathing");
     // Adicionar classes específicas por clima (para possíveis efeitos CSS)
     awake.classList.remove("weather-sunny", "weather-clear", "weather-snow");
     if (currentWeather === "sunny") {
