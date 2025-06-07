@@ -74,29 +74,62 @@
 }
 
 /* Ajuste para sentar na grama (levemente afundado) */
-.panda-sit,
-.panda-eat,
-.panda-rain-eat,
+.panda-sit {
+    transform: translate(-50%, 0) !important;
+    bottom: 25px !important; /* Subido para ficar sobre a grama */
+}
+.panda-eat {
+    transform: translate(-50%, 0) !important;
+    bottom: 20px !important; /* Subido para ficar sobre a grama */
+}
+.panda-rain-eat {
+    transform: translate(-50%, 0) !important;
+    bottom: 5px !important;
+}
 .panda-rain-pet {
-    transform: translate(-50%, 5%) !important;
-    bottom: 0 !important; /* Garante que o panda está alinhado com o chão */
+    transform: translate(-50%, 0) !important;
+    bottom: 15px !important;
 }
 
-/* Panda triste, dormindo e dormindo na chuva colados ao chão */
+/* Panda triste e dormindo */
 .panda-sad,
-.panda-sleep,
-.panda-rain-sleep,
-.panda-rain-sad {
+.panda-sleep {
     transform: translate(-50%, 0) !important;
     bottom: 0 !important;
     max-height: 85%; /* Evita que o panda triste ou dormindo seja muito alto */
 }
 
+/* Panda dormindo na chuva */
+.panda-rain-sleep {
+    transform: translate(-50%, 0) !important;
+    bottom: 15px !important; /* Ajustado para ficar sobre a grama */
+    max-width: 80% !important;
+    width: 180px !important;
+    opacity: 1 !important;
+    z-index: 3 !important;
+}
+
+/* Panda triste na chuva */
+.panda-rain-sad {
+    transform: translate(-50%, 0) !important;
+    bottom: 0 !important;
+    max-height: 85%;
+}
+
 /* Panda chuva padrão (em pé) */
 .panda-rain {
     transform: translate(-50%, 0) !important;
-    bottom: 0 !important;
+    bottom: 35px !important; /* Sobe para cima da grama */
     width: 200px; /* Um pouco maior para mostrar o guarda-chuva */
+}
+
+.panda-rain-eat {
+    transform: translate(-50%, 0) !important;
+    bottom: 5px !important; /* Ainda mais baixo para alinhar perfeitamente sobre a grama */
+}
+.panda-rain-pet {
+    transform: translate(-50%, 0) !important;
+    bottom: 15px !important; /* Descido para alinhar melhor com a grama */
 }
 
 /* Garante que só um panda aparece por vez */
@@ -294,16 +327,16 @@ body::before {
     }
 
     .sleep-bubble::before {
-        width: 42px;
-        height: 42px;
-        bottom: -21px;
+        width: 40px;
+        height: 40px;
+        bottom: -20px;
         left: 15px;
     }
 
     .sleep-bubble::after {
         font-size: 2.5rem;
         top: 25px;
-        left: 30px;
+        left: 25px;
     }
 }
 
@@ -557,17 +590,18 @@ body::before {
 
 /* Botão de banho */
 .shower-btn {
-    background: linear-gradient(135deg, #38bdf8 0%, #1e40af 100%);
-    box-shadow: 0 4px 12px -2px rgba(56, 189, 248, 0.6);
+    background: linear-gradient(120deg, #f9a8d4 0%, #a5b4fc 100%);
 }
 
 .shower-btn:hover {
-    background: linear-gradient(135deg, #7dd3fc 0%, #3b82f6 100%);
-    transform: translateY(-2px) scale(1.03);
+    transform: scale(1.07) rotate(-2deg);
+    box-shadow: 0 10px 24px rgba(236, 72, 153, 0.18), 0 2px 8px #e0e7ff44;
+    background: linear-gradient(120deg, #f9a8d4 10%, #c4b5fd 100%);
 }
 
 .shower-btn:active {
-    transform: translateY(1px) scale(0.98);
+    transform: scale(0.97) rotate(1deg);
+    background: linear-gradient(120deg, #f9a8d4 0%, #a5b4fc 100%);
 }
 
 /* Ajustar o container de botões para quatro botões */
@@ -938,6 +972,45 @@ body::before {
 
     .message {
         font-size: 1rem;
+    }
+
+    /* Sleep bubble styles - totalmente refeito */
+    .sleep-bubble {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        right: 30px;
+        top: 0;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sleep-bubble::before {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        bottom: -15px;
+        left: 15px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sleep-bubble::after {
+        content: 'Zzz';
+        color: #8b5cf6;
+        font-size: 2.5em;
+        font-weight: bold;
+        text-shadow: 2px 2px 0 rgba(139,92,246,0.3);
+        position: relative;
+        z-index: 1;
     }
 }
 
@@ -1836,4 +1909,33 @@ body::before {
     50% {
         transform: translateY(-10px) rotate(-5deg);
     }
+}
+
+/* Estilo específico para panda dormindo na chuva */
+.panda-rain-sleep {
+    transform: translate(-50%, 0) !important;
+    bottom: 5px !important;
+    max-width: 80% !important;
+    width: 180px !important;
+    z-index: 3 !important;
+    opacity: 1 !important;
+}
+
+/* Animação para o sleep-bubble */
+@keyframes floatSleep {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+#sleep-bubble {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#sleep-bubble::after {
+    animation: floatSleep 2s infinite ease-in-out;
+    display: block;
 }

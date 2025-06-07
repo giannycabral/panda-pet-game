@@ -253,10 +253,16 @@ function updateStats() {
     message.textContent = "Seu panda está feliz! 😊💖";
   }
 
-  // Update sleep bubble
-  document.getElementById("sleep-bubble").style.opacity = gameState.sleeping
-    ? "1"
-    : "0";
+  // Update sleep bubble with debug
+  const sleepBubble = document.getElementById("sleep-bubble");
+  if (sleepBubble) {
+    console.log("Atualizando sleep-bubble...");
+    console.log("Estado sleeping:", gameState.sleeping);
+    sleepBubble.style.opacity = gameState.sleeping ? "1" : "0";
+    console.log("Nova opacidade:", sleepBubble.style.opacity);
+  } else {
+    console.error("Sleep bubble não encontrada!");
+  }
 
   // Update panda appearance
   updatePandaPixelArt();
@@ -323,15 +329,33 @@ function updatePandaPixelArt() {
 
   // 2. Dormindo
   if (gameState.sleeping) {
+    // Mostra a bolha de sono primeiro
+    const sleepBubble = document.getElementById("sleep-bubble");
+    if (sleepBubble) {
+      sleepBubble.style.opacity = "1";
+      sleepBubble.style.display = "block";
+      sleepBubble.style.zIndex = "999";
+      console.log("Sleep bubble deve estar visível agora:", sleepBubble);
+    } else {
+      console.error("Sleep bubble não encontrada no updatePandaPixelArt!");
+    }
+
     if (currentWeather === "rain") {
       const rainSleep = document.getElementById("panda-rain-sleep");
+      console.log("Tentando mostrar panda dormindo na chuva");
       if (rainSleep) {
+        console.log("Elemento panda-rain-sleep encontrado");
+        hideAllPandas(); // Esconde todos os outros pandas primeiro
         rainSleep.style.display = "block";
         rainSleep.classList.add("panda-breathing");
+        console.log("Panda dormindo na chuva deve estar visível agora");
+      } else {
+        console.error("Elemento panda-rain-sleep não encontrado!");
       }
     } else {
       const sleep = document.getElementById("panda-sleep");
       if (sleep) {
+        hideAllPandas();
         sleep.style.display = "block";
         sleep.classList.add("panda-breathing");
       }
@@ -594,30 +618,56 @@ function toggleSleep() {
     ((gameState._isEating || gameState._isBeingPet) && !gameState.sleeping)
   )
     return;
+
   stopRainEyesAnimation();
   gameState.sleeping = !gameState.sleeping;
   playSound("sleep");
   gameState.stats.totalSleeps++;
+
+  const sleepBubble = document.getElementById("sleep-bubble");
+  const message = document.getElementById("message");
+  const sleepBtn = document.getElementById("sleep-btn");
+
   if (gameState.sleeping) {
+    // Preparar para dormir
     gameState._isEating = false;
     gameState._isBeingPet = false;
-    document.getElementById("message").textContent =
-      "Zzz... Seu panda está dormindo! 😴💤";
-    document.getElementById("sleep-btn").innerHTML = "<span>🌞 Acordar</span>";
-    updateStats();
+    message.textContent = "Zzz... Seu panda está dormindo! 😴💤";
+    sleepBtn.innerHTML = "<span>🌞 Acordar</span>";
+
+    // Mostrar sleep bubble
+    if (sleepBubble) {
+      sleepBubble.style.display = "flex";
+      // Forçar um reflow antes de mudar a opacidade para garantir a animação
+      sleepBubble.offsetHeight;
+      sleepBubble.style.opacity = "1";
+    }
   } else {
-    document.getElementById("message").textContent = "Seu panda acordou! 🌞✨";
-    document.getElementById("sleep-btn").innerHTML = "<span>😴 Dormir</span>";
+    // Acordar
+    message.textContent = "Seu panda acordou! 🌞✨";
+    sleepBtn.innerHTML = "<span>😴 Dormir</span>";
+    
+    // Esconder sleep bubble
+    if (sleepBubble) {
+      sleepBubble.style.opacity = "0";
+    }
+
     gameState._wakingUp = true;
-    updatePandaPixelArt();
+  }
+
+  // Atualizar aparência
+  updatePandaPixelArt();
+
+  if (!gameState.sleeping) {
     setTimeout(() => {
       gameState._wakingUp = false;
       updateStats();
-      // Após acordar na chuva, volta para panda-rain-awake
       if (currentWeather === "rain") {
         updatePandaPixelArt();
       }
     }, 500);
+  } else {
+    updateStats();
   }
 }
 
@@ -936,6 +986,14 @@ function changeWeather() {
   }
 }
 
+// Log de debug para visualizar mudanças de estado
+function logGameState(action) {
+  console.log(`[DEBUG] ${action}`);
+  console.log(`Clima atual: ${currentWeather}`);
+  console.log(`Dormindo: ${gameState.sleeping}`);
+  console.log(`Elemento panda-rain-sleep visível: ${document.getElementById('panda-rain-sleep')?.style.display === 'block'}`);
+}
+
 // Aplicar otimizações para dispositivos móveis
 function applyMobileOptimizations() {
   if (isMobileDevice()) {
@@ -1185,4 +1243,40 @@ function logShowerEvent(message) {
       logShowerEvent("Estatísticas atualizadas, banho concluído");
     }, 5000);
   };
+}
+
+// Função para garantir que o sleep-bubble exista
+function ensureSleepBubble() {
+  let sleepBubble = document.getElementById("sleep-bubble");
+  
+  if (!sleepBubble) {
+    console.log("Sleep bubble não encontrado! Criando um novo...");
+    sleepBubble = document.createElement("div");
+    sleepBubble.id = "sleep-bubble";
+    sleepBubble.className = "sleep-bubble";
+    sleepBubble.setAttribute("aria-label", "Balão de sono do panda");
+    
+    // Adicionar o Zzz manualmente
+    const zzz = document.createElement("div");
+    zzz.textContent = "Zzz";
+    zzz.style.position = "absolute";
+    zzz.style.top = "30px";
+    zzz.style.left = "35px";
+    zzz.style.fontSize = "3rem";
+    zzz.style.fontFamily = "'Baloo 2', cursive";
+    zzz.style.color = "#8b5cf6";
+    zzz.style.textShadow = "2px 2px 0 rgba(139, 92, 246, 0.3)";
+    sleepBubble.appendChild(zzz);
+    
+    const pandaContainer = document.getElementById("panda-container");
+    if (pandaContainer) {
+      pandaContainer.appendChild(sleepBubble);
+      console.log("Sleep bubble adicionado ao panda-container!");
+    } else {
+      document.body.appendChild(sleepBubble);
+      console.log("Sleep bubble adicionado ao body como fallback!");
+    }
+  }
+  
+  return sleepBubble;
 }
