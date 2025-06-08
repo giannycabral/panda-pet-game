@@ -160,17 +160,38 @@ body::before {
 }
 
 /* Panda triste e dormindo */
-.panda-sad,
+.panda-sad {
+    transform: translate(-50%, 0) !important;
+    bottom: 0 !important;
+    max-height: 85%; /* Evita que o panda triste seja muito alto */
+}
+
 .panda-sleep {
     transform: translate(-50%, 0) !important;
     bottom: 0 !important;
-    max-height: 85%; /* Evita que o panda triste ou dormindo seja muito alto */
+    max-height: 95%; /* Aumentado o tamanho máximo do panda dormindo */
+}
+
+/* Ajustes específicos para aumentar o tamanho do panda dormindo */
+#panda-sleep {
+    width: auto;
+    height: auto; 
+    max-height: 95%; 
+    transform: translate(-50%, 0) scale(1.1);
+}
+
+#panda-rain-sleep {
+    width: auto;
+    height: auto;
+    max-height: 95%;
+    transform: translate(-50%, 0) scale(1.1);
 }
 
 /* Panda dormindo na chuva */
 .panda-rain-sleep {
     transform: translate(-50%, 0) !important;
     bottom: 0px !important; /* Ajustado para ficar exatamente na grama como os outros pandas */
+    max-height: 95%; /* Aumentado o tamanho máximo do panda dormindo na chuva */
     max-width: 90% !important;
     width: 210px !important; /* Aumentado conforme nova solicitação */
     opacity: 1 !important;
@@ -181,7 +202,8 @@ body::before {
 .panda-rain-sad {
     transform: translate(-50%, 0) !important;
     bottom: 0 !important;
-    max-height: 85%;
+    max-height: 100%;
+    width: 230px !important; /* Aumentado ainda mais o tamanho do panda triste na chuva */
 }
 
 /* Panda chuva padrão (em pé) */
@@ -307,10 +329,15 @@ body::before {
     /* Ajuste para os pandas com capa de chuva */
     .panda-rain, 
     .panda-rain-eat,
-    .panda-rain-pet,
-    .panda-rain-sad {
+    .panda-rain-pet {
         max-width: 75% !important;
         width: 160px !important;
+    }
+    
+    /* Ajuste específico para o panda triste na chuva em telas menores */
+    .panda-rain-sad {
+        max-width: 95% !important;
+        width: 210px !important;
     }
 }
 
@@ -1924,7 +1951,8 @@ body::before {
 .panda-shower,
 .panda-rain-shower {
     transform: translate(-50%, 0) !important;
-    bottom: 0px !important; /* Alinhado com a grama */
+    bottom: 0px !important;
+    /* Alinhado com a grama */
     max-width: 85% !important;
     width: 180px !important;
     z-index: 3 !important;
@@ -1958,7 +1986,7 @@ body::before {
 }
 
 .author-bubble a::after {
-    content: "Regiane Cabral";
+    content: "Ver sobre";
     position: absolute;
     bottom: -25px;
     left: 50%;
@@ -1984,7 +2012,7 @@ body::before {
 }
 
 .author-bubble a:hover::after {
-    content: "Regiane Cabral";
+    content: "Ver sobre";
     position: absolute;
     bottom: -25px;
     left: 50%;
@@ -2058,29 +2086,37 @@ body::before {
 
 .toggle-animals-btn {
     display: none; /* Escondido por padrão em telas maiores */
-    position: absolute;
-    bottom: 10px;
+    position: fixed; /* Alterado para fixed para ficar visível mesmo com scroll */
+    bottom: 20px; /* Aumentado para ficar mais distante do fundo */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(255, 105, 180, 0.8);
+    background-color: rgba(255, 20, 147, 0.9); /* Cor mais vibrante */
     color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 12px;
+    border: 2px solid white; /* Borda para destacar */
+    border-radius: 25px; /* Mais arredondado */
+    padding: 12px 24px; /* Botão maior para ser mais fácil de clicar */
+    font-size: 16px; /* Texto maior */
+    font-weight: bold; /* Texto em negrito */
     cursor: pointer;
-    z-index: 6;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 100; /* Aumentado para garantir que fique acima de tudo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
     transition: background-color 0.3s, transform 0.3s;
 }
 
 .toggle-animals-btn:hover, .toggle-animals-btn:focus {
-    background-color: rgba(255, 105, 180, 1);
-    transform: translateX(-50%) scale(1.05);
+    background-color: rgba(255, 0, 127, 1);
+    transform: translateX(-50%) scale(1.1);
 }
 
 .toggle-animals-btn.active {
-    background-color: #4CAF50;
+    background-color: #32CD32; /* Verde mais vivo */
+    animation: pulse 1.5s infinite; /* Adiciona animação pulsante */
+}
+
+@keyframes pulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.1); }
+    100% { transform: translateX(-50%) scale(1); }
 }
 
 /* Classe aplicada quando os animais são exibidos em dispositivos móveis */
@@ -2120,6 +2156,29 @@ body::before {
     
     .show-animals .animal-gifs-container {
         display: flex;
+    }
+    
+    /* Adiciona brilho ao redor do botão em dispositivos móveis */
+    .toggle-animals-btn::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border-radius: 30px;
+        background: linear-gradient(45deg, #ff0, #f0f, #0ff, #0f0, #ff0);
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        animation: glowing 12s linear infinite;
+        opacity: 0.7;
+    }
+    
+    @keyframes glowing {
+        0% { background-position: 0 0; }
+        50% { background-position: 400% 0; }
+        100% { background-position: 0 0; }
     }
 }
 

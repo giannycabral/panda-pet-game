@@ -1,0 +1,106 @@
+/* Melhorias adicionais de responsividade */
+
+/* Dispositivos muito pequenos */
+@media (max-width: 320px) {
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .buttons-container {
+        grid-template-columns: 1fr 1fr; /* 2 botões por linha em dispositivos bem pequenos */
+        gap: 8px;
+    }
+    
+    .btn-kawaii {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .author-bubble {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 8px;
+    }
+    
+    .author-photo-message {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+    
+    .message-content p {
+        font-size: 0.9rem;
+    }
+    
+    .status-label {
+        font-size: 0.7rem;
+    }
+}
+
+/* Ajustes para telas maiores e tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .game-card {
+        max-width: 90%;
+    }
+    
+    .ground-decorations {
+        padding-bottom: 40px; 
+    }
+}
+
+/* Melhorias para dispositivos com orientação landscape */
+@media (max-height: 500px) and (orientation: landscape) {
+    .game-title {
+        margin: 10px 0;
+        font-size: 2rem;
+    }
+    
+    .game-card {
+        padding: 10px;
+    }
+    
+    .panda-bg {
+        height: 150px; /* Altura reduzida para landscape */
+    }
+    
+    .buttons-container {
+        flex-wrap: wrap;
+    }
+    
+    .kawaii-container {
+        height: 120px;
+    }
+    
+    .footer {
+        padding: 10px 0;
+    }
+    
+    .ground-decorations {
+        display: none; /* Oculta decorações do fundo em modo landscape com altura limitada */
+    }
+}
+
+/* Ajustes específicos para o panda dormindo em diferentes dispositivos */
+@media (max-width: 480px) {
+    #panda-sleep,
+    #panda-rain-sleep {
+        transform: translate(-50%, 0) scale(1.15);
+        max-height: 98%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    #panda-sleep,
+    #panda-rain-sleep {
+        transform: translate(-50%, 0) scale(1.12);
+        max-height: 96%;
+    }
+}
+
+@media (min-width: 769px) {
+    #panda-sleep,
+    #panda-rain-sleep {
+        transform: translate(-50%, 0) scale(1.1);
+        max-height: 95%;
+    }
+}

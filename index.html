@@ -4,23 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cuide do seu panda virtual no Panda Pet Game. Um jogo fofo onde você alimenta, dá carinho e brinca com seu panda.">
+    <meta name="theme-color" content="#ffb6c1">
     <title>Panda Pet Game🩷</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/footer-cleanup.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+    <link rel="stylesheet" href="css/responsive-extras.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <!-- Preconnect para melhorar performance -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
 <body>
-    <div class="game-wrapper">
-        <div id="clouds"></div>
-        <div class="rainbow"></div>
-        <div class="rainbow" style="right: 10%; left: auto; transform: scale(0.7);"></div>
+    <a href="#main-content" class="skip-link">Pular para conteúdo principal</a>
+    <div id="main-content" class="game-wrapper" role="main">
+        <div id="clouds" aria-hidden="true"></div>
+        <div class="rainbow" aria-hidden="true"></div>
+        <div class="rainbow" style="right: 10%; left: auto; transform: scale(0.7);" aria-hidden="true"></div>
 
         <!-- Stars -->
-        <div class="star" style="top: 15%; left: 10%;">✨</div>
-        <div class="star" style="top: 25%; left: 80%;">✨</div>
-        <div class="star" style="top: 40%; left: 20%;">✨</div>
-        <div class="star" style="top: 60%; left: 85%;">✨</div>
+        <div class="star" style="top: 15%; left: 10%;" aria-hidden="true">✨</div>
+        <div class="star" style="top: 25%; left: 80%;" aria-hidden="true">✨</div>
+        <div class="star" style="top: 40%; left: 20%;" aria-hidden="true">✨</div>
+        <div class="star" style="top: 60%; left: 85%;" aria-hidden="true">✨</div>
 
         <div class="container">
             <h1 class="game-title">Panda Pet🐼</h1>
@@ -121,31 +128,31 @@
                     </div>
                 </div>
 
-                <div class="status-bars">
+                <div class="status-bars" aria-label="Status do panda">
                     <div class="status-group">
-                        <div class="status-label">
+                        <div class="status-label" id="hunger-label">
                             <span class="hunger-label">Fome</span>
-                            <span id="hunger-value" class="hunger-label">100%</span>
+                            <span id="hunger-value" class="hunger-label" aria-live="polite">100%</span>
                         </div>
-                        <div class="progress-bar">
+                        <div class="progress-bar" role="progressbar" aria-labelledby="hunger-label" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                             <div id="hunger-bar" class="progress bg-green" style="width: 100%"></div>
                         </div>
                     </div>
                     <div class="status-group">
-                        <div class="status-label">
+                        <div class="status-label" id="happiness-label">
                             <span class="happiness-label">Felicidade</span>
-                            <span id="happiness-value" class="happiness-label">100%</span>
+                            <span id="happiness-value" class="happiness-label" aria-live="polite">100%</span>
                         </div>
-                        <div class="progress-bar">
+                        <div class="progress-bar" role="progressbar" aria-labelledby="happiness-label" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                             <div id="happiness-bar" class="progress bg-blue" style="width: 100%"></div>
                         </div>
                     </div>
                     <div class="status-group">
-                        <div class="status-label">
+                        <div class="status-label" id="energy-label">
                             <span class="energy-label">Energia</span>
-                            <span id="energy-value" class="energy-label">100%</span>
+                            <span id="energy-value" class="energy-label" aria-live="polite">100%</span>
                         </div>
-                        <div class="progress-bar">
+                        <div class="progress-bar" role="progressbar" aria-labelledby="energy-label" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                             <div id="energy-bar" class="progress bg-purple" style="width: 100%"></div>
                         </div>
                     </div>
@@ -168,7 +175,7 @@
                         <span>🚿 Banho</span>
                     </button>
                 </div>
-                <div id="message" class="message"></div>
+                <div id="message" class="message" aria-live="polite" role="status"></div>
             </div>
         </div>
 
@@ -227,7 +234,7 @@
                 <img src="gifs/dog.gif" class="animal-gif dog-gif" alt="Cachorro animado bege sentado na grama" />
             </div>
             <!-- Botão para mostrar/esconder animais em dispositivos móveis -->
-            <button id="toggle-animals" class="toggle-animals-btn">Ver animais</button>
+            <button id="toggle-animals" class="toggle-animals-btn">🐾 Ver animais 🐾</button>
         </div>
     </div>
     <footer class="footer">
@@ -248,6 +255,7 @@
     </footer>
 
     <script src="js/game.js"></script>
+    <script src="js/accessibility.js"></script>
 </body>
 
 </html>

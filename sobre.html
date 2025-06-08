@@ -4,9 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheça mais sobre o Panda Pet Game, um jogo virtual fofo onde você pode cuidar de um panda. Descubra quem criou o jogo, como jogar e muito mais!">
+    <meta name="theme-color" content="#FF69B4">
     <title>Sobre - Panda Pet Game🩷</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/footer-cleanup.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+    <link rel="stylesheet" href="css/responsive-extras.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png">
     <style>
         .sobre-container {
@@ -232,6 +236,185 @@
             color: #FF69B4;
         }
 
+        /* Novos estilos para novas seções */
+        .dicas-box {
+            background-color: rgba(254, 240, 255, 0.8);
+            border-left: 4px solid #FF69B4;
+            border-radius: 0 8px 8px 0;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .dicas-box h3 {
+            color: #FF69B4;
+            margin-top: 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #fff5fb 0%, #f9f0ff 100%);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            color: #FF69B4;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            color: #8D6E63;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 600px;
+            margin: 20px auto;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #FF69B4, #90CAF9);
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #FF69B4;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: #FF69B4;
+            margin-bottom: 5px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .fun-facts {
+            background-color: rgba(144, 202, 249, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .fun-facts h3 {
+            color: #1976D2;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .facts-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .facts-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .facts-list li::before {
+            content: "🐾";
+            position: absolute;
+            left: 0;
+            color: #8D6E63;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, #fff5fb 0%, #f9f0ff 100%);
+            border-radius: 10px;
+            padding: 15px;
+            width: 150px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .badge-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .badge-title {
+            font-weight: bold;
+            color: #FF69B4;
+            margin: 5px 0;
+        }
+
+        .badge-description {
+            font-size: 0.9em;
+            color: #8D6E63;
+        }
+
         @media (max-width: 480px) {
             .author-info {
                 flex-direction: column;
@@ -243,30 +426,34 @@
                 width: 150px;
                 height: 150px;
             }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="game-wrapper">
-        <div id="clouds"></div>
-        <div class="rainbow"></div>
-        <div class="rainbow" style="right: 10%; left: auto; transform: scale(0.7);"></div>
+    <a href="#main-content" class="skip-link">Pular para conteúdo principal</a>
+    <div id="main-content" class="game-wrapper" role="main">
+        <div id="clouds" aria-hidden="true"></div>
+        <div class="rainbow" aria-hidden="true"></div>
+        <div class="rainbow" style="right: 10%; left: auto; transform: scale(0.7);" aria-hidden="true"></div>
 
         <!-- Stars -->
-        <div class="star" style="top: 15%; left: 10%;">✨</div>
-        <div class="star" style="top: 25%; left: 80%;">✨</div>
-        <div class="star" style="top: 40%; left: 20%;">✨</div>
-        <div class="star" style="top: 60%; left: 85%;">✨</div>
+        <div class="star" style="top: 15%; left: 10%;" aria-hidden="true">✨</div>
+        <div class="star" style="top: 25%; left: 80%;" aria-hidden="true">✨</div>
+        <div class="star" style="top: 40%; left: 20%;" aria-hidden="true">✨</div>
+        <div class="star" style="top: 60%; left: 85%;" aria-hidden="true">✨</div>
 
         <div class="container">
             <h1 class="game-title">Panda Pet🐼</h1>
             <div class="sobre-container">
-                <div class="sobre-section">
-                    <h2 class="sobre-title">Sobre o Jogo</h2>
-                    <p>O Panda Pet é um jogo virtual de cuidados com um panda fofo, onde você pode alimentá-lo, fazer carinho, dar banho e muito mais! O jogo foi desenvolvido com amor para proporcionar momentos de diversão e descontração.</p>
-                </div>
-
                 <div class="sobre-section">
                     <h2 class="sobre-title">Autor</h2>
                     <div class="author-info">
@@ -274,11 +461,11 @@
                         <div class="author-details">
                             <h3>Regiane Cabral</h3>
                             <p>Desenvolvedora web apaixonada por criar experiências interativas e jogos divertidos. O Panda Pet Game foi criado com muito carinho e dedicação para trazer alegria aos usuários!</p>
-                            <p>Entre em contato: <a href="mailto:email@exemplo.com">regiane.mirandaa@outlook.com.br</a></p>
+                            <p>Entre em contato: <a href="mailto:regiane.mirandaa@outlook.com.br">regiane.mirandaa@outlook.com.br</a></p>
                             <div class="social-links">
-                                <a href="https://github.com/giannycabral" target="_blank">GitHub</a> |
-                                <a href="https://www.linkedin.com/in/regiane-jesus/" target="_blank">LinkedIn</a> |
-                                <a href="https://www.instagram.com/giannycabral/" target="_blank">Instagram</a>
+                                <a href="https://github.com/giannycabral" target="_blank" aria-label="GitHub da desenvolvedora">GitHub</a> |
+                                <a href="https://www.linkedin.com/in/regiane-jesus/" target="_blank" aria-label="LinkedIn da desenvolvedora">LinkedIn</a> |
+                                <a href="https://www.instagram.com/giannycabral/" target="_blank" aria-label="Instagram da desenvolvedora">Instagram</a>
                             </div>
                         </div>
                     </div>
@@ -288,7 +475,7 @@
                     <h2 class="sobre-title">Dedicatória Especial</h2>
                     <div class="dedicatoria-container">
                         <div class="dedicatoria-content">
-                            <div class="dedicatoria-icon">💖</div>
+                            <div class="dedicatoria-icon" aria-hidden="true">💖</div>
                             <p class="dedicatoria-texto">
                                 Para minha filha <span class="dedicatoria-nome">Ângela</span>, 
                                 <br><br>
@@ -300,26 +487,47 @@
                                 <br>
                                 Mamãe
                             </p>
-                            <div class="dedicatoria-icon">🌈</div>
+                            <div class="dedicatoria-icon" aria-hidden="true">🌈</div>
                         </div>
-                        <div class="pandas-decoration">
+                        <div class="pandas-decoration" aria-hidden="true">
                             <span class="panda-deco">ʕ •ᴥ• ʔ</span>
                             <span class="heart-deco">♡</span>
                             <span class="panda-deco">ʕ •ᴥ• ʔ</span>
                         </div>
                     </div>
+                </div>                <div class="sobre-section">
+                    <h2 class="sobre-title">Sobre o Jogo</h2>
+                    <p>O Panda Pet é um jogo virtual de cuidados com um panda fofo, onde você pode alimentá-lo, fazer carinho, dar banho e muito mais! O jogo foi desenvolvido com amor para proporcionar momentos de diversão e descontração.</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <span class="feature-icon">🍽️</span>
+                            <h3 class="feature-title">Alimentação</h3>
+                            <p>Mantenha seu panda bem alimentado com deliciosos bambuzinhos!</p>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">❤️</span>
+                            <h3 class="feature-title">Carinho</h3>
+                            <p>Faça carinho para deixar seu panda feliz e animado!</p>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">🚿</span>
+                            <h3 class="feature-title">Banho</h3>
+                            <p>Mantenha seu panda sempre limpinho e cheiroso!</p>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">💤</span>
+                            <h3 class="feature-title">Descanso</h3>
+                            <p>Seu panda precisa dormir para recarregar as energias!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dicas-box">
+                        <h3>💡 Você sabia?</h3>
+                        <p>O jogo salva automaticamente seu progresso! Mesmo se você fechar a janela, seu panda estará esperando por você quando voltar.</p>
+                    </div>
                 </div>
-
-                <div class="sobre-section">
-                    <h2 class="sobre-title">Créditos</h2>
-                    <ul class="creditos-list">
-                        <li><strong>Imagens:</strong> Arte original e adaptada para o conceito do jogo</li>
-                        <li><strong>Ícones:</strong> Font Awesome e recursos gratuitos da web</li>
-                        <li><strong>Sons:</strong> Efeitos sonoros gratuitos de bibliotecas de áudio</li>
-                        <li><strong>Tecnologias:</strong> HTML, CSS e JavaScript</li>
-                    </ul>
-                </div>
-
+                
                 <div class="sobre-section">
                     <h2 class="sobre-title">Como Jogar</h2>
                     <p>No Panda Pet Game, você pode cuidar do seu panda virtual através dos botões de ação:</p>
@@ -328,9 +536,43 @@
                         <li><strong>Carinho:</strong> Faça carinho no panda para deixá-lo feliz</li>
                         <li><strong>Banho:</strong> Mantenha seu panda limpinho dando banho nele</li>
                         <li><strong>Sono:</strong> Deixe o panda descansar quando estiver cansado</li>
+                        <li><strong>Ver Animais:</strong> Descubra outros animais fofinhos disponíveis no jogo</li>
                     </ul>
                 </div>
-                
+
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Conquistas e Desafios</h2>
+                    <p>No Panda Pet Game você pode ganhar conquistas especiais cuidando bem do seu panda!</p>
+                    
+                    <div class="badge-container">
+                        <div class="achievement-badge">
+                            <span class="badge-icon">🍽️</span>
+                            <div class="badge-title">Primeira Refeição</div>
+                            <p class="badge-description">Alimente seu panda pela primeira vez</p>
+                        </div>
+                        <div class="achievement-badge">
+                            <span class="badge-icon">💖</span>
+                            <div class="badge-title">Cuidados Perfeitos</div>
+                            <p class="badge-description">Mantenha todos os atributos acima de 90%</p>
+                        </div>
+                        <div class="achievement-badge">
+                            <span class="badge-icon">🌧️</span>
+                            <div class="badge-title">Amigo da Chuva</div>
+                            <p class="badge-description">Cuide do panda durante a tempestade</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dicas-box">
+                        <h3>Dicas para Cuidar do Seu Panda</h3>
+                        <ul>
+                            <li>Mantenha a fome e a felicidade do seu panda sempre acima de 50% para evitar que ele fique triste</li>
+                            <li>Dê banho regularmente, especialmente após as refeições</li>
+                            <li>Deixe o panda dormir quando sua energia estiver baixa</li>
+                            <li>Experimente diferentes combinações de ações para descobrir animações especiais!</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="sobre-section">
                     <h2 class="sobre-title">Sistema de Clima</h2>
                     <p>O Panda Pet Game possui um sistema dinâmico de clima que afeta seu panda virtual!</p>
@@ -367,27 +609,43 @@
                     </div>
                 </div>
 
-                <a href="index.html" class="voltar-btn">Voltar ao Jogo</a>
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Créditos</h2>
+                    <ul class="creditos-list">
+                        <li><strong>Design e Desenvolvimento:</strong> Regiane Cabral</li>
+                        <li><strong>Imagens:</strong> Arte original e adaptada para o conceito do jogo</li>
+                        <li><strong>Ícones:</strong> Font Awesome e recursos gratuitos da web</li>
+                        <li><strong>Sons:</strong> Efeitos sonoros gratuitos de bibliotecas de áudio</li>
+                        <li><strong>Tecnologias:</strong> HTML, CSS e JavaScript</li>
+                        <li><strong>Inspiração:</strong> Tamagotchi e jogos virtuais de cuidados com pets</li>
+                        <li><strong>Agradecimentos especiais:</strong> À minha família pelo apoio e inspiração</li>
+                    </ul>
+                </div>
+
+                <a href="index.html" class="voltar-btn" aria-label="Voltar ao jogo principal">Voltar ao Jogo</a>
             </div>
         </div>
 
         <footer class="footer">
-            <div class="footer-decorations">
+            <div class="footer-decorations" aria-hidden="true">
                 <div class="paw-print left"></div>
                 <div class="paw-print right"></div>
                 <div class="bamboo left"></div>
                 <div class="bamboo right"></div>
             </div>
             <p class="developed-by">
-                <span class="star-icon">✨</span> Desenvolvido com <span class="heart">🩷</span> por <a href="sobre.html" class="autor-link">Regiane Cabral</a> <span class="star-icon">✨</span>
+                <span class="star-icon" aria-hidden="true">✨</span> Desenvolvido com <span class="heart" aria-label="amor">🩷</span> por <a href="sobre.html" class="autor-link">Regiane Cabral</a> <span class="star-icon" aria-hidden="true">✨</span>
                 <span class="kawaii-subtitle">~Seu Panda Virtual~</span>
             </p>
-            <div class="kawaii-faces">
+            <div class="kawaii-faces" aria-hidden="true">
                 <span class="kawaii-face">ʕ•ᴥ•ʔ</span>
                 <span class="kawaii-face">ʕ◠ᴥ◠ʔ</span>
             </div>
         </footer>
     </div>
+    
+    <!-- Script para acessibilidade -->
+    <script src="js/accessibility.js"></script>
 </body>
 
 </html>
