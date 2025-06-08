@@ -407,7 +407,7 @@ function updatePandaPixelArt() {
       if (!rainShower) {
         rainShower = document.createElement("img");
         rainShower.id = "panda-rain-shower";
-        rainShower.src = "img/panda-rain-shower.png";
+        rainShower.src = "gifs/panda-rain-shower.gif";
         rainShower.alt = "Panda tomando banho na chuva";
         rainShower.className = "panda-pixel panda-rain-shower";
         rainShower.style.display = "none";
@@ -424,7 +424,7 @@ function updatePandaPixelArt() {
       if (!shower) {
         shower = document.createElement("img");
         shower.id = "panda-shower";
-        shower.src = "img/panda-normal-shower.png";
+        shower.src = "gifs/panda-normal-shower.gif";
         shower.alt = "Panda tomando banho";
         shower.className = "panda-pixel panda-shower";
         shower.style.display = "none";

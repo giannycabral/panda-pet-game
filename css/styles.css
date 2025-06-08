@@ -141,10 +141,10 @@ body::before {
     object-fit: contain; /* Mantém a proporção da imagem */
 }
 
-/* Ajuste para sentar na grama (levemente afundado) */
+/* Ajuste para sentar na grama (mais próximo da grama) */
 .panda-sit {
     transform: translate(-50%, 0) !important;
-    bottom: 25px !important; /* Subido para ficar sobre a grama */
+    bottom: 5px !important; /* Descido para ficar mais próximo da grama */
 }
 .panda-eat {
     transform: translate(-50%, 0) !important;
@@ -171,8 +171,8 @@ body::before {
 .panda-rain-sleep {
     transform: translate(-50%, 0) !important;
     bottom: 0px !important; /* Ajustado para ficar exatamente na grama como os outros pandas */
-    max-width: 75% !important;
-    width: 160px !important; /* Diminuído um pouco conforme solicitado */
+    max-width: 85% !important;
+    width: 190px !important; /* Aumentado um pouco conforme solicitado */
     opacity: 1 !important;
     z-index: 3 !important;
 }
@@ -267,6 +267,7 @@ body::before {
 
     .kawaii-container {
         min-height: 200px;
+        max-height: 240px; /* Reduzido para telas menores */
     }
 
     /* Sobrescrevendo apenas os tamanhos e posicionamentos do sleep-bubble para mobile */
@@ -299,8 +300,8 @@ body::before {
     
     /* Ajuste específico para o panda-rain-sleep em telas pequenas */
     .panda-rain-sleep {
-        max-width: 70% !important;
-        width: 150px !important;
+        max-width: 80% !important;
+        width: 170px !important;
     }
     
     /* Ajuste para os pandas com capa de chuva */
@@ -321,8 +322,8 @@ body::before {
     }
     
     .panda-rain-sleep {
-        max-width: 65% !important;
-        width: 130px !important;
+        max-width: 75% !important;
+        width: 160px !important;
     }
 }
 
@@ -988,6 +989,18 @@ body::before {
     
     .game-card {
         padding: 1rem 0.8rem;
+    }
+}
+
+/* Melhorando os botões para telas muito pequenas */
+@media (max-width: 350px) {
+    .buttons-container {
+        gap: 0.5rem;
+    }
+    
+    .btn-kawaii {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -1763,11 +1776,11 @@ body::before {
     }
     90% {
         opacity: 1;
-        transform: translateY(250px); /* Ajustado para o tamanho do contêiner */
+        transform: translateY(calc(100% - 30px)); /* Usa porcentagem para ser responsivo */
     }
     100% {
         opacity: 0;
-        transform: translateY(260px);
+        transform: translateY(100%);
     }
 }
 
@@ -1931,3 +1944,32 @@ body::before {
     z-index: 0;
     pointer-events: none;
 }
+
+/* Estilos para os pandas no chuveiro */
+.panda-shower,
+.panda-rain-shower {
+    transform: translate(-50%, 0) !important;
+    bottom: 0px !important; /* Alinhado com a grama */
+    max-width: 85% !important;
+    width: 180px !important;
+    z-index: 3 !important;
+}
+
+/* Ajustes responsivos para dispositivos móveis */
+@media (max-width: 480px) {
+    .panda-shower,
+    .panda-rain-shower {
+        max-width: 85% !important;
+        width: 180px !important;
+    }
+}
+
+@media (max-width: 350px) {
+    .panda-shower,
+    .panda-rain-shower {
+        max-width: 80% !important;
+        width: 160px !important;
+    }
+}
+
+/* Panda dormindo na chuva */

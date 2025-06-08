@@ -73,8 +73,8 @@
 
 .developed-by .heart {
     position: static !important; /* Sobrescreve o position: absolute */
-    color: #ff0000 !important; /* Vermelho mais forte com !important */
-    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Brilho vermelho */
+    color: #f13091d7 !important; /* Vermelho mais forte com !important */
+    text-shadow: 0 0 5px rgba(243, 67, 190, 0.5); /* Brilho vermelho */
     margin: 0 0.25rem;
     font-size: 1.8em; /* Tamanho maior */
     animation: footer-heart-pulse 1.5s infinite !important; /* Nome único para a animação */
