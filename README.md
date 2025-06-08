@@ -133,7 +133,14 @@ Desenvolvido com 💖 por Regiane Cabral
 
 ## 📝 Licença
 
-Este projeto é de código aberto e está disponível para uso educacional e pessoal.
+Este projeto está licenciado sob a [Licença MIT](LICENSE) - veja o arquivo LICENSE para mais detalhes.
+
+```
+MIT License
+Copyright (c) 2025 Regiane Cabral
+```
+
+✨ Isso significa que você pode usar, modificar e distribuir este projeto livremente, desde que inclua a nota de copyright e a licença original! ✨
 
 ---
 
