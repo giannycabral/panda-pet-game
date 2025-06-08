@@ -560,8 +560,8 @@ body::before {
 .btn-kawaii::after {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
+    top: 0;
+    left: 0;
     width: 200%;
     height: 200%;
     background: linear-gradient(45deg, 
@@ -570,19 +570,17 @@ body::before {
                 rgba(255,255,255,0.4) 50%, 
                 rgba(255,255,255,0) 60%, 
                 rgba(255,255,255,0) 100%);
-    transform: rotate(45deg);
+    /* Removendo o rotate daqui, pois agora está no @keyframes */
     animation: shineEffect 6s infinite;
     pointer-events: none;
 }
 
 @keyframes shineEffect {
     0% {
-        left: -150%;
-        top: -50%;
+        transform: translate(-150%, -50%) rotate(45deg);
     }
     40%, 100% {
-        left: 100%;
-        top: 100%;
+        transform: translate(100%, 100%) rotate(45deg);
     }
 }
 

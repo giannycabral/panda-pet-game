@@ -171,14 +171,23 @@ function generateClouds() {
 
     cloudsContainer.appendChild(cloud);
   }
-  // Add sun depending on time (moon and night-mode removed)
+  // Add sun depending on time and weather (moon and night-mode removed)
   const sunId = "panda-sun";
   let sun = document.getElementById(sunId);
+  
+  // Criar o sol se não existir
   if (!sun) {
     sun = document.createElement("div");
     sun.id = sunId;
     sun.className = "sun";
     cloudsContainer.insertBefore(sun, cloudsContainer.firstChild);
+  }
+  
+  // Esconder o sol quando estiver chovendo
+  if (currentWeather === "rain") {
+    sun.style.display = "none";
+  } else {
+    sun.style.display = "block";
   }
 }
 
@@ -851,6 +860,15 @@ function isNight() {
   return hour >= 18 || hour < 6;
 }
 
+// Função para controlar a visibilidade do sol com base no clima
+function updateSunVisibility() {
+  const sun = document.getElementById("panda-sun");
+  if (sun) {
+    // Esconder o sol apenas quando estiver chovendo
+    sun.style.display = currentWeather === "rain" ? "none" : "block";
+  }
+}
+
 function changeWeather() {
   const weatherContainer = document.getElementById("weather-container");
   weatherContainer.innerHTML = "";
@@ -868,15 +886,24 @@ function changeWeather() {
     let allowedWeather;
     if (isNight()) {
       // Removido "rain" das opções para horas pares à noite
-      allowedWeather = ["clear", "snow"];
+      allowedWeather = ["clear"];  // Removido "snow" para simplificar
     } else {
       allowedWeather = ["clear", "sunny"];
     }
     currentWeather =
       allowedWeather[Math.floor(Math.random() * allowedWeather.length)];
   }
+  
+  // Atualizar a visibilidade do sol baseado no novo clima
+  updateSunVisibility();
 
   console.log("Clima selecionado:", currentWeather);
+
+  // Atualiza a visibilidade do sol com base no clima atual
+  const sun = document.getElementById("panda-sun");
+  if (sun) {
+    sun.style.display = currentWeather === "rain" ? "none" : "block";
+  }
 
   switch (currentWeather) {
     case "rain":
@@ -1012,6 +1039,11 @@ function changeWeather() {
       break;
     case "sunny":
     case "clear":
+      // Remove quaisquer raios solares existentes quando o clima mudar de "sunny" para outros climas
+      const existingRays = document.querySelectorAll(".sun-ray");
+      existingRays.forEach(ray => ray.remove());
+      
+      // Adiciona raios solares apenas se o clima atual for "sunny" e não estiver chovendo
       if (currentWeather === "sunny") {
         for (let i = 0; i < 3; i++) {
           const ray = document.createElement("div");
@@ -1087,6 +1119,9 @@ function initGame() {
   generateClouds();
   updateStats();
   changeWeather();
+  
+  // Garante que o sol esteja visível apenas se não estiver chovendo
+  updateSunVisibility();
   
   // Corrige as barras de progresso após inicializar
   setTimeout(fixProgressBars, 500);
