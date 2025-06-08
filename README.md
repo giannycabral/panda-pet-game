@@ -2,7 +2,7 @@
 
 Um adorável jogo virtual onde você cuida de um panda fofo! Alimente-o, faça carinho, dê banhos e muito mais!
 
-![Panda Pet Game](/img/panda-normal-sleep.png)
+![Panda Pet Game](/gifs/panda-normal-sleep.gif)
 
 ## 📋 Sobre o Projeto
 
