@@ -140,6 +140,7 @@ function loadGame() {
     gameState._isBeingPet = false;
     gameState._wakingUp = false; // Also reset waking up flag
     gameState._isInRainAnimation = false; // Reset animation state
+    gameState._isShowering = false; // Garante que o banho nunca inicia sozinho
   }
 }
 
