@@ -148,7 +148,7 @@ body::before {
 }
 .panda-eat {
     transform: translate(-50%, 0) !important;
-    bottom: 20px !important; /* Subido para ficar sobre a grama */
+    bottom: 5px !important; /* Descido para ficar mais próximo da grama */
 }
 .panda-rain-eat {
     transform: translate(-50%, 0) !important;
@@ -1957,12 +1957,34 @@ body::before {
     transition: transform 0.3s ease;
 }
 
+.author-bubble a::after {
+    content: "Regiane Cabral";
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 105, 180, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 1;
+    pointer-events: none;
+}
+
+.author-bubble a:hover::after {
+    /* Mantém para compatibilidade, mas não é mais necessário */
+    opacity: 1;
+}
+
 .author-bubble a:hover {
     transform: scale(1.05);
 }
 
 .author-bubble a:hover::after {
-    content: "Ver sobre";
+    content: "Regiane Cabral";
     position: absolute;
     bottom: -25px;
     left: 50%;
