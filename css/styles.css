@@ -2187,3 +2187,14 @@ body::before {
         width: 40px;
     }
 }
+
+/* Garantindo que não haja sombreamento nas estatísticas */
+.hunger-label, .happiness-label, .energy-label, 
+.status-label span {
+    text-shadow: none !important;
+}
+
+/* Garantindo que os valores de porcentagem não tenham sombreamento */
+#hunger-value, #happiness-value, #energy-value {
+    text-shadow: none !important;
+}
