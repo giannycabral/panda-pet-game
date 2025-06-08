@@ -302,6 +302,47 @@ function updatePandaPixelArt() {
     }
   });
 
+
+  // 0. Banho (tem prioridade máxima)
+  if (gameState._isShowering) {
+    // Esconde todos os outros pandas
+    hideAllPandas();
+    if (currentWeather === "rain") {
+      let rainShower = document.getElementById("panda-rain-shower");
+      if (!rainShower) {
+        rainShower = document.createElement("img");
+        rainShower.id = "panda-rain-shower";
+        rainShower.src = "gifs/panda-rain-shower.gif";
+        rainShower.alt = "Panda tomando banho na chuva";
+        rainShower.className = "panda-pixel panda-rain-shower";
+        rainShower.style.display = "none";
+        rainShower.setAttribute("draggable", "false");
+        rainShower.setAttribute("aria-hidden", "true");
+        rainShower.setAttribute("role", "img");
+        document.getElementById("panda-container").appendChild(rainShower);
+      }
+      rainShower.style.display = "block";
+      rainShower.classList.add("panda-breathing");
+    } else {
+      let shower = document.getElementById("panda-shower");
+      if (!shower) {
+        shower = document.createElement("img");
+        shower.id = "panda-shower";
+        shower.src = "gifs/panda-normal-shower.gif";
+        shower.alt = "Panda tomando banho";
+        shower.className = "panda-pixel panda-shower";
+        shower.style.display = "none";
+        shower.setAttribute("draggable", "false");
+        shower.setAttribute("aria-hidden", "true");
+        shower.setAttribute("role", "img");
+        document.getElementById("panda-container").appendChild(shower);
+      }
+      shower.style.display = "block";
+      shower.classList.add("panda-breathing");
+    }
+    return;
+  }
+
   // 1. Triste (chuva: panda-rain-sad, normal: panda-sad)
   if (
     (gameState.hunger <= 50 || gameState.happiness <= 50 || gameState.energy <= 50) &&
