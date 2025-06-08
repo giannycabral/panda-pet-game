@@ -2,8 +2,6 @@
 
 Um adorável jogo virtual onde você cuida de um panda fofo! Alimente-o, faça carinho, dê banhos e muito mais!
 
-![Panda Pet Game](/gifs/panda-normal-sleep.gif)
-
 ## 📋 Sobre o Projeto
 
 Panda Pet Game é um jogo estilo tamagotchi desenvolvido com HTML, CSS e JavaScript puro, sem dependências externas. Cuide de um adorável panda virtual e mantenha-o feliz, bem alimentado e descansado através de uma interface colorida e divertida!
