@@ -171,8 +171,8 @@ body::before {
 .panda-rain-sleep {
     transform: translate(-50%, 0) !important;
     bottom: 0px !important; /* Ajustado para ficar exatamente na grama como os outros pandas */
-    max-width: 85% !important;
-    width: 190px !important; /* Aumentado um pouco conforme solicitado */
+    max-width: 90% !important;
+    width: 210px !important; /* Aumentado conforme nova solicitação */
     opacity: 1 !important;
     z-index: 3 !important;
 }
@@ -298,10 +298,10 @@ body::before {
         width: 160px !important;
     }
     
-    /* Ajuste específico para o panda-rain-sleep em telas pequenas */
+    /* Ajuste específico para o panda-rain-sleep em telas médias */
     .panda-rain-sleep {
-        max-width: 80% !important;
-        width: 170px !important;
+        max-width: 85% !important;
+        width: 190px !important;
     }
     
     /* Ajuste para os pandas com capa de chuva */
@@ -322,8 +322,8 @@ body::before {
     }
     
     .panda-rain-sleep {
-        max-width: 75% !important;
-        width: 160px !important;
+        max-width: 80% !important;
+        width: 180px !important;
     }
 }
 
@@ -1094,29 +1094,6 @@ body::before {
     /* Removendo a imagem incorreta do panda */
     background: linear-gradient(145deg, #9ccc65, #7cb342);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.bamboo-leaf::before,
-.bamboo-leaf::after {
-    content: '';
-    position: absolute;
-    background: #5a9216;
-    border-radius: 50%;
-}
-
-.bamboo-leaf::before {
-    width: 30px;
-    height: 2px;
-    top: 10px;
-    left: 5px;
-}
-
-.bamboo-leaf::after {
-    width: 25px;
-    height: 2px;
-    top: 15px;
-    left: 8px;
-    transform: rotate(-5deg);
 }
 
 /* Ground decorations */
@@ -1973,3 +1950,161 @@ body::before {
 }
 
 /* Panda dormindo na chuva */
+
+/* Estilos para a foto do autor como link clicável */
+.author-bubble a {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.author-bubble a:hover {
+    transform: scale(1.05);
+}
+
+.author-bubble a:hover::after {
+    content: "Ver sobre";
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 105, 180, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.autor-link {
+    color: #FF69B4;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.autor-link:hover {
+    color: #ff5ca8;
+    text-decoration: underline;
+}
+
+/* Estilos para os GIFs de animais */
+.animal-gifs-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 5;
+    pointer-events: none; /* Para não interferir com cliques no panda */
+}
+
+.animal-gif {
+    position: absolute;
+    bottom: 0;
+}
+
+.rabbit-gif {
+    left: 6%;
+    bottom: 20px;
+    width: 70px;
+}
+
+.cat-gif {
+    left: 22%;
+    bottom: 12px;
+    width: 60px;
+}
+
+.frog-gif {
+    left: 30%;
+    bottom: 28px;
+    width: 62px;
+}
+
+.hamster-gif {
+    right: 18%;
+    bottom: 32px;
+    width: 54px;
+}
+
+.dog-gif {
+    right: 7%;
+    bottom: 22px;
+    width: 68px;
+}
+
+.toggle-animals-btn {
+    display: none; /* Escondido por padrão em telas maiores */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 105, 180, 0.8);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.toggle-animals-btn:hover, .toggle-animals-btn:focus {
+    background-color: rgba(255, 105, 180, 1);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.toggle-animals-btn.active {
+    background-color: #4CAF50;
+}
+
+/* Classe aplicada quando os animais são exibidos em dispositivos móveis */
+.show-animals .animal-gifs-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.85);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.show-animals .animal-gif {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 50px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .toggle-animals-btn {
+        display: block;
+    }
+    
+    .animal-gifs-container {
+        display: none; /* Esconder os animais por padrão em celular */
+    }
+    
+    .show-animals .animal-gifs-container {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .show-animals .animal-gif {
+        width: 40px;
+    }
+}

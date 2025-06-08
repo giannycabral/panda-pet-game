@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sobre - Panda Pet Game🩷</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/footer-cleanup.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <style>
+        .sobre-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sobre-section {
+            margin-bottom: 30px;
+        }
+        
+        .clima-gallery {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        
+        .clima-example {
+            text-align: center;
+            width: 180px;
+            margin-bottom: 15px;
+        }
+        
+        .clima-img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #90CAF9;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .clima-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .clima-example p {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #5D4037;
+        }
+        
+        .clima-mecânica {
+            background-color: rgba(144, 202, 249, 0.2);
+            border-left: 4px solid #90CAF9;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+        
+        .clima-mecânica h3 {
+            color: #1976D2;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        /* Estilos para a seção de dedicatória */
+        .dedicatoria-section {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .dedicatoria-container {
+            background: linear-gradient(135deg, #ffe6f0 0%, #fff5e6 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+            border: 2px solid #FFD0E0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dedicatoria-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23FFB6C1' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            z-index: 0;
+        }
+        
+        .dedicatoria-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .dedicatoria-texto {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #8D6E63;
+            margin: 0 20px;
+            flex: 1;
+            text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        .dedicatoria-nome {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #FF69B4;
+            text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
+            letter-spacing: 1px;
+        }
+        
+        .dedicatoria-icon {
+            font-size: 2.5em;
+            color: #FF69B4;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .pandas-decoration {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.8em;
+            letter-spacing: 10px;
+        }
+        
+        .panda-deco {
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .heart-deco {
+            color: #FF69B4;
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 600px) {
+            .dedicatoria-content {
+                flex-direction: column;
+            }
+            
+            .dedicatoria-icon {
+                margin: 10px 0;
+            }
+        }
+
+        .sobre-title {
+            color: #FF69B4;
+            border-bottom: 2px solid #FF69B4;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .author-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #FF69B4;
+        }
+
+        .author-details {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .voltar-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #FF69B4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .voltar-btn:hover {
+            background-color: #ff5ca8;
+            transform: scale(1.05);
+        }
+
+        .creditos-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .creditos-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .creditos-list li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            color: #FF69B4;
+        }
+
+        @media (max-width: 480px) {
+            .author-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .author-photo {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-wrapper">
+        <div id="clouds"></div>
+        <div class="rainbow"></div>
+        <div class="rainbow" style="right: 10%; left: auto; transform: scale(0.7);"></div>
+
+        <!-- Stars -->
+        <div class="star" style="top: 15%; left: 10%;">✨</div>
+        <div class="star" style="top: 25%; left: 80%;">✨</div>
+        <div class="star" style="top: 40%; left: 20%;">✨</div>
+        <div class="star" style="top: 60%; left: 85%;">✨</div>
+
+        <div class="container">
+            <h1 class="game-title">Panda Pet🐼</h1>
+            <div class="sobre-container">
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Sobre o Jogo</h2>
+                    <p>O Panda Pet é um jogo virtual de cuidados com um panda fofo, onde você pode alimentá-lo, fazer carinho, dar banho e muito mais! O jogo foi desenvolvido com amor para proporcionar momentos de diversão e descontração.</p>
+                </div>
+
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Autor</h2>
+                    <div class="author-info">
+                        <img src="img/autorRegiane.jpg" alt="Foto Regiane Cabral" class="author-photo">
+                        <div class="author-details">
+                            <h3>Regiane Cabral</h3>
+                            <p>Desenvolvedora web apaixonada por criar experiências interativas e jogos divertidos. O Panda Pet Game foi criado com muito carinho e dedicação para trazer alegria aos usuários!</p>
+                            <p>Entre em contato: <a href="mailto:email@exemplo.com">regiane.mirandaa@outlook.com.br</a></p>
+                            <div class="social-links">
+                                <a href="https://github.com/giannycabral" target="_blank">GitHub</a> |
+                                <a href="https://www.linkedin.com/in/regiane-jesus/" target="_blank">LinkedIn</a> |
+                                <a href="https://www.instagram.com/giannycabral/" target="_blank">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sobre-section dedicatoria-section">
+                    <h2 class="sobre-title">Dedicatória Especial</h2>
+                    <div class="dedicatoria-container">
+                        <div class="dedicatoria-content">
+                            <div class="dedicatoria-icon">💖</div>
+                            <p class="dedicatoria-texto">
+                                Para minha filha <span class="dedicatoria-nome">Ângela</span>, 
+                                <br><br>
+                                Cada linha de código, cada pixel colorido e cada panda sorridente neste jogo foi inspirado pelo seu sorriso.
+                                <br><br>
+                                Você é minha maior fonte de inspiração e alegria. Este pequeno mundo virtual é dedicado a você, que preenche meu mundo real com amor, criatividade e magia todos os dias.
+                                <br><br>
+                                Com todo meu amor,
+                                <br>
+                                Mamãe
+                            </p>
+                            <div class="dedicatoria-icon">🌈</div>
+                        </div>
+                        <div class="pandas-decoration">
+                            <span class="panda-deco">ʕ •ᴥ• ʔ</span>
+                            <span class="heart-deco">♡</span>
+                            <span class="panda-deco">ʕ •ᴥ• ʔ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Créditos</h2>
+                    <ul class="creditos-list">
+                        <li><strong>Imagens:</strong> Arte original e adaptada para o conceito do jogo</li>
+                        <li><strong>Ícones:</strong> Font Awesome e recursos gratuitos da web</li>
+                        <li><strong>Sons:</strong> Efeitos sonoros gratuitos de bibliotecas de áudio</li>
+                        <li><strong>Tecnologias:</strong> HTML, CSS e JavaScript</li>
+                    </ul>
+                </div>
+
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Como Jogar</h2>
+                    <p>No Panda Pet Game, você pode cuidar do seu panda virtual através dos botões de ação:</p>
+                    <ul class="creditos-list">
+                        <li><strong>Alimentar:</strong> Dê comida ao seu panda quando ele estiver com fome</li>
+                        <li><strong>Carinho:</strong> Faça carinho no panda para deixá-lo feliz</li>
+                        <li><strong>Banho:</strong> Mantenha seu panda limpinho dando banho nele</li>
+                        <li><strong>Sono:</strong> Deixe o panda descansar quando estiver cansado</li>
+                    </ul>
+                </div>
+                
+                <div class="sobre-section">
+                    <h2 class="sobre-title">Sistema de Clima</h2>
+                    <p>O Panda Pet Game possui um sistema dinâmico de clima que afeta seu panda virtual!</p>
+                    
+                    <div class="clima-gallery">
+                        <div class="clima-example">
+                            <img src="gifs/panda-rain-awake.gif" alt="Panda na chuva" class="clima-img">
+                            <p>Panda na chuva</p>
+                        </div>
+                        <div class="clima-example">
+                            <img src="gifs/panda-rain-shower.gif" alt="Panda tomando banho na chuva" class="clima-img">
+                            <p>Banho na chuva</p>
+                        </div>
+                        <div class="clima-example">
+                            <img src="gifs/panda-rain-sleep.gif" alt="Panda dormindo na chuva" class="clima-img">
+                            <p>Dormindo na chuva</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="creditos-list">
+                        <li><strong>Chuva:</strong> De tempos em tempos, pode começar a chover no jogo. Durante a chuva, seu panda terá comportamentos diferentes e visuais especiais.</li>
+                        <li><strong>Panda na Chuva:</strong> Quando estiver chovendo, você verá seu panda com roupinha de chuva adorável para se proteger.</li>
+                        <li><strong>Banho na Chuva:</strong> Durante a chuva, o panda pode tomar banho diretamente sob as gotas de chuva, sem precisar de chuveiro!</li>
+                        <li><strong>Humor:</strong> O clima pode afetar o humor do seu panda. Observe como ele reage e adapte seus cuidados de acordo.</li>
+                        <li><strong>Atividades Diferentes:</strong> Algumas interações mudam conforme o clima, oferecendo uma experiência variada.</li>
+                    </ul>
+                    <p>Fique atento às mudanças de clima e descubra todas as animações especiais do seu panda durante a chuva!</p>
+                    
+                    <div class="clima-mecânica">
+                        <h3>Como funciona a mudança de clima?</h3>
+                        <p>O clima no jogo muda automaticamente em intervalos aleatórios. Quando começar a chover, você verá gotas caindo pelo cenário e o seu panda automaticamente aparecerá com sua adorável roupa de chuva. Ao término da chuva, ele voltará ao seu visual normal.</p>
+                        <p>Durante a chuva, todas as interações (alimentação, carinho, banho e sono) têm animações especiais adaptadas ao clima chuvoso!</p>
+                    </div>
+                </div>
+
+                <a href="index.html" class="voltar-btn">Voltar ao Jogo</a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-decorations">
+                <div class="paw-print left"></div>
+                <div class="paw-print right"></div>
+                <div class="bamboo left"></div>
+                <div class="bamboo right"></div>
+            </div>
+            <p class="developed-by">
+                <span class="star-icon">✨</span> Desenvolvido com <span class="heart">🩷</span> por <a href="sobre.html" class="autor-link">Regiane Cabral</a> <span class="star-icon">✨</span>
+                <span class="kawaii-subtitle">~Seu Panda Virtual~</span>
+            </p>
+            <div class="kawaii-faces">
+                <span class="kawaii-face">ʕ•ᴥ•ʔ</span>
+                <span class="kawaii-face">ʕ◠ᴥ◠ʔ</span>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

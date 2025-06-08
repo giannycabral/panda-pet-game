@@ -28,7 +28,9 @@
                 <!-- Welcome message with author image -->
                 <div class="welcome-message-section">
                     <div class="author-bubble">
-                        <img src="img/itsmee.jpg" alt="Foto Regiane Cabral" class="author-photo-message">
+                        <a href="sobre.html" title="Ver informações sobre a desenvolvedora">
+                            <img src="img/itsmee.jpg" alt="Foto Regiane Cabral" class="author-photo-message">
+                        </a>
                         <div class="message-content">
                             <p>Cuide bem do seu panda! Alimente-o quando estiver com fome e faça carinho para deixá-lo
                                 feliz! ✨</p>
@@ -217,11 +219,15 @@
                 <div class="stem"></div>
             </div>
             <!-- GIFs de animais kawaii na grama -->
-            <img src="gifs/rabbit.gif" class="rabbit-gif" style="left:6%; bottom:20px; width:70px; position:absolute;" alt="Coelho animado branco pulando na grama" />
-            <img src="gifs/cat.gif" class="cat-gif" style="left:22%; bottom:12px; width:60px; position:absolute;" alt="Gatinho animado cinza deitado na grama" />
-            <img src="gifs/frog.gif" class="frog-gif" style="left:30%; bottom:28px; width:62px; position:absolute;" alt="Sapo animado verde pulando na grama" />
-            <img src="gifs/hamster.gif" class="hamster-gif" style="right:18%; bottom:32px; width:54px; position:absolute;" alt="Hamster animado marrom na grama" />
-            <img src="gifs/dog.gif" class="dog-gif" style="right:7%; bottom:22px; width:68px; position:absolute;" alt="Cachorro animado bege sentado na grama" />
+            <div class="animal-gifs-container">
+                <img src="gifs/rabbit.gif" class="animal-gif rabbit-gif" alt="Coelho animado branco pulando na grama" />
+                <img src="gifs/cat.gif" class="animal-gif cat-gif" alt="Gatinho animado cinza deitado na grama" />
+                <img src="gifs/frog.gif" class="animal-gif frog-gif" alt="Sapo animado verde pulando na grama" />
+                <img src="gifs/hamster.gif" class="animal-gif hamster-gif" alt="Hamster animado marrom na grama" />
+                <img src="gifs/dog.gif" class="animal-gif dog-gif" alt="Cachorro animado bege sentado na grama" />
+            </div>
+            <!-- Botão para mostrar/esconder animais em dispositivos móveis -->
+            <button id="toggle-animals" class="toggle-animals-btn">Ver animais</button>
         </div>
     </div>
     <footer class="footer">
@@ -232,7 +238,7 @@
             <div class="bamboo right"></div>
         </div>
         <p class="developed-by">
-            <span class="star-icon">✨</span> Desenvolvido com <span class="heart">🩷</span> por Regiane Cabral <span class="star-icon">✨</span>
+            <span class="star-icon">✨</span> Desenvolvido com <span class="heart">🩷</span> por <a href="sobre.html" class="autor-link">Regiane Cabral</a> <span class="star-icon">✨</span>
             <span class="kawaii-subtitle">~Seu Panda Virtual~</span>
         </p>
         <div class="kawaii-faces">

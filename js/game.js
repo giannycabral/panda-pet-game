@@ -1328,3 +1328,23 @@ function ensureSleepBubble() {
   
   return sleepBubble;
 }
+
+// Função para mostrar/esconder animais em dispositivos móveis
+document.addEventListener("DOMContentLoaded", function() {
+  const toggleAnimalsBtn = document.getElementById("toggle-animals");
+  const gameWrapper = document.querySelector(".game-wrapper");
+  
+  if (toggleAnimalsBtn) {
+    toggleAnimalsBtn.addEventListener("click", function() {
+      gameWrapper.classList.toggle("show-animals");
+      
+      if (gameWrapper.classList.contains("show-animals")) {
+        toggleAnimalsBtn.textContent = "Esconder animais";
+        toggleAnimalsBtn.classList.add("active");
+      } else {
+        toggleAnimalsBtn.textContent = "Ver animais";
+        toggleAnimalsBtn.classList.remove("active");
+      }
+    });
+  }
+});
