@@ -89,7 +89,7 @@ panda-pet-game/
 ---
 
 👩‍💻 Autora
-<table align="center"> <tr> <td align="center"> <a href="https://github.com/giannycabral"> <img src="https://www.google.com/search?q=https://github.com/giannycabral.png" width="100px;" alt="Foto da Regiane"/>
+<table align="center"> <tr> <td align="center"> <a href="https://github.com/giannycabral"> <img src="https://github.com/giannycabral/panda-pet-game/blob/main/img/itsmee.jpg?raw=true" width="100px;" alt="Foto da Regiane"/>
 
 
 <sub><b>Regiane Cabral</b></sub> </a> </td> </tr> </table>
