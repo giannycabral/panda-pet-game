@@ -1,147 +1,98 @@
-# 🐼✨ ~ Panda Pet Game ~ ✨🐼
+<h1 align="center">🐼 Panda Pet Game 🐼</h1>
 
-。☆。°。☆。°。☆。°。☆。°。☆。
+<p align="center">
+  <img src="https://media.giphy.com/media/OylM5F6FkSgSc/giphy.gif" alt="Panda Fofo" width="300">
+</p>
 
-🌸 Um adorável jogo virtual onde você cuida de um panda super kawaii! 🌸
-Alimente-o, faça carinho, dê banhos e muito mais! ♡(´▽`♡)
+<p align="center">
+  <strong>Um Tamagotchi virtual super kawaii feito com muito amor (e código)! (≧◡≦) ♡</strong>
+</p>
 
-## 📋✨ Sobre o Projeto ✨📋
-
-Panda Pet Game é um jogo estilo tamagotchi super fofo desenvolvido com HTML, CSS e JavaScript puro, sem dependências externas! (≧◡≦) 
-
-Cuide de um adorável panda virtual e mantenha-o feliz, bem alimentado e descansado através de uma interface colorida e divertida! Seu panda precisa de você! 💕
-
-### ✨🌟 Características Principais 🌟✨
-
-(◕‿◕)♡ **Sistema de Status**: Monitore a fome, felicidade e energia do seu pandinha
-(｡･ω･｡) **Interações Kawaii**: Alimente, faça carinho, dê banho e coloque seu panda para dormir
-(●´□`)♡ **Sistema de Clima Dinâmico**: O jogo apresenta mudanças de clima que afetam seu panda, com animações especiais para tempo chuvoso
-ʕ •ᴥ• ʔ **Animais Bônus**: Descubra outros animais super fofos escondidos no jogo
-(｡•̀ᴗ-)✧ **Salvamento Automático**: O progresso é salvo automaticamente no navegador
-(｡･ω･)ﾉﾞ **Design Responsivo**: Funciona perfeitamente em dispositivos móveis, tablets e desktops
-♡( ◡‿◡ ) **Acessibilidade**: Recursos de acessibilidade para usuários com necessidades especiais
-
-## 🎮💖 Como Jogar 💖🎮
-
-₊˚🍙⋆｡˚ **Alimentar** - Clique no botão de comida para alimentar seu panda quando estiver com fominha~
-₊˚💕⋆｡˚ **Fazer Carinho** - Mostre muito amor ao seu panda para aumentar sua felicidade!
-₊˚🚿⋆｡˚ **Dar Banho** - Mantenha seu pandinha sempre limpinho com um banho refrescante e espumante!
-₊˚💤⋆｡˚ **Soninho** - Deixe seu panda descansar quando a energia estiver baixa, todo panda precisa dormir~
-
-*・゜゜・*:.。..。.:*・♡・*:.。. .。.:*・゜゜・**
-
-✧ **Para melhores resultados**:
-♡ Mantenha todos os status (fome, felicidade, energia) acima de 50%
-♡ Fique atento às mudanças de clima - seu panda tem animações especiais durante a chuvinha!
-♡ Explore o botão "Ver Animais" para descobrir outros personagens super kawaii
-
-## 🚀✨ Como Executar ✨🚀
-
-O jogo não requer instalação! Siga estes passinhos fáceis:
-
-🌸 **Passo 1**: Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/panda-pet-game.git
-```
-
-🌸 **Passo 2**: Navegue até o diretório:
-```bash
-cd panda-pet-game
-```
-
-🌸 **Passo 3**: Abra o arquivo `index.html` em qualquer navegador moderno:
-- Clique duplo no arquivo
-- Ou inicie um servidor local, como o Live Server do VS Code (づ ◕‿◕ )づ
-
-## 🧩✨ Estrutura do Projeto ✨🧩
-
-```
-panda-pet-game/
-│
-├── css/ 🎨
-│   ├── styles.css            # Estilos principais e kawaii
-│   ├── accessibility.css     # Melhorias de acessibilidade
-│   ├── responsive-extras.css # Regras adicionais para responsividade
-│   └── footer-cleanup.css    # Estilos do rodapé
-│
-├── gifs/ 🌟
-│   └── (...animações fofas do panda e amiguinhos...)
-│
-├── img/ 📷
-│   └── (...imagens estáticas...)
-│
-├── js/ 💻
-│   ├── game.js               # Lógica principal do jogo
-│   └── accessibility.js      # Funções de acessibilidade
-│
-├── sounds/ 🔊
-│   └── (...sons super kawaii...)
-│
-├── index.html                # Página principal do jogo
-├── sobre.html                # Página com informações sobre o jogo
-└── README.md                 # Este arquivo super fofo que você está lendo! ♡
-```
-
-## 💻✧ Tecnologias Utilizadas ✧💻
-
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-
-⭐ **HTML5** - Estruturação do conteúdo
-⭐ **CSS3** - Estilização e animações kawaii~
-⭐ **JavaScript** - Lógica do jogo e interações fofas
-⭐ **LocalStorage API** - Salvamento mágico do progresso
-⭐ **Web Audio API** - Efeitos sonoros super fofos
-
-。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-
-## 🎨✿ Design e Acessibilidade ✿🎨
-
-♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
-
-🌈 Design super kawaii (fofo) com cores vibrantes e personagens adoráveis
-🌈 Suporte completo a dispositivos móveis e diferentes tamanhos de tela
-🌈 Recursos de acessibilidade incluem:
-  ┈ ´▽` ┈ Suporte a leitores de tela
-  ┈ ´▽` ┈ Navegação por teclado
-  ┈ ´▽` ┈ Alto contraste
-  ┈ ´▽` ┈ Foco visível em elementos interativos
-  ┈ ´▽` ┈ Skip links para usuários de teclado
-
-♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
-
-## 🌧️🌈 Sistema de Clima 🌈☔
-
-O jogo conta com um sistema dinâmico de clima super kawaii que adiciona uma camada extra de jogabilidade:
-
-🌧️ Durante chuvas, o panda aparece com roupinha especial super fofa! ⛱️
-🌧️ Animações exclusivas e adoráveis para interações durante o clima chuvoso! 💦
-🌧️ Transições suaves entre os diferentes estados climáticos! 🌤️
-
-・*:..｡o○ Seu pandinha fica extra fofo na chuva! ○o｡..:*・゜
-
-![Panda Kawaii](https://i.imgur.com/placeholder-kawaii-panda.gif)
-
-**～(^з^)-☆ Divirta-se cuidando do seu panda virtual! ☆-(^з^)～**
-
-## 👩‍💻 Autor
-
-Desenvolvido com 💖 por Regiane Cabral
-
-- GitHub: [giannycabral](https://github.com/giannycabral)
-- LinkedIn: [regiane-jesus](https://www.linkedin.com/in/regiane-jesus/)
-- Instagram: [giannycabral](https://www.instagram.com/giannycabral/)
-
-## 📝 Licença
-
-Este projeto está licenciado sob a [Licença MIT](LICENSE) - veja o arquivo LICENSE para mais detalhes.
-
-```
-MIT License
-Copyright (c) 2025 Regiane Cabral
-```
-
-✨ Isso significa que você pode usar, modificar e distribuir este projeto livremente, desde que inclua a nota de copyright e a licença original! ✨
+<p align="center">
+  <a href="https://giannycabral.github.io/panda-pet-game/">
+    <img src="https://img.shields.io/badge/🎮_JOGAR_AGORA-FF69B4?style=for-the-badge&logo=rss&logoColor=white" alt="Jogar Agora">
+  </a>
+  <a href="https://github.com/giannycabral/panda-pet-game/issues">
+    <img src="https://img.shields.io/badge/🐛_REPORTAR_BUG-F05032?style=for-the-badge&logo=github&logoColor=white" alt="Reportar Bug">
+  </a>
+</p>
 
 ---
 
-Esperamos que você se divirta cuidando do seu panda virtual! 🐼💖
+## 🌸 Sobre o Projeto
+
+**Panda Pet Game** é um jogo de simulação de animal de estimação (estilo Tamagotchi) desenvolvido puramente com **HTML, CSS e JavaScript**. Sem frameworks pesados, apenas código leve e fofo!
+
+O objetivo é simples: cuide do seu pandinha virtual e não deixe os status dele caírem!
+* 🍙 **Alimente** quando a fome bater.
+* 💕 **Dê carinho** para ele ficar feliz.
+* 💤 **Coloque para dormir** quando a energia acabar.
+* 🚿 **Dê banho** para ele ficar cheiroso.
+
+---
+
+## 📸 Screenshots & Gifs
+
+| 🌤️ Dia de Sol | 🌧️ Dia de Chuva |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/300x200?text=Print+Dia+de+Sol" alt="Gameplay Sol" width="300"> | <img src="https://via.placeholder.com/300x200?text=Print+Dia+de+Chuva" alt="Gameplay Chuva" width="300"> |
+
+> *O jogo possui um **Sistema de Clima** que muda o visual conforme o tempo!* ☔
+
+---
+
+## 🛠️ Tecnologias Fofas Usadas
+
+<div align="center">
+
+| Tecnologia | Para que serve? |
+| :--- | :--- |
+| ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) | A estrutura do pandinha |
+| ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) | As roupas e maquiagem (estilo) |
+| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) | O cérebro e comportamento |
+| 💾 **LocalStorage** | Para salvar seu progresso automaticamente |
+
+</div>
+
+---
+
+## 🚀 Como Rodar no seu PC
+
+Não precisa instalar nada complicado! Siga os passinhos:
+
+1.  **Clone este repositório:**
+    ```bash
+    git clone [https://github.com/giannycabral/panda-pet-game.git](https://github.com/giannycabral/panda-pet-game.git)
+    ```
+2.  **Entre na pasta:**
+    ```bash
+    cd panda-pet-game
+    ```
+3.  **Abra o jogo:**
+    * Basta dar dois cliques no arquivo `index.html`.
+    * Ou use o **Live Server** do VS Code para uma experiência melhor!
+
+---
+
+## 📂 Estrutura das Pastas
+
+```text
+panda-pet-game/
+├── 📄 index.html        # Onde a mágica começa
+├── 📄 sobre.html        # Créditos e infos
+├── 📂 css/              # Estilos (styles.css, accessibility.css...)
+├── 📂 js/               # Lógica (game.js, accessibility.js)
+├── 📂 img/              # Imagens estáticas
+├── 📂 gifs/             # Animações fofas
+└── 📂 sounds/           # Efeitos sonoros
+```
+---
+
+👩‍💻 Autora
+<table align="center"> <tr> <td align="center"> <a href="https://github.com/giannycabral"> <img src="https://www.google.com/search?q=https://github.com/giannycabral.png" width="100px;" alt="Foto da Regiane"/>
+
+
+<sub><b>Regiane Cabral</b></sub> </a> </td> </tr> </table>
+
+<p align="center"> Feito com 💖 e muita criatividade! </p>
+
