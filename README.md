@@ -1,7 +1,7 @@
 <h1 align="center">🐼 Panda Pet Game 🐼</h1>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/OylM5F6FkSgSc/giphy.gif" alt="Panda Fofo" width="300">
+  <img src="https://github.com/giannycabral/panda-pet-game/blob/main/gifs/panda-normal-comendo.gif?raw=true" alt="Panda Fofo" width="300">
 </p>
 
 <p align="center">
